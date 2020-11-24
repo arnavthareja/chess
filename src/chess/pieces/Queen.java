@@ -13,6 +13,8 @@ public class Queen extends Piece {
 
     public Set<Square> getPossibleMoves() {
         Set<Square> possibleMoves = new HashSet<>();
+        // Check each direction. Don't go off board. If piece in path is of the same color, can't go there.
+        // If not same color, can go there
         return possibleMoves;
     }
 

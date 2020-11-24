@@ -13,6 +13,12 @@ public class Pawn extends Piece {
 
     public Set<Square> getPossibleMoves() {
         Set<Square> possibleMoves = new HashSet<>();
+        if (!hasAlreadyMoved()) {
+            // For first move
+        }
+        // Check if piece of opposite color is diagonal. If so, can move there. If not, can't move there
+        // Check if frontal position is blocked by anything. If so, can't move. If not, can move there
+        // Can't go off board
         return possibleMoves;
     }
 

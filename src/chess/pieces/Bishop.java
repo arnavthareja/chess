@@ -13,6 +13,8 @@ public class Bishop extends Piece {
 
     public Set<Square> getPossibleMoves() {
         Set<Square> possibleMoves = new HashSet<>();
+        // Check each diagonal possibility. Make sure it doesn't go off board. If piece is in the way,
+        // if opposite color, can go there. If not, can't go there
         return possibleMoves;
     }
 
