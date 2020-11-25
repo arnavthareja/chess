@@ -9,7 +9,7 @@ public abstract class Piece {
     protected Square position;
     protected Color color;
     protected double value;
-    protected boolean moved;
+    protected boolean alreadyMoved;
 
     public Piece(Board board, Square position, Color color, double value, String notation) {
         this.board = board;
@@ -17,20 +17,11 @@ public abstract class Piece {
         this.color = color;
         this.value = value;
         this.notation = notation;
-        moved = false;
+        alreadyMoved = false;
     }
 
     public abstract Set<Square> getPossibleMoves();
     public abstract void draw();
-
-    public void move(Square destination) {
-        if (!getPossibleMoves().contains(destination)) {
-            throw new IllegalArgumentException();
-        }
-        board.setSquare(position.getRow(), position.getCol(), null);
-        position = destination;
-        board.setSquare(position.getRow(), position.getCol(), position);
-    }
 
     public double getValue() {
         return value;
@@ -46,14 +37,14 @@ public abstract class Piece {
 
     // For castling or pawn's first move
     public boolean hasAlreadyMoved() {
-        return moved;
+        return alreadyMoved;
     }
 
     public String toString() {
         return notation + position;
     }
 
-    protected enum Color {
+    public static enum Color {
         BLACK, WHITE
     }
 }

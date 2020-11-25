@@ -15,6 +15,8 @@ public class King extends Piece {
         Set<Square> possibleMoves = new HashSet<>();
         if (!hasAlreadyMoved()) {
             // For castling
+            // Note from Arnav: can't castle while in check, can't castle into check, can't pass through a piece that is
+            //                  under attack (can't move through check)
         }
         // Check to make sure piece doesn't go off board. If piece is in path and is other color, can
         // move there. If same color, can't move there. If possibleMoves of the other team's
@@ -28,8 +30,17 @@ public class King extends Piece {
         
         // Question for Arnav: Why do we want to mark the beginning and final position in possibleMoves?
         // Shouldn't we just need final position?
+
+        // Response from Arnav: I texted you this but I'm writing it here too so it is easy to find in the future
+        // We want to save both the starting and ending squares so that it's easier to execute the move at playing/evaluating time.
+        // We can simply take the piece from the start square and move it to the end square instead of having to guess where the piece
+        // came from if we were only given an end square
+
         return possibleMoves;
     }
+
+    // Note from Arnav: Might want to make a method and/or field to check/store if king or a square is in check as it seems to be used multiple times.
+    // Should also take into account that check must be resolved before any other moves can be made from any piece
 
     public void draw() {
         return;

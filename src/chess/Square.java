@@ -5,13 +5,14 @@ import chess.pieces.Piece;
 public class Square {
     private int row;
     private int col;
+    private Board board;
     private Piece piece;
 
-    public Square(int row, int col) {
-        this(row, col, null);
+    public Square(int row, int col, Board board) {
+        this(row, col, board, null);
     }
 
-    public Square(int row, int col, Piece piece) {
+    public Square(int row, int col, Board board, Piece piece) {
         if (row < 0 || row > 7) {
             throw new IllegalArgumentException("Row must be between 0 and 7");
         } else if (col < 0 || col > 7) {
@@ -19,6 +20,7 @@ public class Square {
         }
         this.row = row;
         this.col = col;
+        this.board = board;
         this.piece = piece;
     }
 
@@ -36,6 +38,14 @@ public class Square {
 
     public int getCol() {
         return col;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Piece getPiece() {
+        return piece;
     }
 
     public String toString() {
