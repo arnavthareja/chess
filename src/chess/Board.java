@@ -7,10 +7,15 @@ public class Board {
 
     public Board() {
         board = new Square[NUM_ROWS][NUM_ROWS];
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_ROWS; j++) {
+                board[i][j] = new Square(i, j, this);
+            }
+        }
     }
 
-    public void setSquare(int row, int col, Square newSquare) {
-        board[row][col] = newSquare;
+    public Square squareAt(int row, int col) {
+        return board[row][col];
     }
 
     public void draw() {
