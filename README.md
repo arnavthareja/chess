@@ -1,2 +1,3 @@
-# CSE-143-Final-Project
+# Chess  
+A Java chess game  
 Final Project for CSE 143
