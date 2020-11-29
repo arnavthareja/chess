@@ -11,9 +11,9 @@ public class Rook extends Piece {
         super(board, position, color, VALUE, NOTATION);
     }
 
-    public Set<Square> getPossibleMoves() {
-        Set<Square> possibleMoves = new HashSet<>();
-        if (!hasAlreadyMoved()) {
+    public Set<Move> getPossibleMoves() {
+        Set<Move> possibleMoves = new HashSet<>();
+        if (!alreadyMoved) {
             // For castling
         }
         // Check in each direction where closest piece is. Make sure piece doesn't go off board. If piece

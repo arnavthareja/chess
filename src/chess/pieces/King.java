@@ -11,9 +11,9 @@ public class King extends Piece {
         super(board, position, color, VALUE, NOTATION);
     }
 
-    public Set<Square> getPossibleMoves() {
-        Set<Square> possibleMoves = new HashSet<>();
-        if (!hasAlreadyMoved()) {
+    public Set<Move> getPossibleMoves() {
+        Set<Move> possibleMoves = new HashSet<>();
+        if (!alreadyMoved) {
             // For castling
             // Note from Arnav: can't castle while in check, can't castle into check, can't pass through a piece that is
             //                  under attack (can't move through check)
@@ -31,7 +31,7 @@ public class King extends Piece {
         // Question for Arnav: Why do we want to mark the beginning and final position in possibleMoves?
         // Shouldn't we just need final position?
 
-        // Response from Arnav: I texted you this but I'm writing it here too so it is easy to find in the future
+        // Response from Arnav:
         // We want to save both the starting and ending squares so that it's easier to execute the move at playing/evaluating time.
         // We can simply take the piece from the start square and move it to the end square instead of having to guess where the piece
         // came from if we were only given an end square

@@ -20,7 +20,7 @@ public abstract class Piece {
         alreadyMoved = false;
     }
 
-    public abstract Set<Square> getPossibleMoves();
+    public abstract Set<Move> getPossibleMoves();
     public abstract void draw();
 
     public double getValue() {
@@ -33,11 +33,6 @@ public abstract class Piece {
 
     public Color getColor() {
         return color;
-    }
-
-    // For castling or pawn's first move
-    public boolean hasAlreadyMoved() {
-        return alreadyMoved;
     }
 
     public String toString() {

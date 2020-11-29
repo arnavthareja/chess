@@ -11,8 +11,8 @@ public class Queen extends Piece {
         super(board, position, color, VALUE, NOTATION);
     }
 
-    public Set<Square> getPossibleMoves() {
-        Set<Square> possibleMoves = new HashSet<>();
+    public Set<Move> getPossibleMoves() {
+        Set<Move> possibleMoves = new HashSet<>();
         // Check each direction. Don't go off board. If piece in path is of the same color, can't go there.
         // If not same color, can go there
         return possibleMoves;

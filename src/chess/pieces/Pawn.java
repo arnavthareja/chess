@@ -11,9 +11,9 @@ public class Pawn extends Piece {
         super(board, position, color, VALUE, NOTATION);
     }
 
-    public Set<Square> getPossibleMoves() {
-        Set<Square> possibleMoves = new HashSet<>();
-        if (!hasAlreadyMoved()) {
+    public Set<Move> getPossibleMoves() {
+        Set<Move> possibleMoves = new HashSet<>();
+        if (!alreadyMoved) {
             // For first move
         }
         // Check if piece of opposite color is diagonal. If so, can move there. If not, can't move there
