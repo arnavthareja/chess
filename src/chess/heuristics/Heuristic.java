@@ -1,4 +1,4 @@
-package chess.minimax;
+package chess.heuristics;
 
 import chess.*;
 import chess.pieces.*;

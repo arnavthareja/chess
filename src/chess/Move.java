@@ -1,6 +1,6 @@
 package chess;
 
-import chess.minimax.*;
+import chess.heuristics.*;
 
 public class Move implements Comparable<Move> {
     private Square start;
