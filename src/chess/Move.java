@@ -33,4 +33,8 @@ public class Move implements Comparable<Move> {
     public int compareTo(Move other) {
         return Double.compare(heuristicValue, other.heuristicValue);
     }
+
+    public boolean equals(Move other) {
+        return start.equals(other.start) && end.equals(other.end) && heuristicValue == other.heuristicValue;
+    }
 }

@@ -48,6 +48,10 @@ public class Square {
         return piece;
     }
 
+    public boolean equals(Square other) {
+        return row == other.row && col == other.col && board == other.board && piece == other.piece;
+    }
+
     public String toString() {
         return "" + (char) ('a' + col) + (8 - row);
     }
