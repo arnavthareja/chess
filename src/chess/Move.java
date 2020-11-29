@@ -1,10 +1,12 @@
 package chess;
 
+import chess.pieces.*;
 import chess.heuristics.*;
 
 public class Move implements Comparable<Move> {
-    private Square start;
-    private Square end;
+    private final Square start;
+    private final Square end;
+    private final Piece capturedPiece;
     private double heuristicValue;
 
     public Move(Square start, Square end) {
@@ -15,6 +17,7 @@ public class Move implements Comparable<Move> {
         this.start = start;
         this.end = end;
         this.heuristicValue = heuristicValue;
+        this.capturedPiece = end.getPiece();
     }
 
     public double getHeuristicValue() {
@@ -28,6 +31,22 @@ public class Move implements Comparable<Move> {
     public double calculateHeuristicValue(Heuristic heuristic) {
         setHeuristicValue(heuristic.calculateValue(start.getBoard(), start.getPiece().getColor()));
         return getHeuristicValue();
+    }
+
+    public boolean isCaptureMove() {
+        return capturedPiece != null;
+    }
+
+    public Square getStart() {
+        return start;
+    }
+
+    public Square getEnd() {
+        return end;
+    }
+
+    public Piece getCapturedPiece() {
+        return capturedPiece;
     }
 
     public int compareTo(Move other) {

@@ -3,9 +3,9 @@ package chess;
 import chess.pieces.Piece;
 
 public class Square {
-    private int row;
-    private int col;
-    private Board board;
+    private final int row;
+    private final int col;
+    private final Board board;
     private Piece piece;
 
     public Square(int row, int col, Board board) {
@@ -46,6 +46,10 @@ public class Square {
 
     public Piece getPiece() {
         return piece;
+    }
+
+    public void setPiece(Piece newPiece) {
+        piece = newPiece;
     }
 
     public boolean equals(Square other) {
