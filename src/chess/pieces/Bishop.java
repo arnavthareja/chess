@@ -5,10 +5,10 @@ import java.util.*;
 
 public class Bishop extends Piece {
     public static final String NOTATION = "B";
-    public static final double VALUE = 3;
+    public static final int VALUE = 3;
 
-    public Bishop(Board board, Square position, Color color) {
-        super(board, position, color, VALUE, NOTATION);
+    public Bishop(Square position, Color color) {
+        super(position, color, VALUE, NOTATION);
     }
 
     public Set<Move> getPossibleMoves() {

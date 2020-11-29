@@ -4,15 +4,13 @@ import chess.*;
 import java.util.*;
 
 public abstract class Piece {
-    private final Board board;
     private final String notation;
     protected Square position;
     protected final Color color;
     protected final int value;
     protected boolean alreadyMoved;
 
-    public Piece(Board board, Square position, Color color, int value, String notation) {
-        this.board = board;
+    public Piece(Square position, Color color, int value, String notation) {
         this.position = position;
         this.color = color;
         this.value = value;
@@ -51,7 +49,7 @@ public abstract class Piece {
         return notation + position;
     }
 
-    public static enum Color {
-        BLACK, WHITE
+    public enum Color {
+        WHITE, BLACK
     }
 }

@@ -7,8 +7,8 @@ public class Rook extends Piece {
     public static final String NOTATION = "R";
     public static final int VALUE = 5;
 
-    public Rook(Board board, Square position, Color color) {
-        super(board, position, color, VALUE, NOTATION);
+    public Rook(Square position, Color color) {
+        super(position, color, VALUE, NOTATION);
     }
 
     public Set<Move> getPossibleMoves() {

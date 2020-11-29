@@ -7,8 +7,8 @@ public class Queen extends Piece {
     public static final String NOTATION = "Q";
     public static final int VALUE = 9;
 
-    public Queen(Board board, Square position, Color color) {
-        super(board, position, color, VALUE, NOTATION);
+    public Queen(Square position, Color color) {
+        super(position, color, VALUE, NOTATION);
     }
 
     public Set<Move> getPossibleMoves() {

@@ -7,8 +7,8 @@ public class Pawn extends Piece {
     public static final String NOTATION = "";
     public static final int VALUE = 1;
 
-    public Pawn(Board board, Square position, Color color) {
-        super(board, position, color, VALUE, NOTATION);
+    public Pawn(Square position, Color color) {
+        super(position, color, VALUE, NOTATION);
     }
 
     public Set<Move> getPossibleMoves() {
