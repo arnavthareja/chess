@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Rook extends Piece {
     public static final String NOTATION = "R";
-    public static final double VALUE = 5;
+    public static final int VALUE = 5;
 
     public Rook(Board board, Square position, Color color) {
         super(board, position, color, VALUE, NOTATION);
