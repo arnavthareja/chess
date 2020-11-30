@@ -30,7 +30,9 @@ public abstract class Piece {
     }
 
     public void setPosition(Square newPosition) {
-        position.setPiece(null);
+        if (position != null) {
+            position.setPiece(null);
+        }
         if (newPosition != null) {
             newPosition.setPiece(this);
         }

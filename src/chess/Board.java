@@ -62,7 +62,7 @@ public class Board {
         Move move = moves.pop();
         move.getEnd().getPiece().setPosition(move.getStart());
         if (move.isCaptureMove()) {
-            move.getEnd().setPiece(move.getCapturedPiece());
+            move.getCapturedPiece().setPosition(move.getEnd());
         }
     }
 

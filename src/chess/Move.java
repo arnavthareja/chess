@@ -14,6 +14,9 @@ public class Move implements Comparable<Move> {
     }
 
     public Move(Square start, Square end, double heuristicValue) {
+        if (start == null || end == null) {
+            throw new IllegalArgumentException("Start and end squares must not be null.");
+        }
         this.start = start;
         this.end = end;
         this.heuristicValue = heuristicValue;
@@ -54,6 +57,7 @@ public class Move implements Comparable<Move> {
     }
 
     public boolean equals(Move other) {
-        return start.equals(other.start) && end.equals(other.end) && heuristicValue == other.heuristicValue;
+        return capturedPiece == other.capturedPiece && heuristicValue == other.heuristicValue &&
+               start.equals(other.start) && end.equals(other.end);
     }
 }
