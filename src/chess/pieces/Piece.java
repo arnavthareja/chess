@@ -48,7 +48,7 @@ public abstract class Piece {
     }
 
     public String toString() {
-        return notation + position;
+        return notation;
     }
 
     public enum Color {

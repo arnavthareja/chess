@@ -11,12 +11,12 @@ public class Board {
 
     public Board() {
         board = new Square[NUM_ROWS][NUM_ROWS];
-        // TODO: Change this so that it initializes pieces in the correct starting positions
         for (int i = 0; i < NUM_ROWS; i++) {
             for (int j = 0; j < NUM_ROWS; j++) {
                 board[i][j] = new Square(i, j, this);
             }
         }
+        // TODO: Initializes pieces in the correct starting positions
         moves = new ArrayDeque<>();
     }
 
@@ -68,5 +68,20 @@ public class Board {
 
     public void draw() {
 
+    }
+
+    public String toString() {
+        String result = "";
+        for (Square[] squareArr : board) {
+            for (Square s : squareArr) {
+                result += s + " ";
+            }
+            result += "\n";
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Board());
     }
 }

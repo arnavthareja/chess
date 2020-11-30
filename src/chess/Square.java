@@ -56,7 +56,11 @@ public class Square {
         return row == other.row && col == other.col && board == other.board && piece == other.piece;
     }
 
-    public String toString() {
+    public String notation() {
         return "" + (char) ('a' + col) + (8 - row);
+    }
+
+    public String toString() {
+        return "" + (isEmpty() ? notation() : piece);
     }
 }

@@ -56,6 +56,12 @@ public class Move implements Comparable<Move> {
         return Double.compare(heuristicValue, other.heuristicValue);
     }
 
+    public String toString() {
+        // TODO: Add castling and check notation (0-0 for kingside, 0-0-0 for queenside, + for check)
+        // TODO: Add file name after piece if ambiguous, maybe use descriptive notation instead
+        return "" + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation();
+    }
+
     public boolean equals(Move other) {
         return capturedPiece == other.capturedPiece && heuristicValue == other.heuristicValue &&
                start.equals(other.start) && end.equals(other.end);
