@@ -46,7 +46,7 @@ public class Board {
         return possibleMoves;
     }
 
-    public static Square squareAt(int row, int col) {
+    public Square squareAt(int row, int col) {
         if (row < 0 || row > 7 || col < 0 || col > 7) {
             throw new IllegalArgumentException("Row and column must be between 0 and 7");
         }

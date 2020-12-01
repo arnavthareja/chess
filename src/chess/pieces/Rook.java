@@ -12,7 +12,6 @@ public class Rook extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        possibleMoves = new HashSet<>();
         getStraightMoves();
         if (!alreadyMoved) {
             // For castling

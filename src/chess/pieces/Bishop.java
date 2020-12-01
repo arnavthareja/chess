@@ -12,11 +12,9 @@ public class Bishop extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        possibleMoves = new HashSet<>();
-        getDiagonalMoves();
         // Check each diagonal possibility. Make sure it doesn't go off board. If piece is in the way,
         // if opposite color, can go there. If not, can't go there
-        return possibleMoves;
+        return getDiagonalMoves();
     }
 
     public void draw() {
