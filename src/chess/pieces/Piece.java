@@ -82,9 +82,6 @@ public abstract class Piece {
             } else if (!finalPosition.getPiece().getColor().equals(getColor())) {
                 possibleMoves.add(new Move(position, finalPosition));
             }
-        } catch (IllegalArgumentException()) {
-
-        }
-        return possibleMoves;
+        } catch (IllegalArgumentException e) {}
     }
 }
