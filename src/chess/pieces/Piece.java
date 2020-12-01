@@ -76,8 +76,7 @@ public abstract class Piece {
     private Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy) {
         Set<Move> possibleMoves = new HashSet<>();
         try {
-            Square finalPosition = new Square(currentPosition.getRow() + dx,
-                    currentPosition.getCol() + dy, currentPosition.getBoard());
+            Square finalPosition = Board.squareAt(currentPosition.getRow() + dx, currentPosition.getCol() + dy);
             if (finalPosition.isEmpty()) {
                 possibleMoves = getPossibleMoves(finalPosition, dx, dy);
                 possibleMoves.add(new Move(position, finalPosition));
