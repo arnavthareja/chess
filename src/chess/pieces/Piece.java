@@ -3,8 +3,6 @@ package chess.pieces;
 import chess.*;
 import java.util.*;
 
-import javax.management.DynamicMBean;
-
 public abstract class Piece {
     private final String notation;
     protected Square position;
