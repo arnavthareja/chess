@@ -23,6 +23,12 @@ public class Move implements Comparable<Move> {
         this.capturedPiece = end.getPiece();
     }
 
+    // Constructor to make a move from a string in proper notation
+    // TODO: Implement
+    public Move(String fromString) {
+        this(null, null);
+    }
+
     public double getHeuristicValue() {
         return heuristicValue;
     }

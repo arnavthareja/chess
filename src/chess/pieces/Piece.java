@@ -82,9 +82,6 @@ public abstract class Piece {
             } else if (!finalPosition.getPiece().getColor().equals(getColor())) {
                 possibleMoves.add(new Move(position, finalPosition));
             }
-        } catch (IllegalArgumentException()) {
-            // I don't think I have this set up correctly. I want it to catch the IllegalArgumentException
-            // and just stop. Is this right?
-        }
+        } catch (IllegalArgumentException e) {}
     }
 }
