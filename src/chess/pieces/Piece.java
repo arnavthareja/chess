@@ -9,6 +9,7 @@ public abstract class Piece {
     protected final Color color;
     protected final int value;
     protected boolean alreadyMoved;
+    protected Set<Move> possibleMoves;
 
     public Piece(Square position, Color color, int value, String notation) {
         this.position = position;
@@ -16,6 +17,8 @@ public abstract class Piece {
         this.value = value;
         this.notation = notation;
         alreadyMoved = false;
+        // Do I have to initialize possibleMoves in the constructor? It's not necessary for
+        // everything to work properly but they may want us to for internal correctness or whatever
     }
 
     public abstract Set<Move> getPossibleMoves();
@@ -53,5 +56,35 @@ public abstract class Piece {
 
     public enum Color {
         WHITE, BLACK
+    }
+
+    public void getStraightMoves() {
+        getPossibleMoves(position, 1, 0);
+        getPossibleMoves(position, -1, 0);
+        getPossibleMoves(position, 0, 1);
+        getPossibleMoves(position, 0, -1);
+    }
+
+    public void getDiagonalMoves() {
+        getPossibleMoves(position, 1, 1); 
+        getPossibleMoves(position, 1, -1);
+        getPossibleMoves(position, -1, -1);
+        getPossibleMoves(position, -1, 1);
+    }
+
+    private void getPossibleMoves(Square currentPosition, int num1, int num2) {
+        try {
+            Square finalPosition = new Square(currentPosition.getRow() + num1,
+                    currentPosition.getCol() + num2, currentPosition.getBoard());
+            if (finalPosition.isEmpty()) {
+                possibleMoves.add(new Move(position, finalPosition));
+                getPossibleMoves(finalPosition, num1, num2);
+            } else if (!finalPosition.getPiece().getColor().equals(getColor())) {
+                possibleMoves.add(new Move(position, finalPosition));
+            }
+        } catch (IllegalArgumentException()) {
+            // I don't think I have this set up correctly. I want it to catch the IllegalArgumentException
+            // and just stop. Is this right?
+        }
     }
 }
