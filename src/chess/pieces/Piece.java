@@ -3,6 +3,8 @@ package chess.pieces;
 import chess.*;
 import java.util.*;
 
+import javax.management.DynamicMBean;
+
 public abstract class Piece {
     private final String notation;
     protected Square position;
@@ -55,7 +57,7 @@ public abstract class Piece {
         WHITE, BLACK
     }
 
-    private Set<Move> getStraightMoves() {
+    protected Set<Move> getStraightMoves() {
         Set<Move> possibleMoves = getPossibleMoves(position, 1, 0);
         possibleMoves.addAll(getPossibleMoves(position, -1, 0));
         possibleMoves.addAll(getPossibleMoves(position, 0, 1));
@@ -63,7 +65,7 @@ public abstract class Piece {
         return possibleMoves;
     }
 
-    private Set<Move> getDiagonalMoves() {
+    protected Set<Move> getDiagonalMoves() {
         Set<Move> possibleMoves = getPossibleMoves(position, 1, 1); 
         possibleMoves.addAll(getPossibleMoves(position, 1, -1));
         possibleMoves.addAll(getPossibleMoves(position, -1, -1));
@@ -71,17 +73,18 @@ public abstract class Piece {
         return possibleMoves;
     }
 
-    private Set<Move> getPossibleMoves(Square currentPosition, int num1, int num2) {
+    private Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy) {
         Set<Move> possibleMoves = new HashSet<>();
         try {
-            Square finalPosition = new Square(currentPosition.getRow() + num1,
-                    currentPosition.getCol() + num2, currentPosition.getBoard());
+            Square finalPosition = new Square(currentPosition.getRow() + dx,
+                    currentPosition.getCol() + dy, currentPosition.getBoard());
             if (finalPosition.isEmpty()) {
-                possibleMoves = getPossibleMoves(finalPosition, num1, num2);
+                possibleMoves = getPossibleMoves(finalPosition, dx, dy);
                 possibleMoves.add(new Move(position, finalPosition));
             } else if (!finalPosition.getPiece().getColor().equals(getColor())) {
                 possibleMoves.add(new Move(position, finalPosition));
             }
         } catch (IllegalArgumentException e) {}
+        return possibleMoves;
     }
 }
