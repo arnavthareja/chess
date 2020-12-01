@@ -12,7 +12,7 @@ public class Pawn extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = new HashSet<>();
+        possibleMoves = new HashSet<>();
         if (!alreadyMoved) {
             // For first move
         }
