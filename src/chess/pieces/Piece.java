@@ -9,7 +9,6 @@ public abstract class Piece {
     protected final Color color;
     protected final int value;
     protected boolean alreadyMoved;
-    protected Set<Move> possibleMoves;
 
     public Piece(Square position, Color color, int value, String notation) {
         this.position = position;
@@ -17,8 +16,6 @@ public abstract class Piece {
         this.value = value;
         this.notation = notation;
         alreadyMoved = false;
-        // Do I have to initialize possibleMoves in the constructor? It's not necessary for
-        // everything to work properly but they may want us to for internal correctness or whatever
     }
 
     public abstract Set<Move> getPossibleMoves();
@@ -58,33 +55,36 @@ public abstract class Piece {
         WHITE, BLACK
     }
 
-    public void getStraightMoves() {
-        getPossibleMoves(position, 1, 0);
-        getPossibleMoves(position, -1, 0);
-        getPossibleMoves(position, 0, 1);
-        getPossibleMoves(position, 0, -1);
+    private Set<Move> getStraightMoves() {
+        Set<Move> possibleMoves = getPossibleMoves(position, 1, 0);
+        possibleMoves.addAll(getPossibleMoves(position, -1, 0));
+        possibleMoves.addAll(getPossibleMoves(position, 0, 1));
+        possibleMoves.addAll(getPossibleMoves(position, 0, -1));
+        return possibleMoves;
     }
 
-    public void getDiagonalMoves() {
-        getPossibleMoves(position, 1, 1); 
-        getPossibleMoves(position, 1, -1);
-        getPossibleMoves(position, -1, -1);
-        getPossibleMoves(position, -1, 1);
+    private Set<Move> getDiagonalMoves() {
+        Set<Move> possibleMoves = getPossibleMoves(position, 1, 1); 
+        possibleMoves.addAll(getPossibleMoves(position, 1, -1));
+        possibleMoves.addAll(getPossibleMoves(position, -1, -1));
+        possibleMoves.addAll(getPossibleMoves(position, -1, 1));
+        return possibleMoves;
     }
 
-    private void getPossibleMoves(Square currentPosition, int num1, int num2) {
+    private Set<Move> getPossibleMoves(Square currentPosition, int num1, int num2) {
+        Set<Move> possibleMoves = new HashSet<>();
         try {
             Square finalPosition = new Square(currentPosition.getRow() + num1,
                     currentPosition.getCol() + num2, currentPosition.getBoard());
             if (finalPosition.isEmpty()) {
+                possibleMoves = getPossibleMoves(finalPosition, num1, num2);
                 possibleMoves.add(new Move(position, finalPosition));
-                getPossibleMoves(finalPosition, num1, num2);
             } else if (!finalPosition.getPiece().getColor().equals(getColor())) {
                 possibleMoves.add(new Move(position, finalPosition));
             }
         } catch (IllegalArgumentException()) {
-            // I don't think I have this set up correctly. I want it to catch the IllegalArgumentException
-            // and just stop. Is this right?
+
         }
+        return possibleMoves;
     }
 }
