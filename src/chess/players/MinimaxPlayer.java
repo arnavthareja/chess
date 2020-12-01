@@ -38,7 +38,7 @@ public class MinimaxPlayer extends Player {
             double max = Double.NEGATIVE_INFINITY;
             for (Move move : board.getPossibleMoves(color)) {
                 board.doMove(move);
-                max = Math.max(max, minimax(board, color, depth - 1, false));
+                max = Math.max(max, minimax(board, oppositeColor(color), depth - 1, false));
                 board.undoLastMove();
             }
             return max;
@@ -46,10 +46,14 @@ public class MinimaxPlayer extends Player {
             double min = Double.POSITIVE_INFINITY;
             for (Move move : board.getPossibleMoves(color)) {
                 board.doMove(move);
-                min = Math.min(min, minimax(board, color, depth - 1, true));
+                min = Math.min(min, minimax(board, oppositeColor(color), depth - 1, true));
                 board.undoLastMove();
             }
             return min;
         }
+    }
+
+    private Piece.Color oppositeColor(Piece.Color currentColor) {
+        return currentColor == Piece.Color.WHITE ? Piece.Color.BLACK : Piece.Color.WHITE;
     }
 }
