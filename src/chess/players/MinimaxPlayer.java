@@ -6,51 +6,38 @@ import chess.heuristics.*;
 import java.util.*;
 
 public class MinimaxPlayer extends Player {
-    private static final int SEARCH_DEPTH = 4;
+    private static final int SEARCH_DEPTH = 3;
 
     private Heuristic heuristic;
+    private Map<Move, SortedSet<Move>> memo;
 
     public MinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
         super(board, color);
         this.heuristic = heuristic;
+        memo = new HashMap<>();
     }
 
     public Move getMove() {
-        return minimax(board, color);
+        return minimax(board, color, SEARCH_DEPTH, true);
     }
 
-    private Move minimax(Board board, Piece.Color color) {
-        PriorityQueue<Move> pq = new PriorityQueue<>();
-        for (Move move : board.getPossibleMoves(color)) {
-            board.doMove(move);
-            move.setHeuristicValue(minimax(board, color, SEARCH_DEPTH, true));
-            board.undoLastMove();
-            pq.add(move);
-        }
-        return pq.peek();
-    }
-
-    private double minimax(Board board, Piece.Color color, int depth, boolean isMax) {
+    // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
+    private Move minimax(Board board, Piece.Color color, int depth, boolean isMax) {
+        Move start = board.getLastMove();
         if (depth == 0) {
-            return heuristic.calculateValue(board, color);
+            start.calculateHeuristicValue(heuristic);
+            return start;
         }
-        if (isMax) {
-            double max = Double.NEGATIVE_INFINITY;
-            for (Move move : board.getPossibleMoves(color)) {
-                board.doMove(move);
-                max = Math.max(max, minimax(board, oppositeColor(color), depth - 1, false));
-                board.undoLastMove();
-            }
-            return max;
-        } else {
-            double min = Double.POSITIVE_INFINITY;
-            for (Move move : board.getPossibleMoves(color)) {
-                board.doMove(move);
-                min = Math.min(min, minimax(board, oppositeColor(color), depth - 1, true));
-                board.undoLastMove();
-            }
-            return min;
+        // TODO: Iterate in different order if maximizing or minimizing -- could use NavigableSet.descendingSet()
+        SortedSet<Move> set = new TreeSet<>();
+        for (Move m : memo.containsKey(start) ? memo.get(start) : board.getPossibleMoves(color)) {
+            board.doMove(m);
+            m.setHeuristicValue(minimax(board, oppositeColor(color),depth - 1, !isMax).getHeuristicValue());
+            set.add(m);
+            board.undoLastMove();
         }
+        memo.put(start, set);
+        return isMax ? set.last() : set.first();
     }
 
     private Piece.Color oppositeColor(Piece.Color currentColor) {

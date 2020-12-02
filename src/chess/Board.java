@@ -69,6 +69,10 @@ public class Board {
         }
     }
 
+    public Move getLastMove() {
+        return moves.peek();
+    }
+
     public void draw() {
 
     }
