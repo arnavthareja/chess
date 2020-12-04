@@ -5,8 +5,8 @@ import chess.pieces.*;
 import java.util.*;
 
 public abstract class Player {
-    private final Board board;
-    private final Piece.Color color;
+    protected final Board board;
+    protected final Piece.Color color;
 
     public Player(Board board, Piece.Color color) {
         this.board = board;
