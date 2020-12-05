@@ -9,8 +9,8 @@ import java.util.*;
 public class MinimaxPlayer extends Player {
     private static final int SEARCH_DEPTH = 3;
 
-    private Heuristic heuristic;
-    private Map<Move, SortedSet<Move>> memo;
+    private final Heuristic heuristic;
+    private final Map<Move, SortedSet<Move>> memo;
 
     public MinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
         super(board, color);
@@ -19,11 +19,11 @@ public class MinimaxPlayer extends Player {
     }
 
     public Move getMove() {
-        return minimax(board, color, SEARCH_DEPTH, true);
+        return minimax(color, SEARCH_DEPTH, true);
     }
 
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
-    private Move minimax(Board board, Piece.Color color, int depth, boolean isMax) {
+    private Move minimax(Piece.Color color, int depth, boolean isMax) {
         Move start = board.getLastMove();
         if (depth == 0) {
             start.calculateHeuristicValue(heuristic);
@@ -33,7 +33,7 @@ public class MinimaxPlayer extends Player {
         SortedSet<Move> set = new TreeSet<>();
         for (Move m : memo.containsKey(start) ? memo.get(start) : board.getPossibleMoves(color)) {
             board.doMove(m);
-            m.setHeuristicValue(minimax(board, oppositeColor(color),depth - 1, !isMax).getHeuristicValue());
+            m.setHeuristicValue(minimax(oppositeColor(color),depth - 1, !isMax).getHeuristicValue());
             set.add(m);
             board.undoLastMove();
         }

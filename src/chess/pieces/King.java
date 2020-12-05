@@ -12,8 +12,12 @@ public class King extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = getStraightMoves(1);
-        possibleMoves.addAll(getDiagonalMoves(1));
+        return getPossibleMoves(true);
+    }
+
+    public Set<Move> getPossibleMoves(boolean considerCheck) {
+        Set<Move> possibleMoves = getStraightMoves(1, considerCheck);
+        possibleMoves.addAll(getDiagonalMoves(1, considerCheck));
         if (!alreadyMoved) {
             getCastleMove();
             // For castling

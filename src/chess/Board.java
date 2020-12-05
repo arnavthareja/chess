@@ -36,33 +36,23 @@ public class Board {
                 board[i][j] = new Square(i, j, this);
             }
         }
-        // Initialize white pawns
-        for (int i = 0; i < NUM_ROWS; i++) {
-            new Pawn(squareAt(6, i), WHITE);
-        }
-        //Initialize other white pieces
-        new Rook(squareAt(7, 0), WHITE);
-        new Knight(squareAt(7, 1), WHITE);
-        new Bishop(squareAt(7, 2), WHITE);
-        new Queen(squareAt(7, 3), WHITE);
-        new King(squareAt(7, 4), WHITE);
-        new Bishop(squareAt(7, 5), WHITE);
-        new Knight(squareAt(7, 6), WHITE);
-        new Rook(squareAt(7, 7), WHITE);
-        // Initialize black pawns
-        for (int i = 0; i < NUM_ROWS; i++) {
-            new Pawn(squareAt(1, i), BLACK);
-        }
-        // Initialize other white pieces
-        new Rook(squareAt(0, 0), BLACK);
-        new Knight(squareAt(0, 1), BLACK);
-        new Bishop(squareAt(0, 2), BLACK);
-        new Queen(squareAt(0, 3), BLACK);
-        new King(squareAt(0, 4), BLACK);
-        new Bishop(squareAt(0, 5), BLACK);
-        new Knight(squareAt(0, 6), BLACK);
-        new Rook(squareAt(0, 7), BLACK);
+        initializePieces(7, 6, WHITE);
+        initializePieces(0, 1, BLACK);
         moves = new ArrayDeque<>();
+    }
+
+    private void initializePieces(int row, int pawnRow, Piece.Color color) {
+        for (int i = 0; i < NUM_ROWS; i++) {
+            new Pawn(squareAt(pawnRow, i), color);
+        }
+        new Rook(squareAt(row, 0), color);
+        new Knight(squareAt(row, 1), color);
+        new Bishop(squareAt(row, 2), color);
+        new Queen(squareAt(row, 3), color);
+        new King(squareAt(row, 4), color);
+        new Bishop(squareAt(row, 5), color);
+        new Knight(squareAt(row, 6), color);
+        new Rook(squareAt(row, 7), color);
     }
 
     public Set<Piece> getPieces(Piece.Color color) {
@@ -79,12 +69,16 @@ public class Board {
     }
 
     public Set<Move> getPossibleMoves(Piece.Color color) {
+        return getPossibleMoves(color, true);
+    }
+
+    public Set<Move> getPossibleMoves(Piece.Color color, boolean considerCheck) {
         Set<Move> possibleMoves = new HashSet<>();
         for (Square[] squareArr : board) {
             for (Square s : squareArr) {
                 Piece piece = s.getPiece();
                 if (piece != null && piece.getColor() == color) {
-                    possibleMoves.addAll(piece.getPossibleMoves());
+                    possibleMoves.addAll(piece.getPossibleMoves(considerCheck));
                 }
             }
         }
@@ -121,7 +115,7 @@ public class Board {
     }
 
     public boolean inCheck(Piece.Color color) {
-        for (Move move : getPossibleMoves(oppositeColor(color))) {
+        for (Move move : getPossibleMoves(oppositeColor(color), false)) {
             if (move.getEnd().getPiece() instanceof King) {
                 return true;
             }
@@ -143,16 +137,16 @@ public class Board {
     }
 
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Square[] squareArr : board) {
             // Uncomment if you want to add a background color to the chessboard
-            // result += ANSI_RED_BACKGROUND;
+            // result.append(ANSI_RED_BACKGROUND);
             for (Square s : squareArr) {
-                result += (s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK) + s + " ";
+                result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
             }
-            result += ANSI_RESET + "\n";
+            result.append(ANSI_RESET).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     public static void main(String[] args) {
