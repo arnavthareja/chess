@@ -25,6 +25,18 @@ public abstract class Player {
         return board.getPossibleMoves(color);
     }
 
+    public boolean inCheck() {
+        return board.inCheck(color);
+    }
+
+    public boolean inCheckmate() {
+        return board.inCheckmate(color);
+    }
+
+    public boolean inStalemate() {
+        return board.inStalemate(color);
+    }
+
     public void doMove(Move move) {
         board.doMove(move);
     }
