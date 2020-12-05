@@ -64,33 +64,47 @@ public abstract class Piece {
     }
 
     protected Set<Move> getStraightMoves() {
-        Set<Move> possibleMoves = getPossibleMoves(position, 1, 0);
-        possibleMoves.addAll(getPossibleMoves(position, -1, 0));
-        possibleMoves.addAll(getPossibleMoves(position, 0, 1));
-        possibleMoves.addAll(getPossibleMoves(position, 0, -1));
+        return getStraightMoves(Board.NUM_ROWS);
+    }
+
+    protected Set<Move> getStraightMoves(int maxDepth) {
+        Set<Move> possibleMoves = getPossibleMoves(1, 0, maxDepth);
+        possibleMoves.addAll(getPossibleMoves(-1, 0, maxDepth));
+        possibleMoves.addAll(getPossibleMoves(0, 1, maxDepth));
+        possibleMoves.addAll(getPossibleMoves(0, -1, maxDepth));
         return possibleMoves;
     }
 
     protected Set<Move> getDiagonalMoves() {
-        Set<Move> possibleMoves = getPossibleMoves(position, 1, 1); 
-        possibleMoves.addAll(getPossibleMoves(position, 1, -1));
-        possibleMoves.addAll(getPossibleMoves(position, -1, -1));
-        possibleMoves.addAll(getPossibleMoves(position, -1, 1));
+        return getDiagonalMoves(Board.NUM_ROWS);
+    }
+
+    protected Set<Move> getDiagonalMoves(int maxDepth) {
+        Set<Move> possibleMoves = getPossibleMoves(1, 1, maxDepth);
+        possibleMoves.addAll(getPossibleMoves(1, -1, maxDepth));
+        possibleMoves.addAll(getPossibleMoves(-1, -1, maxDepth));
+        possibleMoves.addAll(getPossibleMoves(-1, 1, maxDepth));
         return possibleMoves;
     }
 
-    private Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy) {
+    protected Set<Move> getPossibleMoves(int dx, int dy, int maxDepth) {
+        return getPossibleMoves(position, dx, dy, maxDepth);
+    }
+
+    protected Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy, int maxDepth) {
         Set<Move> possibleMoves = new HashSet<>();
-        try {
-            Square finalPosition = currentPosition.getBoard().squareAt(currentPosition.getRow() + dy,
-                                                                       currentPosition.getCol() + dx);
-            if (finalPosition.isEmpty()) {
-                possibleMoves = getPossibleMoves(finalPosition, dx, dy);
-                possibleMoves.add(new Move(position, finalPosition));
-            } else if (!finalPosition.getPiece().getColor().equals(getColor())) {
-                possibleMoves.add(new Move(position, finalPosition));
-            }
-        } catch (IllegalArgumentException e) {}
+        if (maxDepth > 0) {
+            try {
+                Square finalPosition = currentPosition.getBoard().squareAt(currentPosition.getRow() + dy,
+                        currentPosition.getCol() + dx);
+                if (finalPosition.isEmpty()) {
+                    possibleMoves = getPossibleMoves(finalPosition, dx, dy, maxDepth - 1);
+                    possibleMoves.add(new Move(position, finalPosition));
+                } else if (finalPosition.getPiece().color != color) {
+                    possibleMoves.add(new Move(position, finalPosition));
+                }
+            } catch (IllegalArgumentException e) {}
+        }
         return possibleMoves;
     }
 }

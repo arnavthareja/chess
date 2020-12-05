@@ -12,7 +12,8 @@ public class King extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = new HashSet<>();
+        Set<Move> possibleMoves = getStraightMoves(1);
+        possibleMoves.addAll(getDiagonalMoves(1));
         if (!alreadyMoved) {
             // For castling
             // Note from Arnav: can't castle while in check, can't castle into check, can't pass through a piece that is

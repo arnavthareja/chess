@@ -12,13 +12,9 @@ public class Pawn extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        // Check if piece of opposite color is diagonal. If so, can move there. If not, can't move there
-        // Check if frontal position is blocked by anything. If so, can't move. If not, can move there
-        // Can't go off board
         Set<Move> possibleMoves = getStraightMoves();
-        possibleMoves.add(getDiagonalMoves(1, 1));
-        possibleMoves.add(getDiagonalMoves(-1, 1));
-        // possibleMoves.addAll(getDiagonalMoves());
+        possibleMoves.add(getCaptureMove(1, 1));
+        possibleMoves.add(getCaptureMove(-1, 1));
         return possibleMoves;
     }
 
@@ -39,29 +35,17 @@ public class Pawn extends Piece {
         return possibleMoves;
     }
 
-    private Move getDiagonalMoves(int dx, int dy) {
+    private Move getCaptureMove(int dx, int dy) {
         Move returnMove = null;
         try {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol() + dx);
-            if (!finalPosition.isEmpty() && !finalPosition.getPiece().getColor().equals(color)) {
+            if (!finalPosition.isEmpty() && finalPosition.getPiece().color != color) {
                 returnMove = new Move(position, finalPosition);
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
     }
-
-    // private Set<Move> getDiagonalMoves(int dx, int dy) {
-    //     Set<Move> possibleMoves = new HashSet<>();
-    //     try {
-    //         Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
-    //                                                             position.getCol() + dx);
-    //         if (!finalPosition.isEmpty() && !finalPosition.getPiece().getColor().equals(color)) {
-    //             possibleMoves.add(new Move(position, finalPosition));
-    //         }
-    //     } catch (IllegalArgumentException e) {}
-    //     return possibleMoves;
-    // }
 
     public void draw() {
         return;
