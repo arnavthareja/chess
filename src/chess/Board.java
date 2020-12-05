@@ -41,7 +41,7 @@ public class Board {
         moves = new ArrayDeque<>();
     }
 
-    public void initializePieces(int row, int pawnRow, Piece.Color color) {
+    private void initializePieces(int row, int pawnRow, Piece.Color color) {
         for (int i = 0; i < NUM_ROWS; i++) {
             new Pawn(squareAt(pawnRow, i), color);
         }
