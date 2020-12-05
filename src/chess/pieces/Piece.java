@@ -12,6 +12,7 @@ public abstract class Piece {
 
     public Piece(Square position, Color color, int value, String notation) {
         this.position = position;
+        position.setPiece(this);
         this.color = color;
         this.value = value;
         this.notation = notation;
@@ -60,7 +61,7 @@ public abstract class Piece {
     }
 
     protected Set<Move> getStraightMoves() {
-        return getStraightMoves(Board.NUM_ROWS);
+        return getStraightMoves(Board.NUM_ROWS - 1);
     }
 
     protected Set<Move> getStraightMoves(int maxDepth) {
@@ -72,7 +73,7 @@ public abstract class Piece {
     }
 
     protected Set<Move> getDiagonalMoves() {
-        return getDiagonalMoves(Board.NUM_ROWS);
+        return getDiagonalMoves(Board.NUM_ROWS - 1);
     }
 
     protected Set<Move> getDiagonalMoves(int maxDepth) {

@@ -12,20 +12,35 @@ public class Pawn extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = getStraightMoves();
-        possibleMoves.add(getCaptureMove(1, 1));
-        possibleMoves.add(getCaptureMove(-1, 1));
+        Set<Move> possibleMoves = getStraightMoves(-color.getMultiplier());
+        Move captureMove = getCaptureMove(1, -color.getMultiplier());
+        if (captureMove != null) {
+            possibleMoves.add(captureMove);
+        }
+        captureMove = getCaptureMove(-1, -color.getMultiplier());
+        if (captureMove != null) {
+            possibleMoves.add(captureMove);
+        }
         return possibleMoves;
     }
 
-    protected Set<Move> getStraightMoves() {
+//    Move captureMove = getCaptureMove(1, -color.getMultiplier());
+//    if (captureMove != null) {
+//        possibleMoves.add(captureMove);
+//    }
+//    captureMove = getCaptureMove(-1, -color.getMultiplier());
+//    if (captureMove != null) {
+//        possibleMoves.add(captureMove);
+//    }
+
+    protected Set<Move> getStraightMoves(int dy) {
         Set<Move> possibleMoves = new HashSet<>();
         try {
-            Square finalPosition = position.getBoard().squareAt(position.getRow() + 1,
+            Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol());
             if (finalPosition.isEmpty()) {
                 possibleMoves.add(new Move(position, finalPosition));
-                finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + 1,
+                finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + dy,
                                                                   finalPosition.getCol());
                 if (!alreadyMoved && finalPosition.isEmpty()) {
                     possibleMoves.add(new Move(position, finalPosition));
@@ -45,6 +60,12 @@ public class Pawn extends Piece {
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
+    }
+
+    // TODO: Implement pawn promotion
+    // Maybe return the promoted piece type instead
+    public void promote() {
+
     }
 
     public void draw() {
