@@ -13,25 +13,10 @@ public class Pawn extends Piece {
 
     public Set<Move> getPossibleMoves() {
         Set<Move> possibleMoves = getStraightMoves(-color.getMultiplier());
-        Move captureMove = getCaptureMove(1, -color.getMultiplier());
-        if (captureMove != null) {
-            possibleMoves.add(captureMove);
-        }
-        captureMove = getCaptureMove(-1, -color.getMultiplier());
-        if (captureMove != null) {
-            possibleMoves.add(captureMove);
-        }
+        addIfNotNull(getCaptureMove(1, -color.getMultiplier()), possibleMoves);
+        addIfNotNull(getCaptureMove(-1, -color.getMultiplier()), possibleMoves);
         return possibleMoves;
     }
-
-//    Move captureMove = getCaptureMove(1, -color.getMultiplier());
-//    if (captureMove != null) {
-//        possibleMoves.add(captureMove);
-//    }
-//    captureMove = getCaptureMove(-1, -color.getMultiplier());
-//    if (captureMove != null) {
-//        possibleMoves.add(captureMove);
-//    }
 
     protected Set<Move> getStraightMoves(int dy) {
         Set<Move> possibleMoves = new HashSet<>();
@@ -60,6 +45,12 @@ public class Pawn extends Piece {
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
+    }
+
+    private void addIfNotNull(Move tempMove, Set<Move> possibleMoves) {
+        if (tempMove != null) {
+            possibleMoves.add(tempMove);
+        }
     }
 
     // TODO: Implement pawn promotion
