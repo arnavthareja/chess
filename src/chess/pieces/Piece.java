@@ -47,6 +47,14 @@ public abstract class Piece {
         return color;
     }
 
+    public boolean getAlreadyMoved() {
+        return alreadyMoved;
+    }
+
+    public void setAlreadyMoved(boolean alreadyMoved) {
+        this.alreadyMoved = alreadyMoved;
+    }
+
     public String toString() {
         return notation;
     }

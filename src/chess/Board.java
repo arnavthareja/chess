@@ -58,11 +58,13 @@ public class Board {
         if (move.isCaptureMove()) {
             move.getEnd().getPiece().capture();
         }
+        move.getStart().getPiece().setAlreadyMoved(true);
         move.getStart().getPiece().setPosition(move.getEnd());
     }
 
     public void undoLastMove() {
         Move move = moves.pop();
+        move.getEnd().getPiece().setAlreadyMoved(move.getPieceAlreadyMoved());
         move.getEnd().getPiece().setPosition(move.getStart());
         if (move.isCaptureMove()) {
             move.getCapturedPiece().setPosition(move.getEnd());

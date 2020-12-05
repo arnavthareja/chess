@@ -7,6 +7,7 @@ public class Move implements Comparable<Move> {
     private final Square start;
     private final Square end;
     private final Piece capturedPiece;
+    private final boolean pieceAlreadyMoved;
     private double heuristicValue;
 
     public Move(Square start, Square end) {
@@ -20,7 +21,8 @@ public class Move implements Comparable<Move> {
         this.start = start;
         this.end = end;
         this.heuristicValue = heuristicValue;
-        this.capturedPiece = end.getPiece();
+        capturedPiece = end.getPiece();
+        pieceAlreadyMoved = start.getPiece().getAlreadyMoved();
     }
 
     // Constructor to make a move from a string in proper notation
@@ -56,6 +58,10 @@ public class Move implements Comparable<Move> {
 
     public Piece getCapturedPiece() {
         return capturedPiece;
+    }
+
+    public boolean getPieceAlreadyMoved() {
+        return pieceAlreadyMoved;
     }
 
     public int compareTo(Move other) {
