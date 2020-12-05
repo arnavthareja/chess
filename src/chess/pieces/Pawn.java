@@ -47,9 +47,9 @@ public class Pawn extends Piece {
         return returnMove;
     }
 
-    private void addIfNotNull(Move move, Set<Move> possibleMoves) {
-        if (move != null) {
-            possibleMoves.add(move);
+    private void addIfNotNull(Move tempMove, Set<Move> possibleMoves) {
+        if (tempMove != null) {
+            possibleMoves.add(tempMove);
         }
     }
 

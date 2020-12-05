@@ -96,22 +96,13 @@ public abstract class Piece {
                         currentPosition.getCol() + dx);
                 if (finalPosition.isEmpty()) {
                     possibleMoves = getPossibleMoves(finalPosition, dx, dy, maxDepth - 1);
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves);
+                    possibleMoves.add(new Move(position, finalPosition));
                 } else if (finalPosition.getPiece().color != color) {
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves);
+                    possibleMoves.add(new Move(position, finalPosition));
                 }
             } catch (IllegalArgumentException e) {}
         }
         return possibleMoves;
-    }
-
-    private void addIfNotInCheck(Move move, Set<Move> possibleMoves) {
-        Board board = position.getBoard();
-        board.doMove(move);
-        if (!board.inCheck(color)) {
-            possibleMoves.add(move);
-        }
-        board.undoLastMove();
     }
 
     public enum Color {
