@@ -59,10 +59,6 @@ public abstract class Piece {
         return notation;
     }
 
-    public enum Color {
-        WHITE, BLACK
-    }
-
     protected Set<Move> getStraightMoves() {
         return getStraightMoves(Board.NUM_ROWS);
     }
@@ -106,5 +102,24 @@ public abstract class Piece {
             } catch (IllegalArgumentException e) {}
         }
         return possibleMoves;
+    }
+
+    public enum Color {
+        WHITE(1),
+        BLACK(-1);
+
+        private final int multiplier;
+
+        Color(int multiplier) {
+            this.multiplier = multiplier;
+        }
+
+        public int getMultiplier() {
+            return multiplier;
+        }
+
+        public static Color oppositeColor(Color color) {
+            return color == WHITE ? BLACK : WHITE;
+        }
     }
 }
