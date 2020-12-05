@@ -74,13 +74,6 @@ public class Board {
         return possibleMoves;
     }
 
-    // I dont' see a use for this but I'm leaving this commented so that it goes in commit history
-    // public Square squareAt(String notation) {
-    //     int col = 7 - notation.charAt(0) - 'a';
-    //     int row = notation.charAt(1) - '0' - 1;
-    //     return squareAt(row, col);
-    // }
-
     public Square squareAt(int row, int col) {
         if (row < 0 || row > 7 || col < 0 || col > 7) {
             throw new IllegalArgumentException("Row and column must be between 0 and 7");
