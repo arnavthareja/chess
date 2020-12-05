@@ -40,11 +40,28 @@ public class Board {
         for (int i = 0; i < NUM_ROWS; i++) {
             new Pawn(squareAt(6, i), WHITE);
         }
+        //Initialize other white pieces
+        new Rook(squareAt(7, 0), WHITE);
+        new Knight(squareAt(7, 1), WHITE);
+        new Bishop(squareAt(7, 2), WHITE);
+        new Queen(squareAt(7, 3), WHITE);
+        new King(squareAt(7, 4), WHITE);
+        new Bishop(squareAt(7, 5), WHITE);
+        new Knight(squareAt(7, 6), WHITE);
+        new Rook(squareAt(7, 7), WHITE);
         // Initialize black pawns
         for (int i = 0; i < NUM_ROWS; i++) {
             new Pawn(squareAt(1, i), BLACK);
         }
-        // TODO: Initialize pieces in the correct starting positions
+        // Initialize other white pieces
+        new Rook(squareAt(0, 0), BLACK);
+        new Knight(squareAt(0, 1), BLACK);
+        new Bishop(squareAt(0, 2), BLACK);
+        new Queen(squareAt(0, 3), BLACK);
+        new King(squareAt(0, 4), BLACK);
+        new Bishop(squareAt(0, 5), BLACK);
+        new Knight(squareAt(0, 6), BLACK);
+        new Rook(squareAt(0, 7), BLACK);
         moves = new ArrayDeque<>();
     }
 
@@ -143,12 +160,12 @@ public class Board {
         System.out.println(b);
         System.out.println("\nWhite moves:");
         for (Move move : b.getPossibleMoves(WHITE)) {
-            System.out.println(move);
+            System.out.print(move + " ");
         }
         System.out.println("\n" + b.getPossibleMoves(WHITE).size() + " total");
         System.out.println("\nBlack moves:");
         for (Move move : b.getPossibleMoves(BLACK)) {
-            System.out.println(move);
+            System.out.print(move + " ");
         }
         System.out.println("\n" + b.getPossibleMoves(BLACK).size() + " total");
     }
