@@ -15,16 +15,11 @@ public class King extends Piece {
         Set<Move> possibleMoves = getStraightMoves(1);
         possibleMoves.addAll(getDiagonalMoves(1));
         if (!alreadyMoved) {
+            getCastleMove();
             // For castling
             // Note from Arnav: can't castle while in check, can't castle into check, can't pass through a piece that is
             //                  under attack (can't move through check)
         }
-        // Check to make sure piece doesn't go off board. If piece is in path and is other color, can
-        // move there. If same color, can't move there. If possibleMoves of the other team's
-        // pieces include the possibleMove, it's no longer possible to move there. Also, for each
-        // of the other pieces on our team, if they move and possibleMoves of the other team's
-        // pieces include the location of the king, it's no longer a possible move
-        
         // If no possibleMoves and the king's location is a possibleMove for a piece from other team, 
         // check to see if moving a piece can block the path of the other team without putting
         // the king in check. If so, do that. If not, end game
@@ -38,6 +33,49 @@ public class King extends Piece {
         // came from if we were only given an end square
 
         return possibleMoves;
+    }
+
+    private Set<CastleMove> getCastleMove() {
+        Set<CastleMove> possibleMoves = new HashSet<>();
+        addIfNotNull(tryRight(), possibleMoves);
+        addIfNotNull(tryLeft(), possibleMoves);
+        return possibleMoves;
+    }
+
+    private CastleMove tryRight() {
+        if (isAllowed(position, 1)) {
+            // return the CastleMove
+        }
+        return null;
+    }
+
+    private CastleMove tryLeft() {
+        if (isAllowed(position, -1)) {
+            // return the CastleMove
+        }
+        return null;
+    }
+
+    private void addIfNotNull(CastleMove tempMove, Set<CastleMove> possibleMoves) {
+        if (tempMove != null) {
+            possibleMoves.add(tempMove);
+        }
+    }
+
+    private boolean isAllowed(Square currentPosition, int dx) {
+        try {
+            if (!currentPosition.getBoard().inCheck(color)) {
+                Square nextPosition = currentPosition.getBoard().squareAt(currentPosition.getRow(),
+                                                                          currentPosition.getCol() + dx);
+                if (nextPosition.getCol() == Board.NUM_ROWS - 1 && !nextPosition.getPiece().alreadyMoved) {
+                    return true;
+                } else if (!nextPosition.isEmpty()) {
+                    return false;
+                }
+                return isAllowed(nextPosition, dx);
+            }
+        } catch (IllegalArgumentException e) {}
+        return false;
     }
 
     // Note from Arnav: Might want to make a method and/or field to check/store if king or a square is in check as it seems to be used multiple times.
