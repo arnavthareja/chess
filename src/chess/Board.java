@@ -147,16 +147,16 @@ public class Board {
     }
 
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Square[] squareArr : board) {
             // Uncomment if you want to add a background color to the chessboard
-            // result += ANSI_RED_BACKGROUND;
+            // result.append(ANSI_RED_BACKGROUND);
             for (Square s : squareArr) {
-                result += (s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK) + s + " ";
+                result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
             }
-            result += ANSI_RESET + "\n";
+            result.append(ANSI_RESET).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     public static void main(String[] args) {
