@@ -13,9 +13,15 @@ public class Pawn extends Piece {
 
     public Set<Move> getPossibleMoves() {
         Set<Move> possibleMoves = getStraightMoves();
-        possibleMoves.add(getCaptureMove(1, 1));
-        possibleMoves.add(getCaptureMove(-1, 1));
+        addIfNotNull(getCaptureMove(1, 1), possibleMoves);
+        addIfNotNull(getCaptureMove(-1, 1), possibleMoves);
         return possibleMoves;
+    }
+
+    private void addIfNotNull(Move tempMove, Set<Move> possibleMoves) {
+        if (tempMove != null) {
+            possibleMoves.add(tempMove);
+        }
     }
 
     protected Set<Move> getStraightMoves() {
