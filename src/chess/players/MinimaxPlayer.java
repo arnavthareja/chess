@@ -2,6 +2,7 @@ package chess.players;
 
 import chess.*;
 import chess.pieces.*;
+import static chess.pieces.Piece.Color.*;
 import chess.heuristics.*;
 import java.util.*;
 
@@ -38,9 +39,5 @@ public class MinimaxPlayer extends Player {
         }
         memo.put(start, set);
         return isMax ? set.last() : set.first();
-    }
-
-    private Piece.Color oppositeColor(Piece.Color currentColor) {
-        return currentColor == Piece.Color.WHITE ? Piece.Color.BLACK : Piece.Color.WHITE;
     }
 }
