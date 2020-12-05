@@ -79,12 +79,16 @@ public class Board {
     }
 
     public Set<Move> getPossibleMoves(Piece.Color color) {
+        return getPossibleMoves(color, true);
+    }
+
+    public Set<Move> getPossibleMoves(Piece.Color color, boolean considerCheck) {
         Set<Move> possibleMoves = new HashSet<>();
         for (Square[] squareArr : board) {
             for (Square s : squareArr) {
                 Piece piece = s.getPiece();
                 if (piece != null && piece.getColor() == color) {
-                    possibleMoves.addAll(piece.getPossibleMoves());
+                    possibleMoves.addAll(piece.getPossibleMoves(considerCheck));
                 }
             }
         }
@@ -121,7 +125,7 @@ public class Board {
     }
 
     public boolean inCheck(Piece.Color color) {
-        for (Move move : getPossibleMoves(oppositeColor(color))) {
+        for (Move move : getPossibleMoves(oppositeColor(color), false)) {
             if (move.getEnd().getPiece() instanceof King) {
                 return true;
             }

@@ -12,7 +12,11 @@ public class Bishop extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        return getDiagonalMoves();
+        return getPossibleMoves(true);
+    }
+
+    public Set<Move> getPossibleMoves(boolean considerCheck) {
+        return getDiagonalMoves(considerCheck);
     }
 
     public void draw() {

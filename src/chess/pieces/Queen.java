@@ -12,8 +12,12 @@ public class Queen extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = getStraightMoves();
-        possibleMoves.addAll(getDiagonalMoves());
+        return getPossibleMoves(true);
+    }
+
+    public Set<Move> getPossibleMoves(boolean considerCheck) {
+        Set<Move> possibleMoves = getStraightMoves(considerCheck);
+        possibleMoves.addAll(getDiagonalMoves(considerCheck));
         return possibleMoves;
     }
 

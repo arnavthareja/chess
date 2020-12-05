@@ -20,6 +20,7 @@ public abstract class Piece {
     }
 
     public abstract Set<Move> getPossibleMoves();
+    public abstract Set<Move> getPossibleMoves(boolean considerCheck);
     public abstract void draw();
 
     public int getValue() {
@@ -60,52 +61,56 @@ public abstract class Piece {
         return notation;
     }
 
-    protected Set<Move> getStraightMoves() {
-        return getStraightMoves(Board.NUM_ROWS - 1);
+    protected Set<Move> getStraightMoves(boolean considerCheck) {
+        return getStraightMoves(Board.NUM_ROWS - 1, considerCheck);
     }
 
-    protected Set<Move> getStraightMoves(int maxDepth) {
-        Set<Move> possibleMoves = getPossibleMoves(1, 0, maxDepth);
-        possibleMoves.addAll(getPossibleMoves(-1, 0, maxDepth));
-        possibleMoves.addAll(getPossibleMoves(0, 1, maxDepth));
-        possibleMoves.addAll(getPossibleMoves(0, -1, maxDepth));
+    protected Set<Move> getStraightMoves(int maxDepth, boolean considerCheck) {
+        Set<Move> possibleMoves = getPossibleMoves(1, 0, maxDepth, considerCheck);
+        possibleMoves.addAll(getPossibleMoves(-1, 0, maxDepth, considerCheck));
+        possibleMoves.addAll(getPossibleMoves(0, 1, maxDepth, considerCheck));
+        possibleMoves.addAll(getPossibleMoves(0, -1, maxDepth, considerCheck));
         return possibleMoves;
     }
 
-    protected Set<Move> getDiagonalMoves() {
-        return getDiagonalMoves(Board.NUM_ROWS - 1);
+    protected Set<Move> getDiagonalMoves(boolean considerCheck) {
+        return getDiagonalMoves(Board.NUM_ROWS - 1, considerCheck);
     }
 
-    protected Set<Move> getDiagonalMoves(int maxDepth) {
-        Set<Move> possibleMoves = getPossibleMoves(1, 1, maxDepth);
-        possibleMoves.addAll(getPossibleMoves(1, -1, maxDepth));
-        possibleMoves.addAll(getPossibleMoves(-1, -1, maxDepth));
-        possibleMoves.addAll(getPossibleMoves(-1, 1, maxDepth));
+    protected Set<Move> getDiagonalMoves(int maxDepth, boolean considerCheck) {
+        Set<Move> possibleMoves = getPossibleMoves(1, 1, maxDepth, considerCheck);
+        possibleMoves.addAll(getPossibleMoves(1, -1, maxDepth, considerCheck));
+        possibleMoves.addAll(getPossibleMoves(-1, -1, maxDepth, considerCheck));
+        possibleMoves.addAll(getPossibleMoves(-1, 1, maxDepth, considerCheck));
         return possibleMoves;
     }
 
-    protected Set<Move> getPossibleMoves(int dx, int dy, int maxDepth) {
-        return getPossibleMoves(position, dx, dy, maxDepth);
+    protected Set<Move> getPossibleMoves(int dx, int dy, int maxDepth, boolean considerCheck) {
+        return getPossibleMoves(position, dx, dy, maxDepth, considerCheck);
     }
 
-    protected Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy, int maxDepth) {
+    protected Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy, int maxDepth, boolean considerCheck) {
         Set<Move> possibleMoves = new HashSet<>();
         if (maxDepth > 0) {
             try {
                 Square finalPosition = currentPosition.getBoard().squareAt(currentPosition.getRow() + dy,
                         currentPosition.getCol() + dx);
                 if (finalPosition.isEmpty()) {
-                    possibleMoves = getPossibleMoves(finalPosition, dx, dy, maxDepth - 1);
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves);
+                    possibleMoves = getPossibleMoves(finalPosition, dx, dy, maxDepth - 1, considerCheck);
+                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
                 } else if (finalPosition.getPiece().color != color) {
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves);
+                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
                 }
             } catch (IllegalArgumentException e) {}
         }
         return possibleMoves;
     }
 
-    private void addIfNotInCheck(Move move, Set<Move> possibleMoves) {
+    protected void addIfNotInCheck(Move move, Set<Move> possibleMoves, boolean considerCheck) {
+        if (!considerCheck) {
+            possibleMoves.add(move);
+            return;
+        }
         Board board = position.getBoard();
         board.doMove(move);
         if (!board.inCheck(color)) {

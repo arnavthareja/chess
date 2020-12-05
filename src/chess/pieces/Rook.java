@@ -12,7 +12,11 @@ public class Rook extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        return getStraightMoves();
+        return getPossibleMoves(true);
+    }
+
+    public Set<Move> getPossibleMoves(boolean considerCheck) {
+        return getStraightMoves(considerCheck);
     }
 
     public void draw() {

@@ -12,45 +12,43 @@ public class Pawn extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = getStraightMoves(-color.getMultiplier());
-        addIfNotNull(getCaptureMove(1, -color.getMultiplier()), possibleMoves);
-        addIfNotNull(getCaptureMove(-1, -color.getMultiplier()), possibleMoves);
+        return getPossibleMoves(true);
+    }
+
+    public Set<Move> getPossibleMoves(boolean considerCheck) {
+        Set<Move> possibleMoves = getStraightMoves(-color.getMultiplier(), considerCheck);
+        possibleMoves.addAll(getCaptureMove(1, -color.getMultiplier(), considerCheck));
+        possibleMoves.addAll(getCaptureMove(-1, -color.getMultiplier(), considerCheck));
         return possibleMoves;
     }
 
-    protected Set<Move> getStraightMoves(int dy) {
+    protected Set<Move> getStraightMoves(int dy, boolean considerCheck) {
         Set<Move> possibleMoves = new HashSet<>();
         try {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol());
             if (finalPosition.isEmpty()) {
-                possibleMoves.add(new Move(position, finalPosition));
+                addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
                 finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + dy,
                                                                   finalPosition.getCol());
                 if (!alreadyMoved && finalPosition.isEmpty()) {
-                    possibleMoves.add(new Move(position, finalPosition));
+                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
                 }
             }
         } catch (IllegalArgumentException e) {}
         return possibleMoves;
     }
 
-    private Move getCaptureMove(int dx, int dy) {
-        Move returnMove = null;
+    private Set<Move> getCaptureMove(int dx, int dy, boolean considerCheck) {
+        Set<Move> returnMove = new HashSet<>();
         try {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol() + dx);
             if (!finalPosition.isEmpty() && finalPosition.getPiece().color != color) {
-                returnMove = new Move(position, finalPosition);
+                addIfNotInCheck(new Move(position, finalPosition), returnMove, considerCheck);
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
-    }
-
-    private void addIfNotNull(Move move, Set<Move> possibleMoves) {
-        if (move != null) {
-            possibleMoves.add(move);
-        }
     }
 
     // TODO: Implement pawn promotion
