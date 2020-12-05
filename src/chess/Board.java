@@ -1,9 +1,29 @@
 package chess;
 
 import chess.pieces.*;
+import static chess.pieces.Piece.Color.*;
 import java.util.*;
 
 public class Board {
+    // Constants taken from https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
     public static final int NUM_ROWS = 8;
 
     private final Square[][] board;
@@ -15,6 +35,14 @@ public class Board {
             for (int j = 0; j < NUM_ROWS; j++) {
                 board[i][j] = new Square(i, j, this);
             }
+        }
+        // Initialize white pawns
+        for (int i = 0; i < NUM_ROWS; i++) {
+            new Pawn(squareAt(6, i), WHITE);
+        }
+        // Initialize black pawns
+        for (int i = 0; i < NUM_ROWS; i++) {
+            new Pawn(squareAt(1, i), BLACK);
         }
         // TODO: Initialize pieces in the correct starting positions
         moves = new ArrayDeque<>();
@@ -75,6 +103,24 @@ public class Board {
         return moves.peek();
     }
 
+    public boolean inCheck(Piece.Color color) {
+        for (Move move : getPossibleMoves(oppositeColor(color))) {
+            if (move.getEnd().getPiece() instanceof King) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean inCheckmate(Piece.Color color) {
+        return inCheck(color) && getPossibleMoves(color).isEmpty();
+    }
+
+    public boolean inStalemate(Piece.Color color) {
+        // TODO: Additional stalemate possibilities like last 3 moves repetitions of each other
+        return !inCheck(color) && getPossibleMoves(color).isEmpty();
+    }
+
     public void draw() {
 
     }
@@ -82,15 +128,28 @@ public class Board {
     public String toString() {
         String result = "";
         for (Square[] squareArr : board) {
+            // Uncomment if you want to add a background color to the chessboard
+            // result += ANSI_RED_BACKGROUND;
             for (Square s : squareArr) {
-                result += s + " ";
+                result += (s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK) + s + " ";
             }
-            result += "\n";
+            result += ANSI_RESET + "\n";
         }
         return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(new Board());
+        Board b = new Board();
+        System.out.println(b);
+        System.out.println("\nWhite moves:");
+        for (Move move : b.getPossibleMoves(WHITE)) {
+            System.out.println(move);
+        }
+        System.out.println("\n" + b.getPossibleMoves(WHITE).size() + " total");
+        System.out.println("\nBlack moves:");
+        for (Move move : b.getPossibleMoves(BLACK)) {
+            System.out.println(move);
+        }
+        System.out.println("\n" + b.getPossibleMoves(BLACK).size() + " total");
     }
 }

@@ -1,6 +1,6 @@
 package chess;
 
-import chess.pieces.Piece;
+import chess.pieces.*;
 
 public class Square {
     private final int row;
@@ -59,6 +59,6 @@ public class Square {
     }
 
     public String toString() {
-        return "" + (isEmpty() ? notation() : piece);
+        return "" + (isEmpty() ? " " + notation() : (piece instanceof Pawn ? " " : piece) + notation());
     }
 }
