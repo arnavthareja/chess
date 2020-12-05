@@ -12,9 +12,14 @@ public class Knight extends Piece {
     }
 
     public Set<Move> getPossibleMoves() {
-        Set<Move> possibleMoves = new HashSet<>();
-        // Can't go off board. If by moving 2 in any direction followed by 1 in a perpendicular direction,
-        // if piece in that spot is same color, can't go. If not same color, can go. If no piece, go duh
+        Set<Move> possibleMoves = getPossibleMoves(position, 2, 1, 1);
+        possibleMoves.addAll(getPossibleMoves(position, 2, -1, 1));
+        possibleMoves.addAll(getPossibleMoves(position, -2, 1, 1));
+        possibleMoves.addAll(getPossibleMoves(position, -2, -1, 1));
+        possibleMoves.addAll(getPossibleMoves(position, 1, 2, 1));
+        possibleMoves.addAll(getPossibleMoves(position, 1, -2, 1));
+        possibleMoves.addAll(getPossibleMoves(position, -1, 2, 1));
+        possibleMoves.addAll(getPossibleMoves(position, -1, -2, 1));
         return possibleMoves;
     }
 
