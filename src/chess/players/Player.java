@@ -20,8 +20,6 @@ public abstract class Player {
     }
 
     public Set<Move> getPossibleMoves() {
-        // Could also iterate over every piece in getPieces and add all possible moves into one set
-        // ^ Would have to account for check
         return board.getPossibleMoves(color);
     }
 
@@ -37,7 +35,11 @@ public abstract class Player {
         return board.inStalemate(color);
     }
 
-    public void doMove(Move move) {
+    public void doMove() {
+        doMove(getMove());
+    }
+
+    private void doMove(Move move) {
         board.doMove(move);
     }
 }

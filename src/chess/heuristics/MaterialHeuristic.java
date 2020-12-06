@@ -12,6 +12,8 @@ public class MaterialHeuristic implements Heuristic {
         double numPiecesAdv = pieces.size() - opposingPieces.size();
         double materialAdv = pieces.stream().mapToDouble(Piece::getValue).sum() -
                              opposingPieces.stream().mapToDouble(Piece::getValue).sum();
-        return numPiecesAdv + materialAdv;
+        double numMovesAdv = board.getPossibleMoves(color).size() -
+                             board.getPossibleMoves(oppositeColor(color)).size();
+        return numPiecesAdv + materialAdv + numMovesAdv;
     }
 }

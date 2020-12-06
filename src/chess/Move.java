@@ -3,6 +3,8 @@ package chess;
 import chess.pieces.*;
 import chess.heuristics.*;
 
+import java.util.Objects;
+
 public class Move implements Comparable<Move> {
     private final Square start;
     private final Square end;
@@ -12,6 +14,7 @@ public class Move implements Comparable<Move> {
     private final boolean pieceAlreadyMoved;
     private final boolean isCastleMove;
     private double heuristicValue;
+    private boolean heuristicValueSet;
 
     public Move(Square start, Square end) {
         this(start, end, 0);
@@ -35,10 +38,11 @@ public class Move implements Comparable<Move> {
         this.end = end;
         this.rookStart = rookStart;
         this.rookEnd = rookEnd;
-        isCastleMove = rookStart != null;
-        this.heuristicValue = heuristicValue;
         capturedPiece = end.getPiece();
         pieceAlreadyMoved = start.getPiece().getAlreadyMoved();
+        isCastleMove = rookStart != null;
+        this.heuristicValue = heuristicValue;
+        heuristicValueSet = false;
     }
 
     // Constructor to make a move from a string in proper notation
@@ -53,10 +57,11 @@ public class Move implements Comparable<Move> {
 
     public void setHeuristicValue(double heuristicValue) {
         this.heuristicValue = heuristicValue;
+        heuristicValueSet = true;
     }
 
-    public double calculateHeuristicValue(Heuristic heuristic) {
-        setHeuristicValue(heuristic.calculateValue(start.getBoard(), start.getPiece().getColor()));
+    public double calculateHeuristicValue(Heuristic heuristic, Board board, Piece.Color color) {
+        setHeuristicValue(heuristic.calculateValue(board, color));
         return getHeuristicValue();
     }
 
@@ -92,8 +97,9 @@ public class Move implements Comparable<Move> {
         return pieceAlreadyMoved;
     }
 
+    // Returns 1 if heuristic value has not been set so that TreeSet doesn't view it as a duplicate move
     public int compareTo(Move other) {
-        return Double.compare(heuristicValue, other.heuristicValue);
+        return heuristicValueSet ? Double.compare(heuristicValue, other.heuristicValue) : 1;
     }
 
     public String toString() {
@@ -102,8 +108,16 @@ public class Move implements Comparable<Move> {
         return "" + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation();
     }
 
-    public boolean equals(Move other) {
-        return capturedPiece == other.capturedPiece && heuristicValue == other.heuristicValue &&
-               start.equals(other.start) && end.equals(other.end);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Move move = (Move) o;
+        return pieceAlreadyMoved == move.pieceAlreadyMoved && isCastleMove == move.isCastleMove && Double.compare(move.heuristicValue, heuristicValue) == 0 && heuristicValueSet == move.heuristicValueSet && start.equals(move.start) && end.equals(move.end) && Objects.equals(rookStart, move.rookStart) && Objects.equals(rookEnd, move.rookEnd) && Objects.equals(capturedPiece, move.capturedPiece);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end, rookStart, rookEnd, capturedPiece, pieceAlreadyMoved, isCastleMove, heuristicValue, heuristicValueSet);
     }
 }
