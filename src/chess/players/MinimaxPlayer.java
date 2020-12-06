@@ -33,7 +33,6 @@ public class MinimaxPlayer extends Player {
             start.calculateHeuristicValue(heuristic, board, color);
             return start;
         }
-        // TODO: Iterate in different order if maximizing or minimizing -- could use NavigableSet.descendingSet()
         NavigableSet<Move> moves = memo.containsKey(start) ? memo.get(start) : new TreeSet<>(board.getPossibleMoves(color));
         NavigableSet<Move> result = new TreeSet<>();
         // This reverses getPossibleMoves too, but it doesn't matter as they're in random order (I think)
