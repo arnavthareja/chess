@@ -99,6 +99,10 @@ public class Board {
         }
         move.getStart().getPiece().setAlreadyMoved(true);
         move.getStart().getPiece().setPosition(move.getEnd());
+        if (move.isCastleMove()) {
+            move.getRookStart().getPiece().setAlreadyMoved(true);
+            move.getRookStart().getPiece().setPosition(move.getRookEnd());
+        }
     }
 
     public void undoLastMove() {
@@ -107,6 +111,10 @@ public class Board {
         move.getEnd().getPiece().setPosition(move.getStart());
         if (move.isCaptureMove()) {
             move.getCapturedPiece().setPosition(move.getEnd());
+        }
+        if (move.isCastleMove()) {
+            move.getRookEnd().getPiece().setAlreadyMoved(false);
+            move.getRookEnd().getPiece().setPosition(move.getRookStart());
         }
     }
 

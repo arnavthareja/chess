@@ -6,8 +6,11 @@ import chess.heuristics.*;
 public class Move implements Comparable<Move> {
     private final Square start;
     private final Square end;
+    private final Square rookStart;
+    private final Square rookEnd;
     private final Piece capturedPiece;
     private final boolean pieceAlreadyMoved;
+    private final boolean isCastleMove;
     private double heuristicValue;
 
     public Move(Square start, Square end) {
@@ -15,11 +18,24 @@ public class Move implements Comparable<Move> {
     }
 
     public Move(Square start, Square end, double heuristicValue) {
+        this(start, end, null, null, heuristicValue);
+    }
+
+    public Move(Square start, Square end, Square rookStart, Square rookEnd) {
+        this(start, end, rookStart, rookEnd, 0);
+    }
+
+    public Move(Square start, Square end, Square rookStart, Square rookEnd, double heuristicValue) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("Start and end squares must not be null.");
+        } else if ((rookStart == null || rookEnd == null) && (rookStart != null || rookEnd != null)) {
+            throw new IllegalArgumentException("Rook's start and end squares must both be given or null.");
         }
         this.start = start;
         this.end = end;
+        this.rookStart = rookStart;
+        this.rookEnd = rookEnd;
+        isCastleMove = rookStart != null;
         this.heuristicValue = heuristicValue;
         capturedPiece = end.getPiece();
         pieceAlreadyMoved = start.getPiece().getAlreadyMoved();
@@ -48,12 +64,24 @@ public class Move implements Comparable<Move> {
         return capturedPiece != null;
     }
 
+    public boolean isCastleMove() {
+        return isCastleMove;
+    }
+
     public Square getStart() {
         return start;
     }
 
     public Square getEnd() {
         return end;
+    }
+
+    public Square getRookStart() {
+        return rookStart;
+    }
+
+    public Square getRookEnd() {
+        return rookEnd;
     }
 
     public Piece getCapturedPiece() {

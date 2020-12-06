@@ -18,68 +18,58 @@ public class King extends Piece {
     public Set<Move> getPossibleMoves(boolean considerCheck) {
         Set<Move> possibleMoves = getStraightMoves(1, considerCheck);
         possibleMoves.addAll(getDiagonalMoves(1, considerCheck));
-        if (!alreadyMoved) {
-            getCastleMove();
-            // For castling
-            // Note from Arnav: can't castle while in check, can't castle into check, can't pass through a piece that is
-            //                  under attack (can't move through check)
+        if (!alreadyMoved && (!considerCheck || !position.getBoard().inCheck(color))) {
+            addIfNotInCheck(getKingsideCastleMove(), possibleMoves, considerCheck, true);
+            addIfNotInCheck(getQueensideCastleMove(), possibleMoves, considerCheck, true);
         }
-        // If no possibleMoves and the king's location is a possibleMove for a piece from other team, 
-        // check to see if moving a piece can block the path of the other team without putting
-        // the king in check. If so, do that. If not, end game
-        
-        // Question for Arnav: Why do we want to mark the beginning and final position in possibleMoves?
-        // Shouldn't we just need final position?
-
-        // Response from Arnav:
-        // We want to save both the starting and ending squares so that it's easier to execute the move at playing/evaluating time.
-        // We can simply take the piece from the start square and move it to the end square instead of having to guess where the piece
-        // came from if we were only given an end square
-
         return possibleMoves;
     }
 
-    private Set<CastleMove> getCastleMove() {
-        Set<CastleMove> possibleMoves = new HashSet<>();
-        addIfNotNull(tryRight(), possibleMoves);
-        addIfNotNull(tryLeft(), possibleMoves);
-        return possibleMoves;
-    }
-
-    private CastleMove tryRight() {
-        if (isAllowed(position, 1)) {
-            // return the CastleMove
+    private Move getKingsideCastleMove() {
+        Move castleMove = null;
+        if (isAllowed(position, 1, 1)) {
+            Board b = position.getBoard();
+            int row = position.getRow(), col = position.getCol();
+            castleMove = new Move(position, b.squareAt(row, col + 2), b.squareAt(row, 7),
+                                  b.squareAt(row, col + 1));
         }
-        return null;
+        return castleMove;
     }
 
-    private CastleMove tryLeft() {
-        if (isAllowed(position, -1)) {
-            // return the CastleMove
+    private Move getQueensideCastleMove() {
+        Move castleMove = null;
+        if (isAllowed(position, -1, 1)) {
+            Board b = position.getBoard();
+            int row = position.getRow(), col = position.getCol();
+            castleMove = new Move(position, b.squareAt(row, col - 2), b.squareAt(row, 0),
+                    b.squareAt(row, col - 1));
         }
-        return null;
+        return castleMove;
     }
 
-    private void addIfNotNull(CastleMove tempMove, Set<CastleMove> possibleMoves) {
-        if (tempMove != null) {
-            possibleMoves.add(tempMove);
+    private void addIfNotInCheck(Move move, Set<Move> possibleMoves, boolean considerCheck, boolean considerNull) {
+        if (!considerNull || move != null) {
+            addIfNotInCheck(move, possibleMoves, considerCheck);
         }
     }
 
-    private boolean isAllowed(Square currentPosition, int dx) {
+    private boolean isAllowed(Square currentPosition, int dx, int iteration) {
         try {
-            if (!currentPosition.getBoard().inCheck(color)) {
-                Square nextPosition = currentPosition.getBoard().squareAt(currentPosition.getRow(),
-                                                                          currentPosition.getCol() + dx);
-                if (nextPosition.getCol() == Board.NUM_ROWS - 1 && !nextPosition.getPiece().alreadyMoved) {
-                    return true;
-                } else if (!nextPosition.isEmpty()) {
-                    return false;
-                }
-                return isAllowed(nextPosition, dx);
+            Board b = position.getBoard();
+            Square nextPos = b.squareAt(currentPosition.getRow(), currentPosition.getCol() + dx);
+            Piece p = nextPos.getPiece();
+            boolean throughCheck = false;
+            if (iteration == 1 && nextPos.isEmpty()) {
+                Move tempMove = new Move(currentPosition, nextPos);
+                b.doMove(tempMove);
+                throughCheck = b.inCheck(color);
+                b.undoLastMove();
             }
+            return !throughCheck && ((nextPos.isEmpty() && nextPos.getCol() < Board.NUM_ROWS - 1 &&
+                    nextPos.getCol() > 0) || (p instanceof Rook && !p.alreadyMoved)) &&
+                    isAllowed(nextPos, dx, iteration + 1);
         } catch (IllegalArgumentException e) {}
-        return false;
+        return true;
     }
 
     // Note from Arnav: Might want to make a method and/or field to check/store if king or a square is in check as it seems to be used multiple times.
