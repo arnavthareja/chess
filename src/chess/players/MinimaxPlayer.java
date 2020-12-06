@@ -19,11 +19,15 @@ public class MinimaxPlayer extends Player {
     }
 
     public Move getMove() {
-        return minimax(color, SEARCH_DEPTH, true);
+        Move m = null;
+        for (int i = 0; i < SEARCH_DEPTH; i++) {
+            m = minimax(color, i, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, true);
+        }
+        return m;
     }
 
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
-    private Move minimax(Piece.Color color, int depth, boolean isMax) {
+    private Move minimax(Piece.Color color, int depth, double alpha, double beta, boolean isMax) {
         Move start = board.getLastMove();
         if (depth == 0) {
             start.calculateHeuristicValue(heuristic, board, color);
@@ -35,9 +39,17 @@ public class MinimaxPlayer extends Player {
         // This reverses getPossibleMoves too, but it doesn't matter as they're in random order (I think)
         for (Move m : isMax ? moves.descendingSet() : moves) {
             board.doMove(m);
-            m.setHeuristicValue(minimax(oppositeColor(color),depth - 1, !isMax).getHeuristicValue());
+            m.setHeuristicValue(minimax(oppositeColor(color),depth - 1, alpha, beta, !isMax).getHeuristicValue());
             result.add(m);
             board.undoLastMove();
+            if (isMax) {
+                alpha = Math.max(alpha, m.getHeuristicValue());
+            } else {
+                beta = Math.min(beta, m.getHeuristicValue());
+            }
+            if (alpha >= beta) {
+                break;
+            }
         }
         memo.put(start, result);
         return isMax ? result.last() : result.first();
