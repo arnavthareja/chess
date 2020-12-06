@@ -59,15 +59,17 @@ public class King extends Piece {
             Square nextPos = b.squareAt(currentPosition.getRow(), currentPosition.getCol() + dx);
             Piece p = nextPos.getPiece();
             boolean throughCheck = false;
+            // Only check if moving through check on the first iteration if next square is empty
             if (iteration == 1 && nextPos.isEmpty()) {
                 Move tempMove = new Move(currentPosition, nextPos);
                 b.doMove(tempMove);
                 throughCheck = b.inCheck(color);
                 b.undoLastMove();
             }
-            return !throughCheck && ((nextPos.isEmpty() && nextPos.getCol() < Board.NUM_ROWS - 1 &&
-                    nextPos.getCol() > 0) || (p instanceof Rook && !p.alreadyMoved)) &&
-                    isAllowed(nextPos, dx, iteration + 1);
+            // A valid position is either empty in files b-g or occupied by a rook in files a or h that hasn't moved
+            boolean nextPosValid = (nextPos.isEmpty() && nextPos.getCol() < Board.NUM_ROWS - 1 &&
+                                    nextPos.getCol() > 0) || (p instanceof Rook && !p.alreadyMoved);
+            return !throughCheck && nextPosValid && isAllowed(nextPos, dx, iteration + 1);
         } catch (IllegalArgumentException e) {}
         return true;
     }
