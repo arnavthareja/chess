@@ -40,6 +40,7 @@ public abstract class Player {
     }
 
     private void doMove(Move move) {
+        System.out.println(move);
         board.doMove(move);
     }
 }
