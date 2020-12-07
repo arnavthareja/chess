@@ -147,8 +147,7 @@ public class Board {
         return inCheck(color) && getPossibleMoves(color).isEmpty();
     }
 
-    public boolean inStalemate(Piece.Color color) {
-        // TODO: Additional stalemate possibilities like last 3 moves repetitions of each other
+    public boolean inStalemate() {
         boolean lastThreeMovesSame = false;
         if (moves.size() >= 6) {
             Move[] temp = new Move[6];
@@ -158,9 +157,15 @@ public class Board {
             for (int i = 0; i < 6; i++) {
                 moves.push(temp[i]);
             }
-            lastThreeMovesSame = temp[0].equals(temp[2]) && temp[2].equals(temp[4]) && temp[1].equals(temp[3]) && temp[3].equals(temp[5]);
+            lastThreeMovesSame = temp[0].sameAs(temp[2]) && temp[2].sameAs(temp[4]) && temp[1].sameAs(temp[3]) && temp[3].sameAs(temp[5]);
         }
-        return lastThreeMovesSame || !inCheck(color) && getPossibleMoves(color).isEmpty() || (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1);
+        return lastThreeMovesSame || inStalemate(WHITE) || inStalemate(BLACK);
+    }
+
+    private boolean inStalemate(Piece.Color color) {
+        // TODO: Additional stalemate possibilities like last 3 moves repetitions of each other
+
+        return !inCheck(color) && getPossibleMoves(color).isEmpty() || (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1);
     }
 
     public void draw() {

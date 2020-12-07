@@ -32,7 +32,7 @@ public abstract class Player {
     }
 
     public boolean inStalemate() {
-        return board.inStalemate(color);
+        return board.inStalemate();
     }
 
     public void doMove() {
