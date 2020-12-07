@@ -7,13 +7,14 @@ import java.util.*;
 
 public class MaterialHeuristic implements Heuristic {
     public double calculateValue(Board board, Piece.Color color) {
+        return (evaluate(board, color) - evaluate(board, oppositeColor(color))) * color.getMultiplier();
+    }
+
+    private double evaluate(Board board, Piece.Color color) {
         Set<Piece> pieces = board.getPieces(color);
-        Set<Piece> opposingPieces = board.getPieces(oppositeColor(color));
-        double numPiecesAdv = pieces.size() - opposingPieces.size();
-        double materialAdv = pieces.stream().mapToDouble(Piece::getValue).sum() -
-                             opposingPieces.stream().mapToDouble(Piece::getValue).sum();
-        double numMovesAdv = board.getPossibleMoves(color).size() -
-                             board.getPossibleMoves(oppositeColor(color)).size();
+        double numPiecesAdv = pieces.size() * 0.1; // weight by 0.1 (arbitrary) as number of points matter more
+        double materialAdv = pieces.stream().mapToDouble(Piece::getValue).sum();
+        double numMovesAdv = board.getPossibleMoves(color).size() * 0.5; // weight mobility at 0.5 (arbitrary)
         return numPiecesAdv + materialAdv + numMovesAdv;
     }
 }
