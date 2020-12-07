@@ -108,10 +108,18 @@ public class Move implements Comparable<Move> {
         return "" + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation();
     }
 
+    public boolean sameAs(Move other) {
+        return this == other || (start.equals(other.start) && end.equals(other.end));
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Move move = (Move) o;
         return pieceAlreadyMoved == move.pieceAlreadyMoved && isCastleMove == move.isCastleMove && Double.compare(move.heuristicValue, heuristicValue) == 0 && heuristicValueSet == move.heuristicValueSet && start.equals(move.start) && end.equals(move.end) && Objects.equals(rookStart, move.rookStart) && Objects.equals(rookEnd, move.rookEnd) && Objects.equals(capturedPiece, move.capturedPiece);
     }
