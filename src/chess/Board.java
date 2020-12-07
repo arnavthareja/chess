@@ -184,4 +184,19 @@ public class Board {
         }
         return result.toString();
     }
+
+//    public static void main(String[] args) {
+//        Board b = new Board();
+//        System.out.println(b);
+//        System.out.println("\nWhite moves:");
+//        for (Move move : b.getPossibleMoves(WHITE)) {
+//            System.out.print(move + " ");
+//        }
+//        System.out.println("\n" + b.getPossibleMoves(WHITE).size() + " total");
+//        System.out.println("\nBlack moves:");
+//        for (Move move : b.getPossibleMoves(BLACK)) {
+//            System.out.print(move + " ");
+//        }
+//        System.out.println("\n" + b.getPossibleMoves(BLACK).size() + " total");
+//    }
 }
