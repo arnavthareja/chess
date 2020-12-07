@@ -85,6 +85,10 @@ public class Board {
         return possibleMoves;
     }
 
+    public Deque<Move> getAllMoves() {
+        return moves;
+    }
+
     public Square squareAt(String fromString) {
         if (fromString.length() != 2) {
             return null;
@@ -130,10 +134,6 @@ public class Board {
         }
     }
 
-    public Move getLastMove() {
-        return moves.peek();
-    }
-
     public boolean inCheck(Piece.Color color) {
         for (Move move : getPossibleMoves(oppositeColor(color), false)) {
             if (move.getEnd().getPiece() instanceof King) {
@@ -149,7 +149,18 @@ public class Board {
 
     public boolean inStalemate(Piece.Color color) {
         // TODO: Additional stalemate possibilities like last 3 moves repetitions of each other
-        return !inCheck(color) && getPossibleMoves(color).isEmpty();
+        boolean lastThreeMovesSame = false;
+        if (moves.size() >= 6) {
+            Move[] temp = new Move[6];
+            for (int i = 5; i >= 0; i--) {
+                temp[i] = moves.pop();
+            }
+            for (int i = 0; i < 6; i++) {
+                moves.push(temp[i]);
+            }
+            lastThreeMovesSame = temp[0].equals(temp[2]) && temp[2].equals(temp[4]) && temp[1].equals(temp[3]) && temp[3].equals(temp[5]);
+        }
+        return lastThreeMovesSame || !inCheck(color) && getPossibleMoves(color).isEmpty() || (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1);
     }
 
     public void draw() {
