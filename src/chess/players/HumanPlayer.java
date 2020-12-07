@@ -61,7 +61,7 @@ public class HumanPlayer extends Player {
                     }
                 }
                 if (m == null) {
-                    System.out.println("Invalid move");
+                    System.out.printf(Board.ANSI_RED + "Invalid move%n%n" + Board.ANSI_RESET);
                 }
             }
         }
