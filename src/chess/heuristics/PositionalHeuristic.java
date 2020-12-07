@@ -121,23 +121,24 @@ public class PositionalHeuristic implements Heuristic {
     }
 
     public double calculateValue(Board board, Piece.Color color) {
-        return (evaluate(board, color) - evaluate(board, oppositeColor(color))) * color.getMultiplier();
+        return (evaluate(board, color) - evaluate(board, oppositeColor(color)));// * color.getMultiplier();
     }
 
     private double evaluate(Board board, Piece.Color color) {
-        return board.getPieces(color).stream().mapToDouble(PositionalHeuristic::value).sum() * 0.01; // remove weight, as tables are weighted by 100
+        return board.getPieces(color).stream().mapToDouble(PositionalHeuristic::value).sum() * 0.01 // remove weight, as tables are weighted by 100
+               + (board.inCheck(oppositeColor(color)) ? inEndgame(board) ? 20 : 10 : 0);
     }
 
     private static double value(Piece piece) {
         int row = piece.getPosition().getRow();
         int col = piece.getPosition().getCol();
         if (piece.getColor() == WHITE) {
-            if (piece instanceof King && inEndgame()) {
+            if (piece instanceof King && inEndgame(piece.getPosition().getBoard())) {
                 return whiteKingEndgameTable[row][col];
             }
             return whiteEvalTables.get(piece.getClass())[row][col];
         } else {
-            if (piece instanceof King && inEndgame()) {
+            if (piece instanceof King && inEndgame(piece.getPosition().getBoard())) {
                 return blackKingEndgameTable[row][col];
             }
             return blackEvalTables.get(piece.getClass())[row][col];
@@ -145,7 +146,8 @@ public class PositionalHeuristic implements Heuristic {
     }
 
     // TODO: Implement
-    private static boolean inEndgame() {
-        return false;
+    private static boolean inEndgame(Board board) {
+        return board.getPieces(WHITE).stream().mapToDouble(Piece::getValue).sum() < 210 &&
+                board.getPieces(BLACK).stream().mapToDouble(Piece::getValue).sum() < 210;
     }
 }
