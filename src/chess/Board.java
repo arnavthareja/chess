@@ -177,6 +177,14 @@ public class Board {
         for (Square[] squareArr : board) {
             // Uncomment if you want to add a background color to the chessboard
             // result.append(ANSI_RED_BACKGROUND);
+            if (result.length() == 0) { 
+                result.append("  ");
+                for (Square s : squareArr) {
+                    result.append(" ").append(ANSI_RED).append((char)('a' + s.getCol())).append("  ");
+                }
+                result.append("\n");
+            }
+            result.append(ANSI_RED).append(8 - squareArr[0].getRow()).append(" ");
             for (Square s : squareArr) {
                 result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
             }
