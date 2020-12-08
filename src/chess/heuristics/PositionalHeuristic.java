@@ -9,7 +9,7 @@ import static java.util.Map.entry;
 public class PositionalHeuristic implements Heuristic {
     // Piece evaluation tables taken from https://www.chessprogramming.org/Simplified_Evaluation_Function
     private static final double[][] whitePawnTable = {
-            {1,  1,  1,  1,  1,  1,  1,  1},
+            {100, 100, 100, 100, 100, 100, 100, 100},
             {50, 50, 50, 50, 50, 50, 50, 50},
             {10, 10, 20, 30, 30, 20, 10, 10},
             {5,  5, 10, 25, 25, 10,  5,  5},
