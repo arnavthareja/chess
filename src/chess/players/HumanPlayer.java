@@ -67,4 +67,8 @@ public class HumanPlayer extends Player {
         }
         return m;
     }
+
+    public String toString() {
+        return "Human Player";
+    }
 }

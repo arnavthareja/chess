@@ -18,4 +18,8 @@ public class WorstMinimaxPlayer extends MinimaxPlayer {
     protected Move selectMove(SortedSet<Move> result) {
         return result.last();
     }
+
+    public String toString() {
+        return "Easy Computer";
+    }
 }

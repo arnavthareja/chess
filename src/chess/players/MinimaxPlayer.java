@@ -77,4 +77,11 @@ public class MinimaxPlayer extends Player {
     protected Move selectMove(SortedSet<Move> result) {
         return result.first();
     }
+
+    public String toString() {
+        if (searchDepth == 3) {
+            return "Hard Computer";
+        }
+        return "Impossible Computer";
+    }
 }

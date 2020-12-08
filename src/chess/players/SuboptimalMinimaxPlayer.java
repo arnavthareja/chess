@@ -31,4 +31,8 @@ public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
         result.addAll(taken);
         return selected;
     }
+
+    public String toString() {
+        return "Medium Computer";
+    }
 }
