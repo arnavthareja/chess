@@ -6,34 +6,16 @@ import static chess.pieces.Piece.Color.*;
 import chess.heuristics.*;
 import java.util.*;
 
-public class MinimaxPlayer extends Player {
-    public static final int DEFAULT_SEARCH_DEPTH = 3;
-    public static final int LOW_PIECE_SEARCH_DEPTH = 6;
+public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
+    private Random random;
 
-    protected int searchDepth;
-    protected final Heuristic heuristic;
-    protected final Map<String, SortedSet<Move>> memo;
-
-    public MinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
+    public SuboptimalMinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
         this(board, color, heuristic, DEFAULT_SEARCH_DEPTH);
     }
 
-    public MinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic, int searchDepth) {
-        super(board, color);
-        this.heuristic = heuristic;
-        memo = new HashMap<>();
-        this.searchDepth = searchDepth;
-    }
-
-    public Move getMove() {
-        Move m = null;
-        if (searchDepth < LOW_PIECE_SEARCH_DEPTH && board.fewPiecesLeft()) {
-            searchDepth = LOW_PIECE_SEARCH_DEPTH;
-        }
-        for (int i = 1; i <= searchDepth; i++) {
-            m = negamax(color, i, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        }
-        return m;
+    public SuboptimalMinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic, int searchDepth) {
+        super(board, color, heuristic, searchDepth);
+        this.random = new Random();
     }
 
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
@@ -71,6 +53,16 @@ public class MinimaxPlayer extends Player {
         memo.put(boardState, result);
 //        System.out.println("Depth: " + depth + " " + color + " " + " " + result.first().getHeuristicValue() + " " + result.last().getHeuristicValue());
 //        System.out.println("Selected: " + (result.isEmpty() ? null : result.last().getHeuristicValue()));
-        return result.first();
+        if (result.first().getHeuristicValue() == Double.POSITIVE_INFINITY) {
+            return result.first();
+        }
+        SortedSet<Move> taken = new TreeSet<>();
+        for (int i = 0; i < result.size() / 2 && random.nextBoolean(); i++) {
+            taken.add(result.first());
+            result.remove(result.first());
+        }
+        Move selected = result.first();
+        result.addAll(taken);
+        return selected;
     }
 }
