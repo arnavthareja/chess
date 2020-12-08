@@ -14,7 +14,7 @@ public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
 
     public SuboptimalMinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic, int searchDepth) {
         super(board, color, heuristic, searchDepth);
-        this.random = new Random(0); // TODO: UN-SEED THIS IN PRODUCTION
+        this.random = new Random();
     }
 
     @Override
