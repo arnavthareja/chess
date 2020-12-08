@@ -20,6 +20,6 @@ public class WorstMinimaxPlayer extends MinimaxPlayer {
     }
 
     public String toString() {
-        return "Easy Computer";
+        return Board.ANSI_YELLOW + "Easy Computer" + Board.ANSI_RESET;
     }
 }

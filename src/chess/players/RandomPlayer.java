@@ -30,4 +30,8 @@ public class RandomPlayer extends Player {
         }
         return null;
     }
+
+    public String toString() {
+        return "Random Computer";
+    }
 }

@@ -33,6 +33,6 @@ public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
     }
 
     public String toString() {
-        return "Medium Computer";
+        return Board.ANSI_PURPLE + "Medium Computer" + Board.ANSI_RESET;
     }
 }

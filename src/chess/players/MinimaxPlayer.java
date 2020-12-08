@@ -80,8 +80,8 @@ public class MinimaxPlayer extends Player {
 
     public String toString() {
         if (searchDepth == 3) {
-            return "Hard Computer";
+            return Board.ANSI_BLUE + "Hard Computer" + Board.ANSI_RESET;
         }
-        return "Impossible Computer";
+        return Board.ANSI_RED + "Impossible Computer" + Board.ANSI_RESET;
     }
 }

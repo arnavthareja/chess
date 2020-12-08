@@ -69,6 +69,6 @@ public class HumanPlayer extends Player {
     }
 
     public String toString() {
-        return "Human Player";
+        return Board.ANSI_GREEN + "Human Player" + Board.ANSI_RESET;
     }
 }
