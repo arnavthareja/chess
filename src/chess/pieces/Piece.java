@@ -11,12 +11,16 @@ public abstract class Piece {
     protected boolean alreadyMoved;
 
     public Piece(Square position, Color color, int value, String notation) {
+        this(position, color, value, notation, false);
+    }
+
+    public Piece(Square position, Color color, int value, String notation, boolean alreadyMoved) {
         this.position = position;
         position.setPiece(this);
         this.color = color;
         this.value = value;
         this.notation = notation;
-        alreadyMoved = false;
+        this.alreadyMoved = alreadyMoved;
     }
 
     public abstract Set<Move> getPossibleMoves();

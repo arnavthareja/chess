@@ -11,6 +11,10 @@ public class Pawn extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
+    public Pawn(Square position, Color color, boolean alreadyMoved) {
+        super(position, color, VALUE, NOTATION, alreadyMoved);
+    }
+
     public Set<Move> getPossibleMoves() {
         return getPossibleMoves(true);
     }
@@ -28,7 +32,7 @@ public class Pawn extends Piece {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol());
             if (finalPosition.isEmpty()) {
-                addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
+                addIfNotInCheck(determineMove(finalPosition), possibleMoves, considerCheck);
                 finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + dy,
                                                                   finalPosition.getCol());
                 if (!alreadyMoved && finalPosition.isEmpty()) {
@@ -45,7 +49,7 @@ public class Pawn extends Piece {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol() + dx);
             if (!finalPosition.isEmpty() && finalPosition.getPiece().color != color) {
-                addIfNotInCheck(new Move(position, finalPosition), returnMove, considerCheck);
+                addIfNotInCheck(determineMove(finalPosition), returnMove, considerCheck);
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
@@ -53,8 +57,15 @@ public class Pawn extends Piece {
 
     // TODO: Implement pawn promotion
     // Maybe return the promoted piece type instead
-    public void promote() {
-
+    private Move determineMove(Square finalPosition) {
+        if (isPromotion(finalPosition)) {
+            return new Move(position, finalPosition, true);
+        }
+        return new Move(position, finalPosition);
+    }
+    
+    private boolean isPromotion(Square finalPosition) {
+        return finalPosition.getRow() == 7 || finalPosition.getRow() == 0;
     }
 
     public void draw() {

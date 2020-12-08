@@ -19,6 +19,10 @@ public abstract class Player {
         return board.getPieces(color);
     }
 
+    public Piece.Color getColor() {
+        return color;
+    }
+
     public Set<Move> getPossibleMoves() {
         return board.getPossibleMoves(color);
     }

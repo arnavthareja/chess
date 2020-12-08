@@ -115,6 +115,9 @@ public class Board {
         }
         move.getStart().getPiece().setAlreadyMoved(true);
         move.getStart().getPiece().setPosition(move.getEnd());
+        if (move.isPromotion()) {
+            move.getEnd().setPiece(new Queen(move.getEnd(), move.getEnd().getPiece().getColor(), true));
+        }
         if (move.isCastleMove()) {
             move.getRookStart().getPiece().setAlreadyMoved(true);
             move.getRookStart().getPiece().setPosition(move.getRookEnd());
@@ -127,6 +130,9 @@ public class Board {
         move.getEnd().getPiece().setPosition(move.getStart());
         if (move.isCaptureMove()) {
             move.getCapturedPiece().setPosition(move.getEnd());
+        }
+        if (move.isPromotion()) {
+            move.getStart().setPiece(move.getCapturingPiece());
         }
         if (move.isCastleMove()) {
             move.getRookEnd().getPiece().setAlreadyMoved(false);

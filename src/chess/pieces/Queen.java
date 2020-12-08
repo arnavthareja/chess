@@ -11,6 +11,10 @@ public class Queen extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
+    public Queen(Square position, Color color, boolean alreadyMoved) {
+        super(position, color, VALUE, NOTATION, alreadyMoved);
+    }
+
     public Set<Move> getPossibleMoves() {
         return getPossibleMoves(true);
     }
