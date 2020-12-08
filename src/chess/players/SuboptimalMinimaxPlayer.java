@@ -7,7 +7,7 @@ import chess.heuristics.*;
 import java.util.*;
 
 public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
-    private Random random;
+    private final Random random;
 
     public SuboptimalMinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
         this(board, color, heuristic, DEFAULT_SEARCH_DEPTH);
@@ -18,8 +18,9 @@ public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
         this.random = new Random();
     }
 
+    @Override
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
-    private Move negamax(Piece.Color color, int depth, double alpha, double beta) {
+    protected Move negamax(Piece.Color color, int depth, double alpha, double beta) {
         String boardState = board.stateString();
         Move start = board.getLastMove();
         if (depth == 0) {

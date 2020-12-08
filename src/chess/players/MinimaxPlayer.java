@@ -37,7 +37,7 @@ public class MinimaxPlayer extends Player {
     }
 
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
-    private Move negamax(Piece.Color color, int depth, double alpha, double beta) {
+    protected Move negamax(Piece.Color color, int depth, double alpha, double beta) {
         String boardState = board.stateString();
         Move start = board.getLastMove();
         if (depth == 0) {
