@@ -7,7 +7,8 @@ import chess.players.*;
 public class Chess {
     public static void main(String[] args) {
         Board board = new Board();
-        Player p1 = new HumanPlayer(board, Piece.Color.WHITE);
+//        Player p1 = new HumanPlayer(board, Piece.Color.WHITE);
+        Player p1 = new MinimaxPlayer(board, Piece.Color.WHITE, new CombinationHeuristic());
         Player p2 = new MinimaxPlayer(board, Piece.Color.BLACK, new CombinationHeuristic());
         Player currentPlayer = p1;
         while(!p1.inCheckmate() && !p1.inStalemate() && !p2.inCheckmate()) {

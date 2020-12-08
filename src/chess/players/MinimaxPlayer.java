@@ -7,11 +7,11 @@ import chess.heuristics.*;
 import java.util.*;
 
 public class MinimaxPlayer extends Player {
-    public static final int DEFAULT_SEARCH_DEPTH = 2;
+    public static final int DEFAULT_SEARCH_DEPTH = 3;
 
     private final int searchDepth;
     private final Heuristic heuristic;
-    private final Map<Deque<Move>, NavigableSet<Move>> memo;
+    private final Map<String, NavigableSet<Move>> memo;
 
     public MinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
         this(board, color, heuristic, DEFAULT_SEARCH_DEPTH);
@@ -34,16 +34,15 @@ public class MinimaxPlayer extends Player {
 
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
     private Move negamax(Piece.Color color, int depth, double alpha, double beta) {
-        // Create a new deque to avoid weirdness with reference semantics
-        Deque<Move> allMoves = new ArrayDeque<>(board.getAllMoves());
-        Move start = allMoves.peek();
+        String boardState = board.stateString();
+        Move start = board.getLastMove();
         if (depth == 0) {
             // If start is null here something went wrong. start should never be null
             assert start != null;
             start.calculateHeuristicValue(heuristic, board, color);
             return start;
         }
-        NavigableSet<Move> moves = memo.containsKey(allMoves) ? memo.get(allMoves) : new TreeSet<>(getPossibleMoves());
+        NavigableSet<Move> moves = memo.containsKey(boardState) ? memo.get(boardState) : new TreeSet<>(getPossibleMoves());
         NavigableSet<Move> result = new TreeSet<>();
         // This reverses getPossibleMoves too, but it doesn't matter as they're in random order (I think)
         for (Move m : moves.descendingSet()) {
@@ -66,7 +65,7 @@ public class MinimaxPlayer extends Player {
                 break;
             }
         }
-        memo.put(allMoves, result);
+        memo.put(boardState, result);
 //        System.out.println("Depth: " + depth + " " + color + " " + " " + result.first().getHeuristicValue() + " " + result.last().getHeuristicValue());
 //        System.out.println("Selected: " + (result.isEmpty() ? null : result.last().getHeuristicValue()));
         return result.isEmpty() ? null : result.last();

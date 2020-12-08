@@ -85,8 +85,8 @@ public class Board {
         return possibleMoves;
     }
 
-    public Deque<Move> getAllMoves() {
-        return moves;
+    public Move getLastMove() {
+        return moves.peek();
     }
 
     public Square squareAt(String fromString) {
@@ -185,7 +185,6 @@ public class Board {
                         result.append("E");
                     }
                 }
-                result.append("\n");
             }
         }
         return result.toString();
