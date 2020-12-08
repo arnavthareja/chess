@@ -8,10 +8,11 @@ import java.util.*;
 
 public class MinimaxPlayer extends Player {
     public static final int DEFAULT_SEARCH_DEPTH = 3;
+    public static final int LOW_PIECE_SEARCH_DEPTH = 8;
 
-    private final int searchDepth;
+    private int searchDepth;
     private final Heuristic heuristic;
-    private final Map<String, NavigableSet<Move>> memo;
+    private final Map<String, SortedSet<Move>> memo;
 
     public MinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic) {
         this(board, color, heuristic, DEFAULT_SEARCH_DEPTH);
@@ -26,6 +27,9 @@ public class MinimaxPlayer extends Player {
 
     public Move getMove() {
         Move m = null;
+        if (searchDepth < LOW_PIECE_SEARCH_DEPTH && board.fewPiecesLeft()) {
+            searchDepth = LOW_PIECE_SEARCH_DEPTH;
+        }
         for (int i = 1; i <= searchDepth; i++) {
             m = negamax(color, i, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         }
@@ -42,10 +46,9 @@ public class MinimaxPlayer extends Player {
             start.calculateHeuristicValue(heuristic, board, color);
             return start;
         }
-        NavigableSet<Move> moves = memo.containsKey(boardState) ? memo.get(boardState) : new TreeSet<>(getPossibleMoves());
-        NavigableSet<Move> result = new TreeSet<>();
-        // This reverses getPossibleMoves too, but it doesn't matter as they're in random order (I think)
-        for (Move m : moves.descendingSet()) {
+        SortedSet<Move> moves = memo.containsKey(boardState) ? memo.get(boardState) : new TreeSet<>(getPossibleMoves());
+        SortedSet<Move> result = new TreeSet<>();
+        for (Move m : moves) {
             board.doMove(m);
             double value;
             if (board.inCheckmate(color)) {
@@ -68,7 +71,7 @@ public class MinimaxPlayer extends Player {
         memo.put(boardState, result);
 //        System.out.println("Depth: " + depth + " " + color + " " + " " + result.first().getHeuristicValue() + " " + result.last().getHeuristicValue());
 //        System.out.println("Selected: " + (result.isEmpty() ? null : result.last().getHeuristicValue()));
-        return result.isEmpty() ? null : result.last();
+        return result.first();
     }
 
 //    // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it

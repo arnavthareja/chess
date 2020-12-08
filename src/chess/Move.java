@@ -99,7 +99,7 @@ public class Move implements Comparable<Move> {
 
     // Returns 1 if heuristic value has not been set so that TreeSet doesn't view it as a duplicate move
     public int compareTo(Move other) {
-        return heuristicValueSet ? Double.compare(heuristicValue, other.heuristicValue) : 1;
+        return heuristicValueSet || other.heuristicValueSet ? Double.compare(other.heuristicValue, heuristicValue) : 1;
     }
 
     public String toString() {
