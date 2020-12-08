@@ -4,7 +4,6 @@ import chess.*;
 import chess.pieces.*;
 import static chess.pieces.Piece.Color.*;
 import java.util.*;
-import static java.util.Map.entry;
 
 public class PositionalHeuristic implements Heuristic {
     // Piece evaluation tables taken from https://www.chessprogramming.org/Simplified_Evaluation_Function
@@ -93,22 +92,22 @@ public class PositionalHeuristic implements Heuristic {
     private static final double[][] blackKingTable = flip(whiteKingTable);
     private static final double[][] blackKingEndgameTable = flip(whiteKingEndgameTable);
 
-    private static final Map<Class, double[][]> whiteEvalTables = Map.ofEntries(
-            entry(Pawn.class, whitePawnTable),
-            entry(Knight.class, whiteKnightTable),
-            entry(Bishop.class, whiteBishopTable),
-            entry(Rook.class, whiteRookTable),
-            entry(Queen.class, whiteQueenTable),
-            entry(King.class, whiteKingTable)
+    private static final Map<Class, double[][]> whiteEvalTables = Map.of(
+            Pawn.class, whitePawnTable,
+            Knight.class, whiteKnightTable,
+            Bishop.class, whiteBishopTable,
+            Rook.class, whiteRookTable,
+            Queen.class, whiteQueenTable,
+            King.class, whiteKingTable
     );
 
-    private static final Map<Class, double[][]> blackEvalTables = Map.ofEntries(
-            entry(Pawn.class, blackPawnTable),
-            entry(Knight.class, blackKnightTable),
-            entry(Bishop.class, blackBishopTable),
-            entry(Rook.class, blackRookTable),
-            entry(Queen.class, blackQueenTable),
-            entry(King.class, blackKingTable)
+    private static final Map<Class, double[][]> blackEvalTables = Map.of(
+            Pawn.class, blackPawnTable,
+            Knight.class, blackKnightTable,
+            Bishop.class, blackBishopTable,
+            Rook.class, blackRookTable,
+            Queen.class, blackQueenTable,
+            King.class, blackKingTable
     );
 
     private static double[][] flip(double[][] table) {
