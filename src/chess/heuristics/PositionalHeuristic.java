@@ -124,8 +124,8 @@ public class PositionalHeuristic implements Heuristic {
     }
 
     private double evaluate(Board board, Piece.Color color) {
-        return board.getPieces(color).stream().mapToDouble(PositionalHeuristic::value).sum() * 0.01 // remove weight, as tables are weighted by 100
-               + (board.inCheck(oppositeColor(color)) ? inEndgame(board) ? 20 : 10 : 0);
+        return board.getPieces(color).stream().mapToDouble(PositionalHeuristic::value).sum() * 0.011 // weight by 0.011 (effectively 1.1), as tables are weighted by 100
+               + (board.inCheck(oppositeColor(color)) ? inEndgame(board) ? 6 : 3 : 0);
     }
 
     private static double value(Piece piece) {

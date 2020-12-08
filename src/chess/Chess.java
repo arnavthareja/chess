@@ -24,8 +24,6 @@ public class Chess {
                 System.out.print("Black");
             }
             System.out.println(" to move");
-            // The above 5 lines used to be the commented line below, but it changed behavior for whatever reason
-            // System.out.println((currentPlayer == p1 ? "White" : "Black") + " to move");
             currentPlayer.doMove();
             currentPlayer = currentPlayer == p1 ? p2 : p1;
         }
