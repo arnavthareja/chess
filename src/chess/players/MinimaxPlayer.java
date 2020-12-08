@@ -8,7 +8,7 @@ import java.util.*;
 
 public class MinimaxPlayer extends Player {
     public static final int DEFAULT_SEARCH_DEPTH = 3;
-    public static final int LOW_PIECE_SEARCH_DEPTH = 8;
+    public static final int LOW_PIECE_SEARCH_DEPTH = 6;
 
     private int searchDepth;
     private final Heuristic heuristic;

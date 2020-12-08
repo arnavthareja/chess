@@ -12,9 +12,9 @@ public class MaterialHeuristic implements Heuristic {
 
     private double evaluate(Board board, Piece.Color color) {
         Set<Piece> pieces = board.getPieces(color);
-        double numPiecesAdv = pieces.size() * 0.1; // weight by 0.1 (arbitrary) as number of points matter more
-        double materialAdv = pieces.stream().mapToDouble(Piece::getValue).sum();
-        double numMovesAdv = board.getPossibleMoves(color).size() * 0.1; // weight mobility at 0.1 (arbitrary) as it may lead to aggressive playing
+        double numPiecesAdv = pieces.size() * 0.05; // weight by 0.05 (arbitrary) as number of points matter more
+        double materialAdv = pieces.stream().mapToDouble(Piece::getValue).sum() * 1.5; // weight by 1.5 as this is important
+        double numMovesAdv = board.getPossibleMoves(color).size() * 0.02; // weight mobility at 0.02 (arbitrary) as it may lead to aggressive playing
         return numPiecesAdv + materialAdv + numMovesAdv;
     }
 }
