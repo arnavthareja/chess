@@ -11,7 +11,7 @@ public class Move implements Comparable<Move> {
     private final Square rookStart;
     private final Square rookEnd;
     private final Piece capturedPiece;
-    private final Piece capturingPiece;
+    private final Piece promotedPawn;
     private final boolean pieceAlreadyMoved;
     private final boolean isCastleMove;
     private final boolean isPromotion;
@@ -23,18 +23,14 @@ public class Move implements Comparable<Move> {
     }
 
     public Move(Square start, Square end, double heuristicValue) {
-        this(start, end, null, null, false, heuristicValue);
-    }
-
-    public Move(Square start, Square end, boolean isPromotion) {
-        this(start, end, null, null, isPromotion, 0);
+        this(start, end, null, null, heuristicValue);
     }
 
     public Move(Square start, Square end, Square rookStart, Square rookEnd) {
-        this(start, end, rookStart, rookEnd, false, 0);
+        this(start, end, rookStart, rookEnd, 0);
     }
 
-    public Move(Square start, Square end, Square rookStart, Square rookEnd, boolean isPromotion, double heuristicValue) {
+    public Move(Square start, Square end, Square rookStart, Square rookEnd, double heuristicValue) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("Start and end squares must not be null.");
         } else if ((rookStart == null || rookEnd == null) && (rookStart != null || rookEnd != null)) {
@@ -45,10 +41,10 @@ public class Move implements Comparable<Move> {
         this.rookStart = rookStart;
         this.rookEnd = rookEnd;
         capturedPiece = end.getPiece();
-        capturingPiece = start.getPiece();
         pieceAlreadyMoved = start.getPiece().getAlreadyMoved();
         isCastleMove = rookStart != null;
-        this.isPromotion = isPromotion;
+        isPromotion = start.getPiece() instanceof Pawn && (end.getRow() == 7 || end.getRow() == 0);
+        promotedPawn = isPromotion ? start.getPiece() : null;
         this.heuristicValue = heuristicValue;
         heuristicValueSet = false;
     }
@@ -105,8 +101,8 @@ public class Move implements Comparable<Move> {
         return capturedPiece;
     }
 
-    public Piece getCapturingPiece() {
-        return capturingPiece;
+    public Piece getPromotedPawn() {
+        return promotedPawn;
     }
 
     public boolean getPieceAlreadyMoved() {

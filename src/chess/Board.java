@@ -116,7 +116,10 @@ public class Board {
         move.getStart().getPiece().setAlreadyMoved(true);
         move.getStart().getPiece().setPosition(move.getEnd());
         if (move.isPromotion()) {
-            move.getEnd().setPiece(new Queen(move.getEnd(), move.getEnd().getPiece().getColor(), true));
+            Piece.Color color = move.getEnd().getPiece().getColor();
+            move.getEnd().getPiece().capture();
+            Piece promoted = new Queen(move.getEnd(), color);
+            promoted.setAlreadyMoved(true);
         }
         if (move.isCastleMove()) {
             move.getRookStart().getPiece().setAlreadyMoved(true);
@@ -132,7 +135,7 @@ public class Board {
             move.getCapturedPiece().setPosition(move.getEnd());
         }
         if (move.isPromotion()) {
-            move.getStart().setPiece(move.getCapturingPiece());
+            move.getPromotedPawn().setPosition(move.getStart());
         }
         if (move.isCastleMove()) {
             move.getRookEnd().getPiece().setAlreadyMoved(false);

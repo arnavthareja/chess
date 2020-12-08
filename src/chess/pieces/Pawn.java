@@ -11,10 +11,6 @@ public class Pawn extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Pawn(Square position, Color color, boolean alreadyMoved) {
-        super(position, color, VALUE, NOTATION, alreadyMoved);
-    }
-
     public Set<Move> getPossibleMoves() {
         return getPossibleMoves(true);
     }
@@ -32,7 +28,7 @@ public class Pawn extends Piece {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol());
             if (finalPosition.isEmpty()) {
-                addIfNotInCheck(determineMove(finalPosition), possibleMoves, considerCheck);
+                addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
                 finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + dy,
                                                                   finalPosition.getCol());
                 if (!alreadyMoved && finalPosition.isEmpty()) {
@@ -49,23 +45,10 @@ public class Pawn extends Piece {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol() + dx);
             if (!finalPosition.isEmpty() && finalPosition.getPiece().color != color) {
-                addIfNotInCheck(determineMove(finalPosition), returnMove, considerCheck);
+                addIfNotInCheck(new Move(position, finalPosition), returnMove, considerCheck);
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
-    }
-
-    // TODO: Implement pawn promotion
-    // Maybe return the promoted piece type instead
-    private Move determineMove(Square finalPosition) {
-        if (isPromotion(finalPosition)) {
-            return new Move(position, finalPosition, true);
-        }
-        return new Move(position, finalPosition);
-    }
-    
-    private boolean isPromotion(Square finalPosition) {
-        return finalPosition.getRow() == 7 || finalPosition.getRow() == 0;
     }
 
     public void draw() {
