@@ -159,13 +159,20 @@ public class Board {
             }
             lastThreeMovesSame = temp[0].sameAs(temp[2]) && temp[2].sameAs(temp[4]) && temp[1].sameAs(temp[3]) && temp[3].sameAs(temp[5]);
         }
-        return lastThreeMovesSame || inStalemate(WHITE) || inStalemate(BLACK);
+        return (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1) || lastThreeMovesSame || inStalemate(WHITE) || inStalemate(BLACK);
     }
 
     private boolean inStalemate(Piece.Color color) {
         // TODO: Additional stalemate possibilities like last 3 moves repetitions of each other
 
-        return !inCheck(color) && getPossibleMoves(color).isEmpty() || (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1);
+        return !inCheck(color) && getPossibleMoves(color).isEmpty();
+    }
+
+    public boolean fewPiecesLeft() {
+        Set<Piece> blackPieces = getPieces(BLACK);
+        Set<Piece> whitePieces = getPieces(WHITE);
+        return blackPieces.stream().filter(p -> !(p instanceof Pawn)).count() < 4 ||
+                whitePieces.stream().filter(p -> !(p instanceof Pawn)).count() < 4;
     }
 
     public void draw() {
