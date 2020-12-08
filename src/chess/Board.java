@@ -172,24 +172,39 @@ public class Board {
 
     }
 
-    public String toString() {
+    public String stateString() {
         StringBuilder result = new StringBuilder();
         for (Square[] squareArr : board) {
-            // Uncomment if you want to add a background color to the chessboard
-            // result.append(ANSI_RED_BACKGROUND);
-            if (result.length() == 0) { 
-                result.append("  ");
-                for (Square s : squareArr) {
-                    result.append(" ").append(ANSI_RED).append((char)('a' + s.getCol())).append("  ");
+            for (Square s : squareArr) {
+                if (s.isEmpty()) {
+                    result.append("-");
+                } else {
+                    Piece p = s.getPiece();
+                    result.append(p.getColor().toString().charAt(0)).append(p instanceof Pawn ? "P" : p);
+                    if ((p instanceof Rook || p instanceof King) && !p.getAlreadyMoved()) {
+                        result.append("E");
+                    }
                 }
                 result.append("\n");
             }
-            result.append(ANSI_RED).append(8 - squareArr[0].getRow()).append(" ");
-            for (Square s : squareArr) {
-                result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
-            }
-            result.append(ANSI_RESET).append("\n");
         }
         return result.toString();
+    }
+
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (Square s : board[0]) {
+            result.append("   ").append(ANSI_RED).append((char) ('a' + s.getCol()));
+        }
+        for (int i = 0; i < board.length; i++) {
+            // Uncomment if you want to add a background color to the chessboard
+            // result.append(ANSI_RED_BACKGROUND);
+            result.append("\n").append(ANSI_RED).append(8 - i).append(" ");
+            for (Square s : board[i]) {
+                result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
+            }
+            result.append(ANSI_RESET);
+        }
+        return result.append("\n").toString();
     }
 }
