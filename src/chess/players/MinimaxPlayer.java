@@ -37,7 +37,7 @@ public class MinimaxPlayer extends Player {
     }
 
     // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
-    protected Move negamax(Piece.Color color, int depth, double alpha, double beta) {
+    private Move negamax(Piece.Color color, int depth, double alpha, double beta) {
         String boardState = board.stateString();
         Move start = board.getLastMove();
         if (depth == 0) {
@@ -71,6 +71,10 @@ public class MinimaxPlayer extends Player {
         memo.put(boardState, result);
 //        System.out.println("Depth: " + depth + " " + color + " " + " " + result.first().getHeuristicValue() + " " + result.last().getHeuristicValue());
 //        System.out.println("Selected: " + (result.isEmpty() ? null : result.last().getHeuristicValue()));
+        return selectMove(result);
+    }
+
+    protected Move selectMove(SortedSet<Move> result) {
         return result.first();
     }
 }
