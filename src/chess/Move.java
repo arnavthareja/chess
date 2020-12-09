@@ -113,7 +113,7 @@ public class Move implements Comparable<Move> {
         String result = start.getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE
                                                                          : Board.ANSI_BLACK;
         if (isCastleMove) {
-            return result + (rookEnd.getCol() == 0 ? "0-0-0" : "0-0") + Board.ANSI_RESET;
+            return result + (rookStart.getCol() == 0 ? "0-0-0" : "0-0") + Board.ANSI_RESET;
         }
         return result + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation()
                 + Board.ANSI_RESET;

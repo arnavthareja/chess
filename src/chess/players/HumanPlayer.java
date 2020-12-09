@@ -43,9 +43,23 @@ public class HumanPlayer extends Player {
                 System.out.println("Enter the square you would like to move to: ");
                 Square end = board.squareAt(in.nextLine());
                 if (end != null) {
-                    m = new Move(start, end);
-                    if (!possibleMoves.contains(m)) {
-                        m = null;
+                    if (possibleMoves.stream().anyMatch(move -> move.getEnd().equals(end))) {
+                        if (start.getPiece() instanceof King &&
+                                Math.abs(end.getCol() - start.getCol()) > 1) {
+                            // Castle move
+                            Square rookStart;
+                            Square rookEnd;
+                            if (end.getCol() - start.getCol() > 0) {
+                                rookStart = board.squareAt(start.getRow(), 7);
+                                rookEnd = board.squareAt(start.getRow(), 5);
+                            } else {
+                                rookStart = board.squareAt(start.getRow(), 0);
+                                rookEnd = board.squareAt(start.getRow(), 3);
+                            }
+                            m = new Move(start, end, rookStart, rookEnd);
+                        } else {
+                            m = new Move(start, end);
+                        }
                     }
                 }
                 if (m == null) {
