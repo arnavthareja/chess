@@ -72,6 +72,7 @@ public class Square {
 
     @Override
     public int hashCode() {
-        return Objects.hash(row, col, board, piece);
+        // Hashing piece here leads to StackOverflowError
+        return Objects.hash(row, col, board);
     }
 }
