@@ -40,10 +40,6 @@ public abstract class Player {
         doMove(getMove());
     }
 
-    public boolean isHuman() {
-        return false;
-    }
-
     private void doMove(Move move) {
         String color = move.getStart().getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE
                 : Board.ANSI_BLACK;
@@ -55,10 +51,6 @@ public abstract class Player {
             System.out.print(move.getStart().notation() + " -> " + move.getEnd().notation() + ")");
         }
         System.out.println(Board.ANSI_RESET);
-        if (isHuman()) {
-            board.doMove(move, true);
-        } else {
-            board.doMove(move);
-        }
+        board.doMove(move, this instanceof HumanPlayer);
     }
 }

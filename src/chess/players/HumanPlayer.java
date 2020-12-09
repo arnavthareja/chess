@@ -70,10 +70,6 @@ public class HumanPlayer extends Player {
         return m;
     }
 
-    public boolean isHuman() {
-        return true;
-    }
-
     public String toString() {
         return Board.ANSI_GREEN + "Human Player" + Board.ANSI_RESET;
     }

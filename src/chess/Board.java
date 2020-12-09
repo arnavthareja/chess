@@ -30,12 +30,8 @@ public class Board {
                 board[i][j] = new Square(i, j, this);
             }
         }
-        //initializePieces(7, 6, WHITE);
-        //initializePieces(0, 1, BLACK);
-        new Pawn(squareAt(1, 6), WHITE);
-        new Pawn(squareAt(1, 7), WHITE);
-        new Pawn(squareAt(6, 7), BLACK);
-        new Pawn(squareAt(6, 6), BLACK);
+        initializePieces(7, 6, WHITE);
+        initializePieces(0, 1, BLACK);
         moves = new ArrayDeque<>();
     }
 
@@ -208,17 +204,21 @@ public class Board {
             switch (piece) {
                 case "1":
                 case "queen":
+                case "q":
                     return new Queen(move.getEnd(), color);
                 case "2":
                 case "rook":
                 case "castle":
+                case "r":
                     return new Rook(move.getEnd(), color);
                 case "3":
                 case "bishop":
+                case "b":
                     return new Bishop(move.getEnd(), color);
                 case "4":
                 case "knight":
                 case "horse":
+                case "n":
                     return new Knight(move.getEnd(), color);
                 default:
                     System.out.print(Board.ANSI_RED + "\nInvalid Piece type. Please try again\n"
