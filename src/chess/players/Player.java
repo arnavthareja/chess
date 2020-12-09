@@ -43,8 +43,14 @@ public abstract class Player {
     private void doMove(Move move) {
         String color = move.getStart().getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE
                 : Board.ANSI_BLACK;
-        System.out.println(color + move.getStart().getPiece() + move.getStart().notation()
-                + " -> " + move);
+        System.out.print(move + color + " (");
+        if (move.isCastleMove()) {
+            System.out.print((move.toString().contains("0-0-0") ? "Queen" : "King") +
+                    "side castle)");
+        } else {
+            System.out.print(move.getStart().notation() + " -> " + move.getEnd().notation() + ")");
+        }
+        System.out.println(Board.ANSI_RESET);
         board.doMove(move);
     }
 }
