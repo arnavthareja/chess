@@ -1,0 +1,18 @@
+What did you learn during this project?
+
+We learned about the minimax algorithm and how to evaluate which moves are better than others. We also learned how to efficiently design classes and simplify our code.
+
+
+What did you enjoy during this project?
+
+Watching minimax bots play against each other is fun, as is beating the easy-level bot. Finishing the minimax was also enjoyable, as we wouldn't need to do any more minimax debugging.
+
+
+What did you find challenging or frustrating during this project?
+
+Visualizing the minimax algorithm's decisions was difficult and it was hard to confirm it had the correct behavior.
+
+
+What did you find particularly helpful for your learning during this project?
+
+placeholder text

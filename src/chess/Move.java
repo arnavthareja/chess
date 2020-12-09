@@ -13,8 +13,6 @@ public class Move implements Comparable<Move> {
     private final Piece capturedPiece;
     private final Piece promotedPawn;
     private final boolean pieceAlreadyMoved;
-    private final boolean isCastleMove;
-    private final boolean isPromotion;
     private double heuristicValue;
     private boolean heuristicValueSet;
     private final String notation;
@@ -24,11 +22,6 @@ public class Move implements Comparable<Move> {
     }
 
     public Move(Square start, Square end, Square rookStart, Square rookEnd) {
-        this(start, end, rookStart, rookEnd, 0);
-    }
-
-    public Move(Square start, Square end, Square rookStart, Square rookEnd,
-                double heuristicValue) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("Start and end squares must not be null.");
         } else if ((rookStart == null || rookEnd == null) &&
@@ -41,10 +34,8 @@ public class Move implements Comparable<Move> {
         this.rookEnd = rookEnd;
         capturedPiece = end.getPiece();
         pieceAlreadyMoved = start.getPiece().getAlreadyMoved();
-        isCastleMove = rookStart != null;
-        isPromotion = start.getPiece() instanceof Pawn && (end.getRow() == 7 || end.getRow() == 0);
-        promotedPawn = isPromotion ? start.getPiece() : null;
-        this.heuristicValue = heuristicValue;
+        promotedPawn = isPromotion() ? start.getPiece() : null;
+        this.heuristicValue = 0;
         heuristicValueSet = false;
         notation = notation();
     }
@@ -67,11 +58,11 @@ public class Move implements Comparable<Move> {
     }
 
     public boolean isCastleMove() {
-        return isCastleMove;
+        return rookStart != null;
     }
 
     public boolean isPromotion() {
-        return isPromotion;
+        return start.getPiece() instanceof Pawn && (end.getRow() == 7 || end.getRow() == 0);
     }
 
     public Square getStart() {
@@ -112,7 +103,7 @@ public class Move implements Comparable<Move> {
         // TODO: Add file name after piece if ambiguous, maybe use descriptive notation instead
         String result = start.getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE
                                                                          : Board.ANSI_BLACK;
-        if (isCastleMove) {
+        if (isCastleMove()) {
             return result + (rookStart.getCol() == 0 ? "0-0-0" : "0-0") + Board.ANSI_RESET;
         }
         return result + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation()
@@ -138,17 +129,17 @@ public class Move implements Comparable<Move> {
             return false;
         }
         Move move = (Move) o;
-        return pieceAlreadyMoved == move.pieceAlreadyMoved && isCastleMove == move.isCastleMove &&
-                Double.compare(move.heuristicValue, heuristicValue) == 0 &&
-                heuristicValueSet == move.heuristicValueSet && start.equals(move.start) &&
-                end.equals(move.end) && Objects.equals(rookStart, move.rookStart) &&
-                Objects.equals(rookEnd, move.rookEnd) &&
-                Objects.equals(capturedPiece, move.capturedPiece);
+        return pieceAlreadyMoved == move.pieceAlreadyMoved && isCastleMove() == move.isCastleMove()
+                && Double.compare(move.heuristicValue, heuristicValue) == 0
+                && heuristicValueSet == move.heuristicValueSet && start.equals(move.start)
+                && end.equals(move.end) && Objects.equals(rookStart, move.rookStart)
+                && Objects.equals(rookEnd, move.rookEnd)
+                && Objects.equals(capturedPiece, move.capturedPiece);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(start, end, rookStart, rookEnd, capturedPiece, pieceAlreadyMoved,
-                            isCastleMove, heuristicValue, heuristicValueSet);
+                            heuristicValue, heuristicValueSet);
     }
 }
