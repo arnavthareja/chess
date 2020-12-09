@@ -124,7 +124,6 @@ public class Board {
             if (!realMove) {
                 promoted = new Queen(move.getEnd(), color);
             } else {
-
                 promoted = promote(move, color);
             }
             promoted.setAlreadyMoved(true);
@@ -181,7 +180,6 @@ public class Board {
 
     private boolean inStalemate(Piece.Color color) {
         // TODO: Additional stalemate possibilities like last 3 moves repetitions of each other
-
         return !inCheck(color) && getPossibleMoves(color).isEmpty();
     }
 
