@@ -62,7 +62,8 @@ public class Move implements Comparable<Move> {
     }
 
     public boolean isPromotion() {
-        return start.getPiece() instanceof Pawn && (end.getRow() == 7 || end.getRow() == 0);
+        return promotedPawn != null || (start.getPiece() instanceof Pawn && (end.getRow() == 7 ||
+                                                                             end.getRow() == 0));
     }
 
     public Square getStart() {
