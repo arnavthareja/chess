@@ -43,6 +43,4 @@ public abstract class Player {
         System.out.println(move);
         board.doMove(move);
     }
-
-    public abstract String toString();
 }

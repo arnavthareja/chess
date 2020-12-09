@@ -85,6 +85,10 @@ public class Board {
         return possibleMoves;
     }
 
+    public Deque<Move> getAllMoves() {
+        return moves;
+    }
+
     public Move getLastMove() {
         return moves.peek();
     }

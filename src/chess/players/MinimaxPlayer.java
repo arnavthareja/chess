@@ -42,7 +42,7 @@ public class MinimaxPlayer extends Player {
         String boardState = board.stateString();
         Move start = board.getLastMove();
         if (depth == 0) {
-            // If start is null here something went wrong. start should never be null
+            // If start is null here something went wrong. start should never be null.
             assert start != null;
             start.calculateHeuristicValue(heuristic, board, color);
             return start;
@@ -70,8 +70,6 @@ public class MinimaxPlayer extends Player {
             }
         }
         memo.put(boardState, result);
-//        System.out.println("Depth: " + depth + " " + color + " " + " " + result.first().getHeuristicValue() + " " + result.last().getHeuristicValue());
-//        System.out.println("Selected: " + (result.isEmpty() ? null : result.last().getHeuristicValue()));
         return selectMove(result);
     }
 

@@ -17,6 +17,7 @@ public class Move implements Comparable<Move> {
     private final boolean isPromotion;
     private double heuristicValue;
     private boolean heuristicValueSet;
+    private final String notation;
 
     public Move(Square start, Square end) {
         this(start, end, 0);
@@ -47,6 +48,7 @@ public class Move implements Comparable<Move> {
         promotedPawn = isPromotion ? start.getPiece() : null;
         this.heuristicValue = heuristicValue;
         heuristicValueSet = false;
+        notation = notation();
     }
 
     // Constructor to make a move from a string in proper notation
@@ -114,10 +116,19 @@ public class Move implements Comparable<Move> {
         return heuristicValueSet || other.heuristicValueSet ? Double.compare(other.heuristicValue, heuristicValue) : 1;
     }
 
-    public String toString() {
-        // TODO: Add castling and check notation (0-0 for kingside, 0-0-0 for queenside, + for check)
+    private String notation() {
         // TODO: Add file name after piece if ambiguous, maybe use descriptive notation instead
-        return "" + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation();
+        String result = start.getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE : Board.ANSI_BLACK;
+        if (isCastleMove) {
+            return result + (rookEnd.getCol() == 0 ? "0-0-0" : "0-0") + Board.ANSI_RESET;
+        }
+        return result + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation() + Board.ANSI_RESET;
+        // TODO: Fix check notation -- currently causes StackOverflowError
+        // + (start.getBoard().inCheck(oppositeColor(start.getPiece().getColor())) ? "+" : "");
+    }
+
+    public String toString() {
+        return notation;
     }
 
     public boolean sameAs(Move other) {

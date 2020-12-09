@@ -11,20 +11,20 @@ public class Chess {
         Board board = new Board();
         Player p1 = selectPlayer(board, Piece.Color.WHITE, 1);
         Player p2 = selectPlayer(board, Piece.Color.BLACK, 2);
-        System.out.println(p1 + " vs. " + p2 + "\n");
+        System.out.println("\n" + p1 + " vs. " + p2 + "\n");
         Player currentPlayer = p1;
         while(!p1.inCheckmate() && !p1.inStalemate() && !p2.inCheckmate()) {
             System.out.println(board);
             if (p1.inCheck()) {
-                System.out.print("White in check, ");
+                System.out.print(Board.ANSI_BLUE + "White" + Board.ANSI_RESET + " in check, ");
             }
             if (p2.inCheck()) {
-                System.out.print("Black in check, ");
+                System.out.print(Board.ANSI_BLACK + "Black" + Board.ANSI_RESET + " in check, ");
             }
             if (currentPlayer == p1) {
-                System.out.print("White");
+                System.out.print(Board.ANSI_BLUE + "White" + Board.ANSI_RESET);
             } else {
-                System.out.print("Black");
+                System.out.print(Board.ANSI_BLACK + "Black" + Board.ANSI_RESET);
             }
             System.out.println(" to move");
             currentPlayer.doMove();
@@ -32,11 +32,21 @@ public class Chess {
         }
         System.out.println(board);
         if (p1.inCheckmate()) {
-            System.out.println("Black wins!");
+            System.out.println(Board.ANSI_BLACK + "Black" + Board.ANSI_RESET + " wins!\n");
         } else if (p2.inCheckmate()) {
-            System.out.println("White wins!");
+            System.out.println(Board.ANSI_BLUE + "White" + Board.ANSI_RESET + " wins!\n");
         } else {
-            System.out.println("Stalemate!");
+            System.out.println("Stalemate!\n");
+        }
+        System.out.println("Display summary of all moves? (Yes/No)");
+        Scanner in = new Scanner(System.in);
+        String showSummary = in.nextLine().trim().toLowerCase();
+        if (showSummary.equals("yes") || showSummary.equals("y")) {
+            Deque<Move> allMoves = board.getAllMoves();
+            Iterator<Move> iter = allMoves.descendingIterator();
+            while (iter.hasNext()) {
+                System.out.println(iter.next());
+            }
         }
     }
 
