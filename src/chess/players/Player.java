@@ -41,7 +41,10 @@ public abstract class Player {
     }
 
     private void doMove(Move move) {
-        System.out.println(move);
+        String color = move.getStart().getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE
+                : Board.ANSI_BLACK;
+        System.out.println(color + move.getStart().getPiece() + move.getStart().notation()
+                + " -> " + move);
         board.doMove(move);
     }
 }
