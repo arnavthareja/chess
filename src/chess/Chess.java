@@ -6,15 +6,11 @@ import chess.players.*;
 import java.util.*;
 
 public class Chess {
-    private static int count = 1;
     
     public static void main(String[] args) {
         Board board = new Board();
-        Player p1 = selectPlayer(board);
-        count++;
-        Player p2 = selectPlayer(board);
-        //Player p1 = new HumanPlayer(board, Piece.Color.WHITE);
-        //Player p2 = new MinimaxPlayer(board, Piece.Color.BLACK, new CombinationHeuristic());
+        Player p1 = selectPlayer(board, Piece.Color.WHITE, 1);
+        Player p2 = selectPlayer(board, Piece.Color.BLACK, 2);
         System.out.println(p1 + " vs. " + p2 + "\n");
         Player currentPlayer = p1;
         while(!p1.inCheckmate() && !p1.inStalemate() && !p2.inCheckmate()) {
@@ -44,38 +40,51 @@ public class Chess {
         }
     }
 
-    private static Player selectPlayer(Board board) {
-        Scanner s = new Scanner(System.in);
-        Player player;
-        System.out.println("Please select Player " + count + ":");
-        System.out.println(Board.ANSI_GREEN + "1: Human\n" + Board.ANSI_YELLOW + "2: Computer (Easy)\n"
-                + Board.ANSI_PURPLE + "3: Computer (Medium)\n" + Board.ANSI_BLUE
-                + "4: Computer (Hard)\n" + Board.ANSI_RED + "5: Computer (Impossible)"
-                + Board.ANSI_RESET);
-        String response = s.next().trim();
-        if (response.equals("1") || response.equalsIgnoreCase("human")) {
-            player = new HumanPlayer(board, getColor());
-        } else if (response.equals("2") || response.equalsIgnoreCase("easy")) {
-            player = new WorstMinimaxPlayer(board, getColor(), new CombinationHeuristic());
-        } else if (response.equals("3") || response.equalsIgnoreCase("medium")) {
-            player = new SuboptimalMinimaxPlayer(board, getColor(), new CombinationHeuristic());
-        } else if (response.equals("4") || response.equalsIgnoreCase("hard")) {
-            player = new MinimaxPlayer(board, getColor(), new CombinationHeuristic());
-        } else if (response.equals("5") || response.equalsIgnoreCase("impossible")) {
-            player = new MinimaxPlayer(board, getColor(), new CombinationHeuristic(), 10);
-        } else {
-            System.out.println("\nInvalid Player type. Please try again");
-            player = selectPlayer(board);
-        }
-        System.out.println();
-        return player;
-    }
-
-    private static Piece.Color getColor() {
-        if (count == 1) {
-            return Piece.Color.WHITE;
-        } else {
-            return Piece.Color.BLACK;
+    private static Player selectPlayer(Board board, Piece.Color color, int count) {
+        Scanner in = new Scanner(System.in);
+        while (true) {
+            System.out.println("\nPlease select Player " + count + ":");
+            System.out.println(Board.ANSI_GREEN + "1: Human\n"
+                    + Board.ANSI_CYAN + "2: Computer (Easy)\n"
+                    + Board.ANSI_PURPLE + "3: Computer (Medium)\n"
+                    + Board.ANSI_BLUE + "4: Computer (Hard)\n"
+                    + Board.ANSI_RED + "5: Computer (Extreme) (Will take a long time to choose moves)\n"
+                    + Board.ANSI_YELLOW + "6: Computer (Random) (Will select moves randomly)"
+                    + Board.ANSI_RESET);
+            System.out.println("\nType in the number or player name and press enter to select.");
+            String player = in.nextLine().trim().toLowerCase();
+            switch (player) {
+                case "1":
+                case "human":
+                    return new HumanPlayer(board, color);
+                case "2":
+                case "easy":
+                case "computer (easy)":
+                case "computer easy":
+                    return new WorstMinimaxPlayer(board, color, new CombinationHeuristic());
+                case "3":
+                case "medium":
+                case "computer (medium)":
+                case "computer medium":
+                    return new SuboptimalMinimaxPlayer(board, color, new CombinationHeuristic());
+                case "4":
+                case "hard":
+                case "computer (hard)":
+                case "computer hard":
+                    return new MinimaxPlayer(board, color, new CombinationHeuristic());
+                case "5":
+                case "extreme":
+                case "computer (extreme)":
+                case "computer extreme":
+                    return new MinimaxPlayer(board, color, new CombinationHeuristic(), MinimaxPlayer.EXTREME_DIFFICULTY_SEARCH_DEPTH);
+                case "6":
+                case "random":
+                case "computer (random)":
+                case "computer random":
+                    return new RandomPlayer(board, color);
+                default:
+                    System.out.println(Board.ANSI_RED + "\nInvalid Player type. Please try again.\n" + Board.ANSI_RESET);
+            }
         }
     }
 }

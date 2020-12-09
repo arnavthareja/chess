@@ -9,6 +9,7 @@ import java.util.*;
 public class MinimaxPlayer extends Player {
     public static final int DEFAULT_SEARCH_DEPTH = 3;
     public static final int LOW_PIECE_SEARCH_DEPTH = 6;
+    public static final int EXTREME_DIFFICULTY_SEARCH_DEPTH = 10;
 
     protected int searchDepth;
     protected final Heuristic heuristic;
@@ -79,9 +80,9 @@ public class MinimaxPlayer extends Player {
     }
 
     public String toString() {
-        if (searchDepth == 3) {
-            return Board.ANSI_BLUE + "Hard Computer" + Board.ANSI_RESET;
+        if (searchDepth >= EXTREME_DIFFICULTY_SEARCH_DEPTH) {
+            return Board.ANSI_RED + "Computer (Extreme)" + Board.ANSI_RESET;
         }
-        return Board.ANSI_RED + "Impossible Computer" + Board.ANSI_RESET;
+        return Board.ANSI_BLUE + "Computer (Hard)" + Board.ANSI_RESET;
     }
 }

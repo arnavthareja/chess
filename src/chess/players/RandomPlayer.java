@@ -32,6 +32,6 @@ public class RandomPlayer extends Player {
     }
 
     public String toString() {
-        return "Random Computer";
+        return Board.ANSI_YELLOW + "Computer (Random)" + Board.ANSI_RESET;
     }
 }
