@@ -95,7 +95,7 @@ public class Chess {
                 case "computer random":
                     return new RandomPlayer(board, color);
                 default:
-                    System.out.println(Board.ANSI_RED + "\nInvalid Player type. Please try again\n"
+                    System.out.print(Board.ANSI_RED + "\nInvalid Player type. Please try again\n"
                                        + Board.ANSI_RESET);
             }
         }
