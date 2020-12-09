@@ -11,6 +11,9 @@ public abstract class Piece {
     protected boolean alreadyMoved;
 
     public Piece(Square position, Color color, int value, String notation) {
+        if (position == null || color == null || notation == null) {
+            throw new IllegalArgumentException("Position, color, and notation must not be null at construction");
+        }
         this.position = position;
         position.setPiece(this);
         this.color = color;
@@ -117,6 +120,23 @@ public abstract class Piece {
             possibleMoves.add(move);
         }
         board.undoLastMove();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return value == piece.value && alreadyMoved == piece.alreadyMoved && notation.equals(piece.notation) && Objects.equals(position, piece.position) && color == piece.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(notation, position, color, value, alreadyMoved);
     }
 
     public enum Color {

@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.*;
+import java.util.*;
 
 public class Square {
     private final int row;
@@ -15,6 +16,9 @@ public class Square {
     public Square(int row, int col, Board board, Piece piece) {
         if (row < 0 || row > 7 || col < 0 || col > 7) {
             throw new IllegalArgumentException("Row and column must be between 0 and 7");
+        }
+        if (board == null) {
+            throw new IllegalArgumentException("Board must not be null");
         }
         this.row = row;
         this.col = col;
@@ -50,15 +54,24 @@ public class Square {
         piece = newPiece;
     }
 
-    public boolean equals(Square other) {
-        return row == other.row && col == other.col && board == other.board && piece == other.piece;
-    }
-
     public String notation() {
         return "" + (char) ('a' + col) + (8 - row);
     }
 
     public String toString() {
         return "" + (isEmpty() ? " " + notation() : (piece instanceof Pawn ? " " : piece) + notation());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return row == square.row && col == square.col && board.equals(square.board) && Objects.equals(piece, square.piece);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col, board, piece);
     }
 }
