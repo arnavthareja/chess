@@ -1,6 +1,7 @@
 package chess;
 
 import chess.pieces.*;
+
 import java.util.*;
 
 public class Square {
@@ -30,10 +31,6 @@ public class Square {
         return piece == null;
     }
 
-    public void draw() {
-
-    }
-
     public int getRow() {
         return row;
     }
@@ -59,20 +56,26 @@ public class Square {
     }
 
     public String toString() {
-        return "" + (isEmpty() ? " " + notation() : (piece instanceof Pawn ? " " : piece) + notation());
+        return (isEmpty() ? " " : (piece instanceof Pawn ? " " : piece)) + notation();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Square square = (Square) o;
-        return row == square.row && col == square.col && board.equals(square.board) && Objects.equals(piece, square.piece);
+        return row == square.row && col == square.col && board.equals(square.board) &&
+                Objects.equals(piece, square.piece);
     }
 
     @Override
     public int hashCode() {
         // Hashing piece here leads to StackOverflowError
+        // (infinite recursion, as piece hashes its square)
         return Objects.hash(row, col, board);
     }
 }

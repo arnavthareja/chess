@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.*;
+
 import java.util.*;
 
 public class Knight extends Piece {
@@ -9,10 +10,6 @@ public class Knight extends Piece {
 
     public Knight(Square position, Color color) {
         super(position, color, VALUE, NOTATION);
-    }
-
-    public Set<Move> getPossibleMoves() {
-        return getPossibleMoves(true);
     }
 
     public Set<Move> getPossibleMoves(boolean considerCheck) {
@@ -25,9 +22,5 @@ public class Knight extends Piece {
         possibleMoves.addAll(getPossibleMoves(-1, 2, 1, considerCheck));
         possibleMoves.addAll(getPossibleMoves(-1, -2, 1, considerCheck));
         return possibleMoves;
-    }
-
-    public void draw() {
-        return;
     }
 }

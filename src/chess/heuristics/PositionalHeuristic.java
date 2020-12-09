@@ -2,11 +2,13 @@ package chess.heuristics;
 
 import chess.*;
 import chess.pieces.*;
-import static chess.pieces.Piece.Color.*;
+
 import java.util.*;
 
+import static chess.pieces.Piece.Color.*;
+
 public class PositionalHeuristic implements Heuristic {
-    // Piece evaluation tables taken from https://www.chessprogramming.org/Simplified_Evaluation_Function
+    // Tables taken from https://www.chessprogramming.org/Simplified_Evaluation_Function
     private static final double[][] whitePawnTable = {
             {100, 100, 100, 100, 100, 100, 100, 100},
             {50, 50, 50, 50, 50, 50, 50, 50},
@@ -120,12 +122,18 @@ public class PositionalHeuristic implements Heuristic {
     }
 
     public double calculateValue(Board board, Piece.Color color) {
-        return (evaluate(board, color) - evaluate(board, oppositeColor(color)));// * color.getMultiplier();
+        return (evaluate(board, color) - evaluate(board, oppositeColor(color)));
     }
 
     private double evaluate(Board board, Piece.Color color) {
-        return board.getPieces(color).stream().mapToDouble(PositionalHeuristic::value).sum() * 0.011 // weight by 0.011 (effectively 1.1), as tables are weighted by 100
-               + (board.inCheck(oppositeColor(color)) ? inEndgame(board) ? 6 : 3 : 0);
+        // weight by 0.02 (arbitrary) as position is more important
+        double numMovesAdv = board.getPossibleMoves(color).size() * 0.02;
+        // weight by 1.1 but multiply by 0.011 as tables are weighted by 100
+        double positionAdv = board.getPieces(color).stream()
+                .mapToDouble(PositionalHeuristic::value).sum() * 0.011;
+        // Give a small bonus for check, larger bonuses cause bigger piece losses
+        double checkAdv = board.inCheck(oppositeColor(color)) ? inEndgame(board) ? 6 : 3 : 0;
+        return numMovesAdv + positionAdv + checkAdv;
     }
 
     private static double value(Piece piece) {
@@ -144,8 +152,8 @@ public class PositionalHeuristic implements Heuristic {
         }
     }
 
-    // TODO: Implement
     private static boolean inEndgame(Board board) {
+        // In endgame if less both sides have less than 10 points of pieces left, not counting king
         return board.getPieces(WHITE).stream().mapToDouble(Piece::getValue).sum() < 210 &&
                 board.getPieces(BLACK).stream().mapToDouble(Piece::getValue).sum() < 210;
     }

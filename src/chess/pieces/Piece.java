@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.*;
+
 import java.util.*;
 
 public abstract class Piece {
@@ -12,7 +13,7 @@ public abstract class Piece {
 
     public Piece(Square position, Color color, int value, String notation) {
         if (position == null || color == null || notation == null) {
-            throw new IllegalArgumentException("Position, color, and notation must not be null at construction");
+            throw new IllegalArgumentException("Position, color, and notation must not be null");
         }
         this.position = position;
         position.setPiece(this);
@@ -22,9 +23,11 @@ public abstract class Piece {
         alreadyMoved = false;
     }
 
-    public abstract Set<Move> getPossibleMoves();
     public abstract Set<Move> getPossibleMoves(boolean considerCheck);
-    public abstract void draw();
+
+    public Set<Move> getPossibleMoves() {
+        return getPossibleMoves(true);
+    }
 
     public int getValue() {
         return value;

@@ -3,6 +3,7 @@ package chess.players;
 import chess.*;
 import chess.pieces.*;
 import chess.heuristics.*;
+
 import java.util.*;
 
 public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
@@ -12,9 +13,10 @@ public class SuboptimalMinimaxPlayer extends MinimaxPlayer {
         this(board, color, heuristic, DEFAULT_SEARCH_DEPTH);
     }
 
-    public SuboptimalMinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic, int searchDepth) {
+    public SuboptimalMinimaxPlayer(Board board, Piece.Color color, Heuristic heuristic,
+                                   int searchDepth) {
         super(board, color, heuristic, searchDepth);
-        this.random = new Random();
+        random = new Random();
     }
 
     @Override

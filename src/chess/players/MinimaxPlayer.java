@@ -2,9 +2,11 @@ package chess.players;
 
 import chess.*;
 import chess.pieces.*;
-import static chess.pieces.Piece.Color.*;
 import chess.heuristics.*;
+
 import java.util.*;
+
+import static chess.pieces.Piece.Color.*;
 
 public class MinimaxPlayer extends Player {
     public static final int DEFAULT_SEARCH_DEPTH = 3;
@@ -37,7 +39,7 @@ public class MinimaxPlayer extends Player {
         return m;
     }
 
-    // For DESIGN.md: used sorted set instead of priority queue because wanted to iterate over it without destroying it
+    // Used sorted set instead of priority queue to iterate over it without destroying it
     private Move negamax(Piece.Color color, int depth, double alpha, double beta) {
         String boardState = board.stateString();
         Move start = board.getLastMove();
@@ -47,7 +49,8 @@ public class MinimaxPlayer extends Player {
             start.calculateHeuristicValue(heuristic, board, color);
             return start;
         }
-        SortedSet<Move> moves = memo.containsKey(boardState) ? memo.get(boardState) : new TreeSet<>(getPossibleMoves());
+        SortedSet<Move> moves = memo.containsKey(boardState) ? memo.get(boardState)
+                                                             : new TreeSet<>(getPossibleMoves());
         SortedSet<Move> result = new TreeSet<>();
         for (Move m : moves) {
             board.doMove(m);

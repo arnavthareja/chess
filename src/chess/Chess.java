@@ -3,6 +3,7 @@ package chess;
 import chess.heuristics.*;
 import chess.pieces.*;
 import chess.players.*;
+
 import java.util.*;
 
 public class Chess {
@@ -58,7 +59,7 @@ public class Chess {
                     + Board.ANSI_CYAN + "2: Computer (Easy)\n"
                     + Board.ANSI_PURPLE + "3: Computer (Medium)\n"
                     + Board.ANSI_BLUE + "4: Computer (Hard)\n"
-                    + Board.ANSI_RED + "5: Computer (Extreme) (Will take a long time to choose moves)\n"
+                    + Board.ANSI_RED + "5: Computer (Extreme) (Will take a long time to move)\n"
                     + Board.ANSI_YELLOW + "6: Computer (Random) (Will select moves randomly)"
                     + Board.ANSI_RESET);
             System.out.println("\nType in the number or player name and press enter to select.");
@@ -86,14 +87,16 @@ public class Chess {
                 case "extreme":
                 case "computer (extreme)":
                 case "computer extreme":
-                    return new MinimaxPlayer(board, color, new CombinationHeuristic(), MinimaxPlayer.EXTREME_DIFFICULTY_SEARCH_DEPTH);
+                    return new MinimaxPlayer(board, color, new CombinationHeuristic(),
+                                             MinimaxPlayer.EXTREME_DIFFICULTY_SEARCH_DEPTH);
                 case "6":
                 case "random":
                 case "computer (random)":
                 case "computer random":
                     return new RandomPlayer(board, color);
                 default:
-                    System.out.println(Board.ANSI_RED + "\nInvalid Player type. Please try again.\n" + Board.ANSI_RESET);
+                    System.out.println(Board.ANSI_RED + "\nInvalid Player type. Please try again\n"
+                                       + Board.ANSI_RESET);
             }
         }
     }

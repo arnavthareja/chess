@@ -2,6 +2,7 @@ package chess.players;
 
 import chess.*;
 import chess.pieces.*;
+
 import java.util.*;
 
 public class HumanPlayer extends Player {
@@ -9,21 +10,8 @@ public class HumanPlayer extends Player {
         super(board, color);
     }
 
-    // TODO: Implement
     public Move getMove() {
         Scanner in = new Scanner(System.in);
-        // TODO: Maybe use this commented logic to get the full move instead of getting start and end squares
-        // Compare input string to each Move.toString() to see if possibleMoves contains the move
-//        Move m = null;
-//        while (m == null) {
-//            System.out.println("The valid moves for you are: ");
-//            for (Move move : getPossibleMoves()) {
-//                System.out.print(move + " ");
-//            }
-//            System.out.println();
-//            System.out.println("Enter the square of the piece you would like to move: ");
-//            String s = in.nextLine();
-//        }
         Square start = null;
         Move m = null;
         while (start == null) {

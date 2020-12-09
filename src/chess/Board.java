@@ -1,11 +1,13 @@
 package chess;
 
 import chess.pieces.*;
-import static chess.pieces.Piece.Color.*;
+
 import java.util.*;
 
+import static chess.pieces.Piece.Color.*;
+
 public class Board {
-    // Constants taken from https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -15,14 +17,6 @@ public class Board {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public static final int NUM_ROWS = 8;
 
@@ -164,15 +158,15 @@ public class Board {
         boolean lastThreeMovesSame = false;
         if (moves.size() >= 6) {
             Move[] temp = new Move[6];
-            for (int i = 5; i >= 0; i--) {
-                temp[i] = moves.pop();
+            Iterator<Move> iter = moves.descendingIterator();
+            for (int i = 0; i < temp.length; i++) {
+                temp[i] = iter.next();
             }
-            for (int i = 0; i < 6; i++) {
-                moves.push(temp[i]);
-            }
-            lastThreeMovesSame = temp[0].sameAs(temp[2]) && temp[2].sameAs(temp[4]) && temp[1].sameAs(temp[3]) && temp[3].sameAs(temp[5]);
+            lastThreeMovesSame = temp[0].sameAs(temp[2]) && temp[2].sameAs(temp[4])
+                              && temp[1].sameAs(temp[3]) && temp[3].sameAs(temp[5]);
         }
-        return (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1) || lastThreeMovesSame || inStalemate(WHITE) || inStalemate(BLACK);
+        return (getPieces(WHITE).size() <= 1 && getPieces(BLACK).size() <= 1) || lastThreeMovesSame
+                || inStalemate(WHITE) || inStalemate(BLACK);
     }
 
     private boolean inStalemate(Piece.Color color) {
@@ -188,10 +182,6 @@ public class Board {
                 whitePieces.stream().filter(p -> !(p instanceof Pawn)).count() < 4;
     }
 
-    public void draw() {
-
-    }
-
     public String stateString() {
         StringBuilder result = new StringBuilder();
         for (Square[] squareArr : board) {
@@ -200,7 +190,8 @@ public class Board {
                     result.append("-");
                 } else {
                     Piece p = s.getPiece();
-                    result.append(p.getColor().toString().charAt(0)).append(p instanceof Pawn ? "P" : p);
+                    result.append(p.getColor().toString().charAt(0));
+                    result.append(p instanceof Pawn ? "P" : p);
                     if ((p instanceof Rook || p instanceof King) && !p.getAlreadyMoved()) {
                         result.append("E");
                     }
@@ -220,7 +211,8 @@ public class Board {
             // result.append(ANSI_RED_BACKGROUND);
             result.append("\n").append(ANSI_RED).append(8 - i).append(" ");
             for (Square s : board[i]) {
-                result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
+                result.append(s.getPiece() == null ? ANSI_WHITE : s.getPiece().getColor() == WHITE
+                        ? ANSI_BLUE : ANSI_BLACK).append(s).append(" ");
             }
             result.append(ANSI_RESET);
         }

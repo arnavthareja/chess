@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.*;
+
 import java.util.*;
 
 public class King extends Piece {
@@ -11,16 +12,12 @@ public class King extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Set<Move> getPossibleMoves() {
-        return getPossibleMoves(true);
-    }
-
     public Set<Move> getPossibleMoves(boolean considerCheck) {
         Set<Move> possibleMoves = getStraightMoves(1, considerCheck);
         possibleMoves.addAll(getDiagonalMoves(1, considerCheck));
         if (!alreadyMoved && (!considerCheck || !position.getBoard().inCheck(color))) {
-            addIfNotInCheck(getKingsideCastleMove(), possibleMoves, considerCheck, true);
-            addIfNotInCheck(getQueensideCastleMove(), possibleMoves, considerCheck, true);
+            addIfNotInCheck(getKingsideCastleMove(), possibleMoves, considerCheck);
+            addIfNotInCheck(getQueensideCastleMove(), possibleMoves, considerCheck);
         }
         return possibleMoves;
     }
@@ -47,9 +44,10 @@ public class King extends Piece {
         return castleMove;
     }
 
-    private void addIfNotInCheck(Move move, Set<Move> possibleMoves, boolean considerCheck, boolean considerNull) {
-        if (!considerNull || move != null) {
-            addIfNotInCheck(move, possibleMoves, considerCheck);
+    @Override
+    protected void addIfNotInCheck(Move move, Set<Move> possibleMoves, boolean considerCheck) {
+        if (move != null) {
+            super.addIfNotInCheck(move, possibleMoves, considerCheck);
         }
     }
 
@@ -59,25 +57,19 @@ public class King extends Piece {
             Square nextPos = b.squareAt(currentPosition.getRow(), currentPosition.getCol() + dx);
             Piece p = nextPos.getPiece();
             boolean throughCheck = false;
-            // Only check if moving through check on the first iteration if next square is empty
+            // Evaluate if moving through check
             if (iteration == 1 && nextPos.isEmpty()) {
                 Move tempMove = new Move(currentPosition, nextPos);
                 b.doMove(tempMove);
                 throughCheck = b.inCheck(color);
                 b.undoLastMove();
             }
-            // A valid position is either empty in files b-g or occupied by a rook in files a or h that hasn't moved
+            // A valid position is either empty in files b-g or
+            // occupied by a rook in files a or h that hasn't moved
             boolean nextPosValid = (nextPos.isEmpty() && nextPos.getCol() < Board.NUM_ROWS - 1 &&
-                                    nextPos.getCol() > 0) || (p instanceof Rook && !p.alreadyMoved);
+                    nextPos.getCol() > 0) || (p instanceof Rook && !p.alreadyMoved);
             return !throughCheck && nextPosValid && isAllowed(nextPos, dx, iteration + 1);
         } catch (IllegalArgumentException e) {}
         return true;
-    }
-
-    // Note from Arnav: Might want to make a method and/or field to check/store if king or a square is in check as it seems to be used multiple times.
-    // Should also take into account that check must be resolved before any other moves can be made from any piece
-
-    public void draw() {
-        return;
     }
 }

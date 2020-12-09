@@ -3,6 +3,7 @@ package chess.players;
 import chess.*;
 import chess.pieces.*;
 import chess.heuristics.*;
+
 import java.util.*;
 
 public class WorstMinimaxPlayer extends MinimaxPlayer {

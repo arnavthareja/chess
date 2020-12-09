@@ -2,6 +2,7 @@ package chess.players;
 
 import chess.*;
 import chess.pieces.*;
+
 import java.util.*;
 
 public class RandomPlayer extends Player {

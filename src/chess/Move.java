@@ -3,7 +3,7 @@ package chess;
 import chess.pieces.*;
 import chess.heuristics.*;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Move implements Comparable<Move> {
     private final Square start;
@@ -20,22 +20,20 @@ public class Move implements Comparable<Move> {
     private final String notation;
 
     public Move(Square start, Square end) {
-        this(start, end, 0);
-    }
-
-    public Move(Square start, Square end, double heuristicValue) {
-        this(start, end, null, null, heuristicValue);
+        this(start, end, null, null);
     }
 
     public Move(Square start, Square end, Square rookStart, Square rookEnd) {
         this(start, end, rookStart, rookEnd, 0);
     }
 
-    public Move(Square start, Square end, Square rookStart, Square rookEnd, double heuristicValue) {
+    public Move(Square start, Square end, Square rookStart, Square rookEnd,
+                double heuristicValue) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("Start and end squares must not be null.");
-        } else if ((rookStart == null || rookEnd == null) && (rookStart != null || rookEnd != null)) {
-            throw new IllegalArgumentException("Rook's start and end squares must both be given or null.");
+        } else if ((rookStart == null || rookEnd == null) &&
+                   (rookStart != null || rookEnd != null)) {
+            throw new IllegalArgumentException("Rook start and end must both be given or null.");
         }
         this.start = start;
         this.end = end;
@@ -51,12 +49,6 @@ public class Move implements Comparable<Move> {
         notation = notation();
     }
 
-    // Constructor to make a move from a string in proper notation
-    // TODO: Implement
-    public Move(String fromString) {
-        this(null, null);
-    }
-
     public double getHeuristicValue() {
         return heuristicValue;
     }
@@ -66,9 +58,8 @@ public class Move implements Comparable<Move> {
         heuristicValueSet = true;
     }
 
-    public double calculateHeuristicValue(Heuristic heuristic, Board board, Piece.Color color) {
+    public void calculateHeuristicValue(Heuristic heuristic, Board board, Piece.Color color) {
         setHeuristicValue(heuristic.calculateValue(board, color));
-        return getHeuristicValue();
     }
 
     public boolean isCaptureMove() {
@@ -111,18 +102,21 @@ public class Move implements Comparable<Move> {
         return pieceAlreadyMoved;
     }
 
-    // Returns 1 if heuristic value has not been set so that TreeSet doesn't view it as a duplicate move
+    // Returns 1 if heuristic value has not been set so that TreeSet doesn't view it as a duplicate
     public int compareTo(Move other) {
-        return heuristicValueSet || other.heuristicValueSet ? Double.compare(other.heuristicValue, heuristicValue) : 1;
+        return heuristicValueSet || other.heuristicValueSet
+                ? Double.compare(other.heuristicValue, heuristicValue) : 1;
     }
 
     private String notation() {
         // TODO: Add file name after piece if ambiguous, maybe use descriptive notation instead
-        String result = start.getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE : Board.ANSI_BLACK;
+        String result = start.getPiece().getColor() == Piece.Color.WHITE ? Board.ANSI_BLUE
+                                                                         : Board.ANSI_BLACK;
         if (isCastleMove) {
             return result + (rookEnd.getCol() == 0 ? "0-0-0" : "0-0") + Board.ANSI_RESET;
         }
-        return result + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation() + Board.ANSI_RESET;
+        return result + start.getPiece() + (isCaptureMove() ? "x" : "") + end.notation()
+                + Board.ANSI_RESET;
         // TODO: Fix check notation -- currently causes StackOverflowError
         // + (start.getBoard().inCheck(oppositeColor(start.getPiece().getColor())) ? "+" : "");
     }
@@ -144,11 +138,17 @@ public class Move implements Comparable<Move> {
             return false;
         }
         Move move = (Move) o;
-        return pieceAlreadyMoved == move.pieceAlreadyMoved && isCastleMove == move.isCastleMove && Double.compare(move.heuristicValue, heuristicValue) == 0 && heuristicValueSet == move.heuristicValueSet && start.equals(move.start) && end.equals(move.end) && Objects.equals(rookStart, move.rookStart) && Objects.equals(rookEnd, move.rookEnd) && Objects.equals(capturedPiece, move.capturedPiece);
+        return pieceAlreadyMoved == move.pieceAlreadyMoved && isCastleMove == move.isCastleMove &&
+                Double.compare(move.heuristicValue, heuristicValue) == 0 &&
+                heuristicValueSet == move.heuristicValueSet && start.equals(move.start) &&
+                end.equals(move.end) && Objects.equals(rookStart, move.rookStart) &&
+                Objects.equals(rookEnd, move.rookEnd) &&
+                Objects.equals(capturedPiece, move.capturedPiece);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(start, end, rookStart, rookEnd, capturedPiece, pieceAlreadyMoved, isCastleMove, heuristicValue, heuristicValueSet);
+        return Objects.hash(start, end, rookStart, rookEnd, capturedPiece, pieceAlreadyMoved,
+                            isCastleMove, heuristicValue, heuristicValueSet);
     }
 }

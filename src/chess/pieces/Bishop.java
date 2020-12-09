@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.*;
+
 import java.util.*;
 
 public class Bishop extends Piece {
@@ -11,15 +12,7 @@ public class Bishop extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Set<Move> getPossibleMoves() {
-        return getPossibleMoves(true);
-    }
-
     public Set<Move> getPossibleMoves(boolean considerCheck) {
         return getDiagonalMoves(considerCheck);
-    }
-
-    public void draw() {
-        return;
     }
 }

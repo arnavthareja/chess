@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import chess.*;
+
 import java.util.*;
 
 public class Pawn extends Piece {
@@ -9,10 +10,6 @@ public class Pawn extends Piece {
 
     public Pawn(Square position, Color color) {
         super(position, color, VALUE, NOTATION);
-    }
-
-    public Set<Move> getPossibleMoves() {
-        return getPossibleMoves(true);
     }
 
     public Set<Move> getPossibleMoves(boolean considerCheck) {
@@ -32,7 +29,8 @@ public class Pawn extends Piece {
                 finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + dy,
                                                                   finalPosition.getCol());
                 if (!alreadyMoved && finalPosition.isEmpty()) {
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
+                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves,
+                                    considerCheck);
                 }
             }
         } catch (IllegalArgumentException e) {}
@@ -49,9 +47,5 @@ public class Pawn extends Piece {
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
-    }
-
-    public void draw() {
-        return;
     }
 }
