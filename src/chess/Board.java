@@ -30,8 +30,12 @@ public class Board {
                 board[i][j] = new Square(i, j, this);
             }
         }
-        initializePieces(7, 6, WHITE);
-        initializePieces(0, 1, BLACK);
+        //initializePieces(7, 6, WHITE);
+        //initializePieces(0, 1, BLACK);
+        new Pawn(squareAt(1, 6), WHITE);
+        new Pawn(squareAt(1, 7), WHITE);
+        new Pawn(squareAt(6, 7), BLACK);
+        new Pawn(squareAt(6, 6), BLACK);
         moves = new ArrayDeque<>();
     }
 
