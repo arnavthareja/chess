@@ -51,6 +51,6 @@ public abstract class Player {
             System.out.print(move.getStart().notation() + " -> " + move.getEnd().notation() + ")");
         }
         System.out.println(Board.ANSI_RESET);
-        board.doMove(move);
+        board.doMove(move, true);
     }
 }

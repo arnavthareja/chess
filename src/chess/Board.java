@@ -107,6 +107,10 @@ public class Board {
     }
 
     public void doMove(Move move) {
+        doMove(move, false);
+    }
+
+    public void doMove(Move move, boolean realMove) {
         moves.push(move);
         if (move.isCaptureMove()) {
             move.getEnd().getPiece().capture();
@@ -116,7 +120,13 @@ public class Board {
         if (move.isPromotion()) {
             Piece.Color color = move.getEnd().getPiece().getColor();
             move.getEnd().getPiece().capture();
-            Piece promoted = new Queen(move.getEnd(), color);
+            Piece promoted;
+            if (!realMove) {
+                promoted = new Queen(move.getEnd(), color);
+            } else {
+
+                promoted = promote(move, color);
+            }
             promoted.setAlreadyMoved(true);
         }
         if (move.isCastleMove()) {
@@ -180,6 +190,39 @@ public class Board {
         Set<Piece> whitePieces = getPieces(WHITE);
         return blackPieces.stream().filter(p -> !(p instanceof Pawn)).count() < 4 ||
                 whitePieces.stream().filter(p -> !(p instanceof Pawn)).count() < 4;
+    }
+
+    private Piece promote(Move move, Piece.Color color) {
+        Scanner in = new Scanner(System.in);
+        while (true) {
+            System.out.println("\nPlease select your new Piece:");
+            System.out.println(Board.ANSI_GREEN + "1: Queen\n"
+                    + Board.ANSI_CYAN + "2: Rook\n"
+                    + Board.ANSI_PURPLE + "3: Bishop\n"
+                    + Board.ANSI_BLUE + "4: Knight"
+                    + Board.ANSI_RESET);
+            System.out.println("\nType in the number or piece name and press enter to select.");
+            String piece = in.nextLine().trim().toLowerCase();
+            switch (piece) {
+                case "1":
+                case "queen":
+                    return new Queen(move.getEnd(), color);
+                case "2":
+                case "rook":
+                case "castle":
+                    return new Rook(move.getEnd(), color);
+                case "3":
+                case "bishop":
+                    return new Bishop(move.getEnd(), color);
+                case "4":
+                case "knight":
+                case "horse":
+                    return new Knight(move.getEnd(), color);
+                default:
+                    System.out.print(Board.ANSI_RED + "\nInvalid Piece type. Please try again\n"
+                                       + Board.ANSI_RESET);
+            }
+        }
     }
 
     public String stateString() {
