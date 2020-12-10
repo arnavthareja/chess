@@ -30,12 +30,12 @@ public class Board {
     public static final int NUM_ROWS = 8;
 
     /**
-     * 2D array of squares representing the actual board.
+     * A 2D array of squares representing the actual board.
      */
     private final Square[][] board;
 
     /**
-     * Stack storing every move that has been made so far
+     * A deque storing every move that has been made so far.
      */
     private final Deque<Move> moves;
 
@@ -76,10 +76,10 @@ public class Board {
     }
 
     /**
-     * Returns all the pieces of the given color on this board.
+     * Returns a set containing every piece of the given color on this board.
      *
      * @param  color  the color of the pieces to get
-     * @return        all the pieces of the given color on this board
+     * @return        a set containing  every piece of the given color on this board
      */
     public Set<Piece> getPieces(Piece.Color color) {
         Set<Piece> pieces = new HashSet<>();
@@ -95,24 +95,26 @@ public class Board {
     }
 
     /**
-     * Returns all the legal moves the player of the given color can make, with
-     * the exception of en passant.
+     * Returns a set containing all the legal moves the player of the given
+     * color can make, with the exception of en passant.
      *
      * @param  color  the color for which to get legal moves
-     * @return        all the legal moves the player of the given color can
-     *                make, with the exception of en passant
+     * @return        a set containing all the legal moves the player of the
+     *                given color can make, with the exception of en passant
      */
     public Set<Move> getPossibleMoves(Piece.Color color) {
         return getPossibleMoves(color, true);
     }
 
     /**
-     * Returns all the moves the player of the given color can make, with the
-     * exception of en passant. May return illegal moves if onlyLegalMoves is false.
+     * Returns a set containing all the moves the player of the given color can
+     * make, with the exception of en passant. May return illegal moves if
+     * onlyLegalMoves is false.
      *
      * @param  color           the color for which to get moves
-     * @param  onlyLegalMoves  whether illegal moves should be eliminated or not
-     * @return                 all the moves the player of the given color can make
+     * @param  onlyLegalMoves  whether to only consider legal moves or not
+     * @return                 a set containing all the moves the player of the
+     *                         given color can make
      */
     public Set<Move> getPossibleMoves(Piece.Color color, boolean onlyLegalMoves) {
         Set<Move> possibleMoves = new HashSet<>();
@@ -128,9 +130,9 @@ public class Board {
     }
 
     /**
-     * Returns a stack containing all the moves that have been made so far.
+     * Returns a deque containing all the moves that have been made so far.
      *
-     * @return a stack containing all the moves that have been made so far
+     * @return a deque containing all the moves that have been made so far
      */
     public Deque<Move> getAllMoves() {
         return moves;
@@ -169,6 +171,7 @@ public class Board {
      * @param  row  the row of the square to get
      * @param  col  the column of the square to get
      * @return      the square on this board at the given row and column
+     * @throws IllegalArgumentException if row or column is out of bounds
      */
     public Square squareAt(int row, int col) {
         if (row < 0 || row > 7 || col < 0 || col > 7) {
@@ -371,6 +374,7 @@ public class Board {
      *
      * @return a string representation of this board.
      */
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (Square s : board[0]) {
