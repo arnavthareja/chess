@@ -10,7 +10,7 @@ import java.util.*;
  * promotion and castle moves. Moves can be compared to determine which has a
  * higher heuristic value.
  */
-public class Move implements Comparable<Move> {
+public final class Move implements Comparable<Move> {
     /**
      * The starting square of the move. For castle moves, the starting square
      * of the king.

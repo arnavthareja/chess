@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * A square on a chessboard.
  */
-public class Square {
+public final class Square {
     /**
      * The row this square is located at.
      */

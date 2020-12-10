@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Playing logic for a game of chess.
  */
-public class Chess {
+public final class Chess {
     /**
      * Plays a game of chess between two players.
      *

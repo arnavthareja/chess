@@ -8,7 +8,7 @@ import java.util.*;
  * A queen. Queens can move any number of squares diagonally or straight along
  * ranks and files.
  */
-public class Queen extends Piece {
+public final class Queen extends Piece {
     /**
      * A queen's notation in algebraic notation.
      */

@@ -9,7 +9,7 @@ import java.util.*;
  * they haven't moved before. Pawns cannot capture the piece in front of them,
  * they can only capture diagonally in front.
  */
-public class Pawn extends Piece {
+public final class Pawn extends Piece {
     /**
      * A pawn's notation in algebraic notation.
      */

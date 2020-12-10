@@ -8,7 +8,7 @@ import java.util.*;
  * A bishop. Bishops can move any number of squares diagonally, but they cannot
  * move in any other direction.
  */
-public class Bishop extends Piece {
+public final class Bishop extends Piece {
     /**
      * A bishop's notation in algebraic notation.
      */

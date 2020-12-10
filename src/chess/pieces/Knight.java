@@ -9,7 +9,7 @@ import java.util.*;
  * in one direction and one square in a direction perpendicular to the first.
  * Knights have the unique ability to move through other pieces.
  */
-public class Knight extends Piece {
+public final class Knight extends Piece {
     /**
      * A knight's notation in algebraic notation.
      */

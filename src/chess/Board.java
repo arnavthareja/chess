@@ -9,7 +9,7 @@ import static chess.pieces.Piece.Color.*;
 /**
  * A standard 8x8 chessboard.
  */
-public class Board {
+public final class Board {
     /**
      * ANSI color escape codes for printing to the console in color. Taken from
      * https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println

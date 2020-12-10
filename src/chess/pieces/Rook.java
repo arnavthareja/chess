@@ -8,7 +8,7 @@ import java.util.*;
  * A rook. Rooks can move any number of squares straight along ranks and files,
  * but they cannot move in any other direction.
  */
-public class Rook extends Piece {
+public final class Rook extends Piece {
     /**
      * A rook's notation in algebraic notation.
      */

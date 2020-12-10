@@ -8,7 +8,7 @@ import java.util.*;
  * A king. Kings can move one square in any direction, or can castle if they
  * and the rook they are castling with have not moved before.
  */
-public class King extends Piece {
+public final class King extends Piece {
     /**
      * A king's notation in algebraic notation.
      */
