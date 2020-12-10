@@ -12,15 +12,15 @@ public class Knight extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Set<Move> getPossibleMoves(boolean considerCheck) {
-        Set<Move> possibleMoves = getPossibleMoves(2, 1, 1, considerCheck);
-        possibleMoves.addAll(getPossibleMoves(2, -1, 1, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(-2, 1, 1, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(-2, -1, 1, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(1, 2, 1, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(1, -2, 1, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(-1, 2, 1, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(-1, -2, 1, considerCheck));
+    public Set<Move> getPossibleMoves(boolean onlyLegalMoves) {
+        Set<Move> possibleMoves = getPossibleMoves(2, 1, 1, onlyLegalMoves);
+        possibleMoves.addAll(getPossibleMoves(2, -1, 1, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(-2, 1, 1, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(-2, -1, 1, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(1, 2, 1, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(1, -2, 1, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(-1, 2, 1, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(-1, -2, 1, onlyLegalMoves));
         return possibleMoves;
     }
 }

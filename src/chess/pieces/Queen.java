@@ -12,9 +12,9 @@ public class Queen extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Set<Move> getPossibleMoves(boolean considerCheck) {
-        Set<Move> possibleMoves = getStraightMoves(considerCheck);
-        possibleMoves.addAll(getDiagonalMoves(considerCheck));
+    public Set<Move> getPossibleMoves(boolean onlyLegalMoves) {
+        Set<Move> possibleMoves = getStraightMoves(onlyLegalMoves);
+        possibleMoves.addAll(getDiagonalMoves(onlyLegalMoves));
         return possibleMoves;
     }
 }

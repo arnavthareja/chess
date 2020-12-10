@@ -12,7 +12,7 @@ public class Rook extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Set<Move> getPossibleMoves(boolean considerCheck) {
-        return getStraightMoves(considerCheck);
+    public Set<Move> getPossibleMoves(boolean onlyLegalMoves) {
+        return getStraightMoves(onlyLegalMoves);
     }
 }

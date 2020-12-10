@@ -23,7 +23,7 @@ public abstract class Piece {
         alreadyMoved = false;
     }
 
-    public abstract Set<Move> getPossibleMoves(boolean considerCheck);
+    public abstract Set<Move> getPossibleMoves(boolean onlyLegalMoves);
 
     public Set<Move> getPossibleMoves() {
         return getPossibleMoves(true);
@@ -67,53 +67,55 @@ public abstract class Piece {
         return notation;
     }
 
-    protected Set<Move> getStraightMoves(boolean considerCheck) {
-        return getStraightMoves(Board.NUM_ROWS - 1, considerCheck);
+    protected Set<Move> getStraightMoves(boolean onlyLegalMoves) {
+        return getStraightMoves(Board.NUM_ROWS - 1, onlyLegalMoves);
     }
 
-    protected Set<Move> getStraightMoves(int maxDepth, boolean considerCheck) {
-        Set<Move> possibleMoves = getPossibleMoves(1, 0, maxDepth, considerCheck);
-        possibleMoves.addAll(getPossibleMoves(-1, 0, maxDepth, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(0, 1, maxDepth, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(0, -1, maxDepth, considerCheck));
+    protected Set<Move> getStraightMoves(int maxDepth, boolean onlyLegalMoves) {
+        Set<Move> possibleMoves = getPossibleMoves(1, 0, maxDepth, onlyLegalMoves);
+        possibleMoves.addAll(getPossibleMoves(-1, 0, maxDepth, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(0, 1, maxDepth, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(0, -1, maxDepth, onlyLegalMoves));
         return possibleMoves;
     }
 
-    protected Set<Move> getDiagonalMoves(boolean considerCheck) {
-        return getDiagonalMoves(Board.NUM_ROWS - 1, considerCheck);
+    protected Set<Move> getDiagonalMoves(boolean onlyLegalMoves) {
+        return getDiagonalMoves(Board.NUM_ROWS - 1, onlyLegalMoves);
     }
 
-    protected Set<Move> getDiagonalMoves(int maxDepth, boolean considerCheck) {
-        Set<Move> possibleMoves = getPossibleMoves(1, 1, maxDepth, considerCheck);
-        possibleMoves.addAll(getPossibleMoves(1, -1, maxDepth, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(-1, -1, maxDepth, considerCheck));
-        possibleMoves.addAll(getPossibleMoves(-1, 1, maxDepth, considerCheck));
+    protected Set<Move> getDiagonalMoves(int maxDepth, boolean onlyLegalMoves) {
+        Set<Move> possibleMoves = getPossibleMoves(1, 1, maxDepth, onlyLegalMoves);
+        possibleMoves.addAll(getPossibleMoves(1, -1, maxDepth, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(-1, -1, maxDepth, onlyLegalMoves));
+        possibleMoves.addAll(getPossibleMoves(-1, 1, maxDepth, onlyLegalMoves));
         return possibleMoves;
     }
 
-    protected Set<Move> getPossibleMoves(int dx, int dy, int maxDepth, boolean considerCheck) {
-        return getPossibleMoves(position, dx, dy, maxDepth, considerCheck);
+    protected Set<Move> getPossibleMoves(int dx, int dy, int maxDepth, boolean onlyLegalMoves) {
+        return getPossibleMoves(position, dx, dy, maxDepth, onlyLegalMoves);
     }
 
-    protected Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy, int maxDepth, boolean considerCheck) {
+    protected Set<Move> getPossibleMoves(Square currentPosition, int dx, int dy, int maxDepth,
+                                         boolean onlyLegalMoves) {
         Set<Move> possibleMoves = new HashSet<>();
         if (maxDepth > 0) {
             try {
-                Square finalPosition = currentPosition.getBoard().squareAt(currentPosition.getRow() + dy,
-                        currentPosition.getCol() + dx);
+                Square finalPosition = currentPosition.getBoard()
+                        .squareAt(currentPosition.getRow() + dy, currentPosition.getCol() + dx);
                 if (finalPosition.isEmpty()) {
-                    possibleMoves = getPossibleMoves(finalPosition, dx, dy, maxDepth - 1, considerCheck);
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
+                    possibleMoves = getPossibleMoves(finalPosition, dx, dy, maxDepth - 1,
+                                                     onlyLegalMoves);
+                    addIfLegal(new Move(position, finalPosition), possibleMoves, onlyLegalMoves);
                 } else if (finalPosition.getPiece().color != color) {
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
+                    addIfLegal(new Move(position, finalPosition), possibleMoves, onlyLegalMoves);
                 }
             } catch (IllegalArgumentException e) {}
         }
         return possibleMoves;
     }
 
-    protected void addIfNotInCheck(Move move, Set<Move> possibleMoves, boolean considerCheck) {
-        if (!considerCheck) {
+    protected void addIfLegal(Move move, Set<Move> possibleMoves, boolean onlyLegalMoves) {
+        if (!onlyLegalMoves) {
             possibleMoves.add(move);
             return;
         }
@@ -134,7 +136,9 @@ public abstract class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return value == piece.value && alreadyMoved == piece.alreadyMoved && notation.equals(piece.notation) && Objects.equals(position, piece.position) && color == piece.color;
+        return value == piece.value && alreadyMoved == piece.alreadyMoved &&
+                notation.equals(piece.notation) && Objects.equals(position, piece.position)
+                && color == piece.color;
     }
 
     @Override

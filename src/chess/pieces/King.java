@@ -16,8 +16,8 @@ public class King extends Piece {
         Set<Move> possibleMoves = getStraightMoves(1, considerCheck);
         possibleMoves.addAll(getDiagonalMoves(1, considerCheck));
         if (!alreadyMoved && (!considerCheck || !position.getBoard().inCheck(color))) {
-            addIfNotInCheck(getKingsideCastleMove(), possibleMoves, considerCheck);
-            addIfNotInCheck(getQueensideCastleMove(), possibleMoves, considerCheck);
+            addIfLegal(getKingsideCastleMove(), possibleMoves, considerCheck);
+            addIfLegal(getQueensideCastleMove(), possibleMoves, considerCheck);
         }
         return possibleMoves;
     }
@@ -45,9 +45,9 @@ public class King extends Piece {
     }
 
     @Override
-    protected void addIfNotInCheck(Move move, Set<Move> possibleMoves, boolean considerCheck) {
+    protected void addIfLegal(Move move, Set<Move> possibleMoves, boolean considerCheck) {
         if (move != null) {
-            super.addIfNotInCheck(move, possibleMoves, considerCheck);
+            super.addIfLegal(move, possibleMoves, considerCheck);
         }
     }
 

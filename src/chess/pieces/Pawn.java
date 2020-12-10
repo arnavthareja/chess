@@ -12,38 +12,38 @@ public class Pawn extends Piece {
         super(position, color, VALUE, NOTATION);
     }
 
-    public Set<Move> getPossibleMoves(boolean considerCheck) {
-        Set<Move> possibleMoves = getStraightMoves(-color.getMultiplier(), considerCheck);
-        possibleMoves.addAll(getCaptureMove(1, -color.getMultiplier(), considerCheck));
-        possibleMoves.addAll(getCaptureMove(-1, -color.getMultiplier(), considerCheck));
+    public Set<Move> getPossibleMoves(boolean onlyLegalMoves) {
+        Set<Move> possibleMoves = getStraightMoves(-color.getMultiplier(), onlyLegalMoves);
+        possibleMoves.addAll(getCaptureMove(1, -color.getMultiplier(), onlyLegalMoves));
+        possibleMoves.addAll(getCaptureMove(-1, -color.getMultiplier(), onlyLegalMoves));
         return possibleMoves;
     }
 
-    protected Set<Move> getStraightMoves(int dy, boolean considerCheck) {
+    protected Set<Move> getStraightMoves(int dy, boolean onlyLegalMoves) {
         Set<Move> possibleMoves = new HashSet<>();
         try {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol());
             if (finalPosition.isEmpty()) {
-                addIfNotInCheck(new Move(position, finalPosition), possibleMoves, considerCheck);
+                addIfLegal(new Move(position, finalPosition), possibleMoves, onlyLegalMoves);
                 finalPosition = finalPosition.getBoard().squareAt(finalPosition.getRow() + dy,
                                                                   finalPosition.getCol());
                 if (!alreadyMoved && finalPosition.isEmpty()) {
-                    addIfNotInCheck(new Move(position, finalPosition), possibleMoves,
-                                    considerCheck);
+                    addIfLegal(new Move(position, finalPosition), possibleMoves,
+                                    onlyLegalMoves);
                 }
             }
         } catch (IllegalArgumentException e) {}
         return possibleMoves;
     }
 
-    private Set<Move> getCaptureMove(int dx, int dy, boolean considerCheck) {
+    private Set<Move> getCaptureMove(int dx, int dy, boolean onlyLegalMoves) {
         Set<Move> returnMove = new HashSet<>();
         try {
             Square finalPosition = position.getBoard().squareAt(position.getRow() + dy,
                                                                 position.getCol() + dx);
             if (!finalPosition.isEmpty() && finalPosition.getPiece().color != color) {
-                addIfNotInCheck(new Move(position, finalPosition), returnMove, considerCheck);
+                addIfLegal(new Move(position, finalPosition), returnMove, onlyLegalMoves);
             }
         } catch (IllegalArgumentException e) {}
         return returnMove;
