@@ -5,11 +5,25 @@ import chess.pieces.*;
 
 import java.util.*;
 
-public class HumanPlayer extends Player {
+/**
+ * A human chess player.
+ */
+public final class HumanPlayer extends Player {
+    /**
+     * Constructs a human player with the given board and color.
+     *
+     * @param board  the board this player plays on
+     * @param color  the color of this player
+     */
     public HumanPlayer(Board board, Piece.Color color) {
         super(board, color);
     }
 
+    /**
+     * Prompts the human player to select the next move and returns the selected move.
+     *
+     * @return the move that this human player selected to make
+     */
     public Move getMove() {
         Scanner in = new Scanner(System.in);
         Square start = null;
@@ -70,10 +84,12 @@ public class HumanPlayer extends Player {
         return m;
     }
 
-    public boolean isHuman() {
-        return true;
-    }
-
+    /**
+     * Returns a string representation of this player.
+     *
+     * @return a string representation of this player
+     */
+    @Override
     public String toString() {
         return Board.ANSI_GREEN + "Human Player" + Board.ANSI_RESET;
     }

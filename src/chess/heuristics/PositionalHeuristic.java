@@ -7,8 +7,14 @@ import java.util.*;
 
 import static chess.pieces.Piece.Color.*;
 
-public class PositionalHeuristic implements Heuristic {
-    // Tables taken from https://www.chessprogramming.org/Simplified_Evaluation_Function
+/**
+ * A heuristic based on piece positions.
+ */
+public final class PositionalHeuristic implements Heuristic {
+    /**
+     * Evaluation tables for determining positional values of pieces.
+     * Tables taken from https://www.chessprogramming.org/Simplified_Evaluation_Function
+     */
     private static final double[][] whitePawnTable = {
             {100, 100, 100, 100, 100, 100, 100, 100},
             {50, 50, 50, 50, 50, 50, 50, 50},
@@ -94,6 +100,9 @@ public class PositionalHeuristic implements Heuristic {
     private static final double[][] blackKingTable = flip(whiteKingTable);
     private static final double[][] blackKingEndgameTable = flip(whiteKingEndgameTable);
 
+    /**
+     * Maps white pieces to their evaluation tables.
+     */
     private static final Map<Class, double[][]> whiteEvalTables = Map.of(
             Pawn.class, whitePawnTable,
             Knight.class, whiteKnightTable,
@@ -103,6 +112,9 @@ public class PositionalHeuristic implements Heuristic {
             King.class, whiteKingTable
     );
 
+    /**
+     * Maps black pieces to their evaluation tables.
+     */
     private static final Map<Class, double[][]> blackEvalTables = Map.of(
             Pawn.class, blackPawnTable,
             Knight.class, blackKnightTable,
@@ -112,6 +124,12 @@ public class PositionalHeuristic implements Heuristic {
             King.class, blackKingTable
     );
 
+    /**
+     * Flips the given 2D array vertically.
+     *
+     * @param  table  the 2D array to flip
+     * @return        the given array flipped vertically
+     */
     private static double[][] flip(double[][] table) {
         double[][] result = new double[table.length][table[0].length];
         for (int i = 0; i < table.length / 2; i++) {
@@ -121,10 +139,26 @@ public class PositionalHeuristic implements Heuristic {
         return result;
     }
 
+    /**
+     * Calculates the heuristic value for the given board and color.
+     *
+     * @param  board  the board for which to calculate the heuristic value
+     * @param  color  the color for which to calculate the heuristic value
+     * @return        the heuristic value for the given board and color
+     */
     public double calculateValue(Board board, Piece.Color color) {
         return (evaluate(board, color) - evaluate(board, oppositeColor(color)));
     }
 
+    /**
+     * Calculates the heuristic value for the given board and color, only
+     * considering pieces of the given color.
+     *
+     * @param  board  the board for which to calculate the heuristic value
+     * @param  color  the color for which to calculate the heuristic value
+     * @return        the heuristic value for the given board and color, only
+     *                considering pieces of the given color
+     */
     private double evaluate(Board board, Piece.Color color) {
         // weight by 0.02 (arbitrary) as position is more important
         double numMovesAdv = board.getPossibleMoves(color).size() * 0.02;
@@ -136,6 +170,12 @@ public class PositionalHeuristic implements Heuristic {
         return numMovesAdv + positionAdv + checkAdv;
     }
 
+    /**
+     * Returns the positional value of the given piece.
+     *
+     * @param  piece  the piece for which to calculate the positional value
+     * @return        the positional value of the given piece
+     */
     private static double value(Piece piece) {
         int row = piece.getPosition().getRow();
         int col = piece.getPosition().getCol();
@@ -152,6 +192,14 @@ public class PositionalHeuristic implements Heuristic {
         }
     }
 
+    /**
+     * Returns true if the given board is in the endgame, false otherwise. A
+     * board is considered to be in the endgame if both players have pieces
+     * with a total material value less than 10, excluding kings.
+     *
+     * @param  board  the board to determine endgame status of
+     * @return        true if the given board is in the endgame, false otherwise
+     */
     private static boolean inEndgame(Board board) {
         // In endgame if less both sides have less than 10 points of pieces left, not counting king
         return board.getPieces(WHITE).stream().mapToDouble(Piece::getValue).sum() < 210 &&

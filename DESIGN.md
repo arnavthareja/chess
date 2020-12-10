@@ -50,6 +50,8 @@ To keep track of piece color, the Piece class has a public Color enum with helpf
 
 ### MinimaxPlayer class
 
+Used sorted set instead of priority queue to iterate over it without destroying it
+
 ### SuboptimalMinimaxPlayer class
 
 ### WorstMinimaxPlayer class
