@@ -6,8 +6,15 @@ import chess.players.*;
 
 import java.util.*;
 
+/**
+ * Playing logic for a game of chess.
+ */
 public class Chess {
-    
+    /**
+     * Plays a game of chess between two players.
+     *
+     * @param args  command line arguments, not used
+     */
     public static void main(String[] args) {
         Board board = new Board();
         Player p1 = selectPlayer(board, Piece.Color.WHITE, 1);
@@ -51,6 +58,15 @@ public class Chess {
         }
     }
 
+    /**
+     * Prompts the user to select a player type out of human and computer players.
+     *
+     * @param  board  the board to associate the player with
+     * @param  color  the color of the player
+     * @param  count  the number of the player (1 or 2)
+     * @return        the player with the user-selected type and specified
+     *                board and color.
+     */
     private static Player selectPlayer(Board board, Piece.Color color, int count) {
         Scanner in = new Scanner(System.in);
         while (true) {
