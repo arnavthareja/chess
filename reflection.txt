@@ -1,18 +1,33 @@
 What did you learn during this project?
 
-We learned about the minimax algorithm and how to evaluate which moves are better than others. We also learned how to efficiently design classes and simplify our code.
-
+During this project we learned how to code with someone else. We learned how to effectively
+communicate in a virtual setting, which allowed us to finish our project on time. This chess
+project also allowed us to learn about the minimax algorithm and alpha-beta pruning while
+simultaneously enabling us to refresh our skills on designing efficient class structures and
+simplifying our code.
 
 What did you enjoy during this project?
 
-Watching minimax bots play against each other is fun, as is beating the easy-level bot. Finishing the minimax was also enjoyable, as we wouldn't need to do any more minimax debugging.
-
+As always, seeing your code actually work is a great joy. Getting each part to work perfectly,
+whether it's finishing the minimax algorithm so we don't have to debug it anymore or something much
+simpler like getting the words in the menu to be the right color, is a fantastic feeling. Also,
+just watching the minimax bots play against each other is fun, as is beating the easy-level bot.
 
 What did you find challenging or frustrating during this project?
 
-Visualizing the minimax algorithm's decisions was difficult and it was hard to confirm it had the correct behavior.
-
+Neither of us had ever worked on a virtual group project like this before, so communication was our
+main challenge. We often found ourselves working on the same thing at the same time without even
+realizing it. However, as this project progressed we began to talk much more frequently and quickly
+overcame that challenge. Regarding our implementation, visualizing the minimax algorithm's
+decisions was hard because it was unlike anything we had ever worked with before. It was difficult
+to confirm whether or not it had the correct behavior which made the debugging process painfully
+slow.
 
 What did you find particularly helpful for your learning during this project?
 
-placeholder text
+Starting early! This project was much more demanding than we had initially anticipated, so coming
+up with a plan early on and starting work on it right away was particlarly valuable. This gave us
+the necessary time to learn everything we needed to learn, which allowed us to complete this
+project to our highest standards. Another thing that was helpful was the fact that we had a
+teammate. We were constantly finding new ways to make each other's code more efficient and in the
+process learn something new.
