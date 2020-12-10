@@ -5,7 +5,9 @@ import chess.*;
 import java.util.*;
 
 /**
- * A chess piece.
+ * A chess piece. When moving, a piece captures the piece on the square that it
+ * end its move on. Pieces can only capture pieces of the opposite color. All
+ * pieces except the knight cannot move through other pieces of either color.
  */
 public abstract class Piece {
     /**
