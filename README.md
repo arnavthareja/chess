@@ -24,7 +24,7 @@ Once you complete your move, your opponent will move. Please be patient because 
     
     Extreme: 1-3 minutes per move
 
-Our game follows the same rules as any chess game. Some features include castling, pawn promotion, and en passant. The game ends in either a stalemate (essentially a tie) or a checkmate.
+Our game follows the same rules as any chess game. Some features include castling, pawn promotion, and a bot that will beat you. The game ends in either a stalemate (essentially a tie) or a checkmate.
 
 ## Known Issues
 
