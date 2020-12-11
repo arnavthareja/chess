@@ -1,14 +1,21 @@
 # Design
 
-## Chess logic and utils? helper classes? What's a better word for this
+## Chess logic
 
-We wanted an easy and intuitive way to represent moves. To simplify implementation, we made a Move class that is capable of handling the different types of chess moves.
+A `Board` is represented by an 8x8 2D array of `Square`s. Each `Square` contains information about
+the row and column it is on, as well as the piece that occupies it. A `Board` contains useful methods
+for executing and undoing moves, finding possible moves, determining if the game is over, and much more.
+The `Board` class handles most of the game logic, but is abstracted away from the user by the `Chess`
+class.
 
-Each square represents a square on a chessboard and is capable of holding a piece.
+The `Chess` class is the user-facing class that is used to play the game of chess. The user can choose
+which players, human or computer, should play, and the class handles gameplay, alternating turns
+between the two players.
 
-A chessboard is represented by a 2D array of squares.
-
-This class is used to play the game of chess. The user can choose which players, human or computer, should play, and the class handles gameplay, alternating turns between the two players.
+The `Move` class provides an easy and intuitive way to represent moves. To simplify implementation,
+all possible chess moves (except for en passant) can be handled by this class. This includes regular
+moves as well as more complex moves like castling or pawn promotion. The `Move` class also stores
+information about the state before the move so that moves can be easily undone.
 
 ## Pieces
 
