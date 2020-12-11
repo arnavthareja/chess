@@ -12,15 +12,11 @@ This class is used to play the game of chess. The user can choose which players,
 
 ## Pieces
 
-Since there are multiple different pieces in chess, we created a separate package for piece classes to keep our project organized.
+Since there are multiple different pieces in chess, we created a separate package for piece classes to keep our project organized. We decided to make a parent class "Piece" and made each piece class inherit the features of Piece as a child of that class. Since each piece has a notation, value, position, and various other undeniable features, inheritance was the logical choice here.
 
-The piece abstract class does most of the work for pieces, providing methods to easily gather possible moves and get relevant piece information.
+To keep track of piece color, the Piece class has a public Color enum with helpful methods relating to piece colors. The piece abstract class does most of the work for pieces, providing methods to easily gather possible moves and get relevant piece information.
 
-To keep track of piece color, the Piece class has a public Color enum with helpful methods relating to piece colors.
-
-Since there are multiple different pieces in chess, we created a separate package for piece classes to keep our project organized. We decided to make a parent class "Piece" and made each piece class inherit the features of Piece as a child of that class. It made sense to do this because each piece has a notation, value, position, and various other undeniable features. Each individual piece has a getPossibleMoves method that returns all the possible moves of that piece as a Set<Move>. The pieces with special requirements, such as the king and pawn classes, have various helper methods to fit their specific needs.
-
-The piece abstract class does most of the work for pieces, providing methods to easily gather possible moves and get relevant piece information.
+Each individual piece has a getPossibleMoves method that returns all the possible moves of that piece as a Set<Move>. The pieces with special requirements, such as the king and pawn classes, have various helper methods to fit their specific needs.
 
 ## Players
 
