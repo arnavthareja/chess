@@ -1,6 +1,6 @@
 # Video
 
-https://youtu.be/oVLsRk9sXp4
+https://drive.google.com/file/d/1oBhJ_mjNyygVG_SMjEYXNX6iAgmfAJZg/view?usp=sharing
 
 # Chess
 
@@ -56,6 +56,3 @@ but en passant has not been implemented yet. The game ends in either a stalemate
 * Improve minimax algorithm runtime through better memoization
 * Allow bots to promote pawns to pieces other than a queen
 * Implement en passant
-
-
-
