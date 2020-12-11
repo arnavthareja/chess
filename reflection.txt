@@ -6,6 +6,7 @@ project also allowed us to learn about the minimax algorithm and alpha-beta prun
 simultaneously enabling us to refresh our skills on designing efficient class structures and
 simplifying our code.
 
+
 What did you enjoy during this project?
 
 As always, seeing your code actually work is a great joy. Getting each part to work perfectly,
@@ -13,20 +14,21 @@ whether it's finishing the minimax algorithm so we don't have to debug it anymor
 simpler like getting the words in the menu to be the right color, is a fantastic feeling. Also,
 just watching the minimax bots play against each other is fun, as is beating the easy-level bot.
 
+
 What did you find challenging or frustrating during this project?
 
-Neither of us had ever worked on a virtual group project like this before, so communication was our
-main challenge. We often found ourselves working on the same thing at the same time without even
-realizing it. However, as this project progressed we began to talk much more frequently and quickly
-overcame that challenge. Regarding our implementation, visualizing the minimax algorithm's
-decisions was hard because it was unlike anything we had ever worked with before. It was difficult
-to confirm whether or not it had the correct behavior which made the debugging process painfully
-slow.
+Communication was the main challenge we faced. We often found ourselves working on the same thing at
+the same time without even realizing it. However, as this project progressed we began to talk much
+more frequently and quickly overcame that challenge. Regarding our implementation, visualizing the
+minimax algorithm's decisions was hard because it was unlike anything we had ever worked with before.
+It was difficult to confirm whether or not it had the correct behavior which made the debugging process
+painfully slow.
+
 
 What did you find particularly helpful for your learning during this project?
 
 Starting early! This project was much more demanding than we had initially anticipated, so coming
-up with a plan early on and starting work on it right away was particlarly valuable. This gave us
+up with a plan early on and starting work on it right away was particularly valuable. This gave us
 the necessary time to learn everything we needed to learn, which allowed us to complete this
 project to our highest standards. Another thing that was helpful was the fact that we had a
 teammate. We were constantly finding new ways to make each other's code more efficient and in the
