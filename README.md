@@ -1,3 +1,7 @@
+# Video
+
+https://youtu.be/oVLsRk9sXp4
+
 # Chess
 
 A console-based chess game in Java with minimax bots to play against.
@@ -52,3 +56,6 @@ but en passant has not been implemented yet. The game ends in either a stalemate
 * Improve minimax algorithm runtime through better memoization
 * Allow bots to promote pawns to pieces other than a queen
 * Implement en passant
+
+
+
