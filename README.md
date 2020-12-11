@@ -10,7 +10,7 @@ A console-based chess game in Java with minimax bots to play against.
 
 ### In the Ed workspace
 
-In Ed, you can simply run `./chess.sh` to start the game.
+In Ed, you can simply open the terminal and run `./chess.sh` to start the game.
 
 ### Running locally
 
