@@ -25,7 +25,7 @@ public class MinimaxPlayer extends Player {
     /**
      * The search depth for the extreme difficulty computer player.
      */
-    public static final int EXTREME_DIFFICULTY_SEARCH_DEPTH = 10;
+    public static final int EXTREME_DIFFICULTY_SEARCH_DEPTH = 6;
 
     /**
      * The current depth for the minimax algorithm to search to.
