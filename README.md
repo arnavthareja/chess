@@ -1,7 +1,6 @@
 # Video
 
 YouTube link: https://youtu.be/QhslVtfUiD8 
-Google Drive link: https://drive.google.com/file/d/1oBhJ_mjNyygVG_SMjEYXNX6iAgmfAJZg/view?usp=sharing
 
 # Chess
 
