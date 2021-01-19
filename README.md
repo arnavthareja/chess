@@ -1,18 +1,8 @@
-# Video
-
-YouTube link: https://youtu.be/QhslVtfUiD8 
-
 # Chess
 
 A console-based chess game in Java with minimax bots to play against.
 
 ## Running the Game
-
-### In the Ed workspace
-
-In Ed, you can simply open the terminal and run `./chess.sh` to start the game.
-
-### Running locally
 
 1. Navigate to the `chess` directory if you are not already in it:  
    `cd chess`
